@@ -3,6 +3,8 @@
 NewBingGoGo的web精简版。可用设置多个bing账号轮询。部署后可直接通过网页访问。
 适用于自己搭建一个NewBing服务分享给他人使用。
 
+演示站点：https://newbinggogo-web.zeabur.app/
+
 提供了好看的对话页面。
 实现了NewBing的大多数功能，还添加了一些自己的特色功能。
 开源免费，国内可用！
