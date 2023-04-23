@@ -49,10 +49,10 @@ public class NewBingGoGoServer extends NanoWSD {
             System.out.println(ip+":请求创建聊天");
             return goUrl(session,"https://www.bing.com/turing/conversation/create");
         }
-        if(url.equals("/msrewards/api/v1/enroll")){//加入候补
-            System.out.println(ip+":请求加入候补");
-            return goUrl(session,"https://www.bing.com/msrewards/api/v1/enroll?"+session.getQueryParameterString());
-        }
+//        if(url.equals("/msrewards/api/v1/enroll")){//加入候补
+//            System.out.println(ip+":请求加入候补");
+//            return goUrl(session,"https://www.bing.com/msrewards/api/v1/enroll?"+session.getQueryParameterString());
+//        }
         if(url.equals("/images/create")){
             System.out.println(ip+":请求AI画图");
             HashMap<String,String> he = new HashMap<>();
@@ -80,7 +80,7 @@ public class NewBingGoGoServer extends NanoWSD {
             return goUrl(session, gogoUrl);
         }
         //返回页面
-        if(url.startsWith("/web/")){
+        if(url.startsWith("/web/")||url.equals("/favicon.ico")){
             return WebWork.getFile(url);
         }
         return redirectTo("/web/NewBingGoGo.html");
@@ -167,7 +167,21 @@ public class NewBingGoGoServer extends NanoWSD {
         if(Cookies.cookies.length == 0){
             return getReturnError("没有任何可用cookie，请前往Cookies.yml添加cookie");
         }
-        urlConnection.addRequestProperty("cookie",Cookies.cookies[(int) (Math.random()*Cookies.cookies.length)]);
+        int cookieID  = (int) (Math.random()*Cookies.cookies.length);;
+        String cookieIDString = header.get("cookieID");
+        if(cookieIDString!=null){
+            try{
+                cookieID = Integer.parseInt(cookieIDString);
+                if (cookieID<0||cookieID>Cookies.cookies.length){
+                    return getReturnError("cookieID不存在，请刷新页面测试！");
+                }
+            }catch (NumberFormatException e){
+                return getReturnError("cookieID错误，请刷新页面测试！",e,false);
+            }
+        }
+        String cookie = Cookies.cookies[cookieID];
+        System.out.println("使用第"+cookieID+"个"+cookie);
+        urlConnection.addRequestProperty("cookie",cookie);
 
         //添加X-forwarded-for
         urlConnection.addRequestProperty(
@@ -211,12 +225,14 @@ public class NewBingGoGoServer extends NanoWSD {
 
         //创建用于输出的流
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-        return NanoHTTPD.newFixedLengthResponse(
+        Response response = NanoHTTPD.newFixedLengthResponse(
                 Response.Status.OK,
                 "application/json",
                 byteArrayInputStream,
                 len
         );
+        response.addHeader("cookieID", String.valueOf(cookieID));
+        return response;
     }
 
     //生成随机数

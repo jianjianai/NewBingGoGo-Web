@@ -64,21 +64,12 @@ div.markdown-body {
     flex-direction: row;
     align-items: center;
     flex-wrap: nowrap;
-    background-color: white;
-    border-radius: 1rem;
     /* border: 0.1rem solid #000000ab; */
     padding: 0 0.2rem;
     width: 10rem;
     transition: padding 0.5s, width 0.5s;
 }
 
-#ChatRecordsServer.noshow,
-#ChatRecordsNameInputDiv.noshow {
-    padding: 0;
-    width: 0;
-    margin: 0;
-    overflow: hidden;
-}
 
 .ChatRecordsNameli {
     display: flex;
@@ -102,7 +93,6 @@ div.markdown-body {
 
 #ChatRecordsServer {
     white-space: nowrap;
-    width: 2rem;
     transition: padding 0.5s, width 0.5s;
     cursor: pointer;
 }
@@ -111,10 +101,10 @@ div.markdown-body {
     cursor: pointer;
 }
 
-#showChatRecords:hover,
-#ChatRecordsServer:hover {
-    color: #ff8300;
+#ChatHubWithMagic{
+    width: 8rem;
 }
+
 
 
 

@@ -200,7 +200,9 @@ function generateContentQueryImg(message, father){
         
         try{
             father.innerHTML = `正在生成${message.text}的图片.`;
-            let html = (await (await fetch(theUrl)).text());
+            let response  = await fetch(theUrl);
+            let html = (await response.text());
+            let cookieID = response.headers.get('cookieID');
 
             //如果有错误就输出错误
             let urr = new RegExp('class="gil_err_mt">([^<>]*)</div>').exec(html);
@@ -233,7 +235,7 @@ function generateContentQueryImg(message, father){
                 count++;
                 let imgPageHtml;
                 try{
-                    imgPageHtml = (await (await fetch(imgPageHtmlUrl)).text());
+                    imgPageHtml = (await (await fetch(imgPageHtmlUrl,{headers:{cookieID:cookieID}})).text());
                 }catch(e){
                     console.error(e);
                 }

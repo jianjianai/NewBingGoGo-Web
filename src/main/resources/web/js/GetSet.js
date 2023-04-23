@@ -12,7 +12,7 @@ async function getMagicUrl() {
 
 // ture|false
 async function getChatHubWithMagic() {
-	return ChatHubWithMagic.checked;
+	return ChatHubWithMagic.value==='true';
 }
 
 

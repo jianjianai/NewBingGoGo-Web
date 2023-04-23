@@ -56,9 +56,9 @@ java -jar 下载的jar文件.jar 80
 Cookies.yml 按照格式添加cookie即可。
 ~~~ yaml
 cookies: 
-    - "你的cookie" 
-    - "xxx=xxx; xxx=xxx"
-    - "aaa=bbb"
+    - 你的cookie
+    - xxx=xxx; xxx=xxx
+    - aaa=bbb
 ~~~
 
 ## 获取cookie
@@ -71,6 +71,6 @@ New Bing 网页 Cookie 最关键是 `_U` 这个 Cookie, 如果没有，可以访
 ~~~ yaml
 cookies: 
     ...
-    - "_U=1w7djTOUYWY2_bME6URBm5Jo....."
+    - _U=1w7djTOUYWY2_bME6URBm5Jo.....
     ...
 ~~~
