@@ -25,6 +25,8 @@ public class WebWork {
             mimeType = "text/css; charset=utf-8";
         } else if (path.endsWith(".png")) {
             mimeType = "image/png";
+        } else if (path.endsWith(".ico")) {
+            mimeType = "image/png";
         }
         try{
             InputStream inputStream = url.openStream();
