@@ -59,4 +59,4 @@ mainClass = "Main"
 
 [deployment]
 build = ["sh", "-c", "./gradlew shadow"]
-run = ["sh", "-c", "java -jar ./build/libs/NewBingGoGo-MagicURL-java-1.0-SNAPSHOT-all.jar 80"]
+run = ["sh", "-c", "java -jar ./build/libs/NewBingGoGo-web-1.0-SNAPSHOT-all.jar 80"]
