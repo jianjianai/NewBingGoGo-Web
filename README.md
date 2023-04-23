@@ -53,10 +53,24 @@ java -jar 下载的jar文件.jar 80
 ~~~
 
 ## 配置文件
-Cookies.yml 按照格式添加cookie即可
+Cookies.yml 按照格式添加cookie即可。
 ~~~ yaml
 cookies: 
     - "你的cookie" 
     - "xxx=xxx; xxx=xxx"
     - "aaa=bbb"
+~~~
+
+## 获取cookie
+New Bing 网页 Cookie 最关键是 `_U` 这个 Cookie, 如果没有，可以访问 <https://www.bing.com/> 刷新一下 <https://cn.bing.com/> 也可以
+
+拿到 `_U` 的方法:  
+![cookie.png](./docs/img/2.png)
+
+拿到之后Cookies.yml里面可以这样填 ```_U=<这里填值>```
+~~~ yaml
+cookies: 
+    ...
+    - "_U=1w7djTOUYWY2_bME6URBm5Jo....."
+    ...
 ~~~
