@@ -1,5 +1,5 @@
 compile = "./gradlew shadow"
-run = "java -jar ./build/libs/NewBingGoGo-MagicURL-java-1.0-SNAPSHOT-all.jar 80"
+run = "java -jar ./build/libs/NewBingGoGo-web-1.0-SNAPSHOT-all.jar 80"
 hidden = ["**/*.class"]
 
 [packager]
