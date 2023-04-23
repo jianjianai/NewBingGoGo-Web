@@ -56,7 +56,7 @@ java -jar 下载的jar文件.jar 80
 Cookies.yml 按照格式添加cookie即可
 ~~~ yaml
 cookies: 
-    - ”你的cookie“ 
-    - ”xxx=xxx; xxx=xxx“
-    - ”aaa=bbb;“
+    - "你的cookie" 
+    - "xxx=xxx; xxx=xxx"
+    - "aaa=bbb"
 ~~~
