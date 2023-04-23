@@ -1,0 +1,289 @@
+package cn.jja8.newbinggogo;
+
+import cn.jja8.config.tool.YamlConfig;
+import fi.iki.elonen.NanoHTTPD;
+import fi.iki.elonen.NanoWSD;
+
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
+public class NewBingGoGoServer extends NanoWSD {
+    ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+    public static void main(String[] args) {
+        if(args.length<1){
+            System.err.print("需要指定运行端口号！");
+            return;
+        }
+        //加载配置文件
+        new YamlConfig()
+                .load(new File("Cookies.yml"))
+                .as(Cookies.class)
+                .save(new File("Cookies.yml"));
+
+        //启动
+        try{
+            int porint = Integer.parseInt(args[0]);
+            System.out.println("程序已在"+porint+"端口上启动.");
+            new NewBingGoGoServer(porint).start(5000,false);
+        }catch(Throwable s){
+            s.printStackTrace();
+        }
+    }
+    public NewBingGoGoServer(int port) {
+        super(port);
+    }
+
+    @Override
+    public Response serveHttp(IHTTPSession session) {
+        String ip = new Date()+":"+getIp(session);
+        String url = session.getUri();
+        if(url.equals("/turing/conversation/create")){//创建聊天
+            System.out.println(ip+":请求创建聊天");
+            return goUrl(session,"https://www.bing.com/turing/conversation/create");
+        }
+        if(url.equals("/msrewards/api/v1/enroll")){//加入候补
+            System.out.println(ip+":请求加入候补");
+            return goUrl(session,"https://www.bing.com/msrewards/api/v1/enroll?"+session.getQueryParameterString());
+        }
+        if(url.equals("/images/create")){
+            System.out.println(ip+":请求AI画图");
+            HashMap<String,String> he = new HashMap<>();
+            he.put("sec-fetch-site","same-origin");
+            he.put("referer","https://www.bing.com/search?q=bingAI");
+            Response re =  goUrl(session,"https://www.bing.com/images/create?"+session.getQueryParameterString(),he);
+            re.setMimeType("text/html");
+            return re;
+        }
+        if(url.startsWith("/images/create/async/results")){
+            System.out.println(ip+":请求AI画图图片");
+            String gogoUrl = url.replace("/images/create/async/results","https://www.bing.com/images/create/async/results");
+            gogoUrl = gogoUrl+"?"+session.getQueryParameterString();
+ //           /641f0e9c318346378e94e495ab61a703?q=a+dog&partner=sydney&showselective=1
+            HashMap<String,String> he = new HashMap<>();
+            he.put("sec-fetch-site","same-origin");
+            he.put("referer","https://www.bing.com/images/create?partner=sydney&showselective=1&sude=1&kseed=7000");
+            Response re = goUrl(session, gogoUrl,he);
+            re.setMimeType("text/html");
+            return re;
+        }
+        //用于测试
+        if(url.startsWith("/test/")){
+            String gogoUrl = url.replace("/test/","");
+            return goUrl(session, gogoUrl);
+        }
+        //返回页面
+        if(url.startsWith("/web/")){
+            return WebWork.getFile(url);
+        }
+        return redirectTo("/web/NewBingGoGo.html");
+    }
+
+    @Override
+    protected WebSocket openWebSocket(IHTTPSession handshake) {
+        String ip = new Date()+":"+getIp(handshake);
+        String url = handshake.getUri();
+        if(url.equals("/sydney/ChatHub")){
+            System.out.println(ip+":创建魔法聊天连接");
+            return new NewBingGoGoServerWebSocket(handshake,scheduledExecutorService);
+        }
+        return getReturnErrorWebSocket(handshake,"请求接口错误！");
+    }
+
+    public static String getIp(IHTTPSession session){
+        String ip = session.getHeaders().get("x-forwarded-for");
+        if (ip==null){
+            ip = session.getRemoteIpAddress();
+        }else {
+            ip = ip.split(",")[0];
+        }
+        return ip;
+    }
+
+    /**
+     * 返回302重定向
+     * */
+    public static Response redirectTo(String stringUrl){
+        Response response = NanoHTTPD.newFixedLengthResponse(
+                Response.Status.FOUND,
+                "application/json",
+                "正在重定向到"+stringUrl
+        );
+        response.addHeader("Location",stringUrl);
+        return  response;
+    }
+
+    /*
+     * 转发请求
+     */
+    public static Response goUrl(IHTTPSession session, String stringUrl){
+        return goUrl(session,stringUrl,new HashMap<>(1));
+    }
+
+
+    public static Response goUrl(IHTTPSession session, String stringUrl, Map<String,String> addHeaders){
+        URL url;
+        try {
+            url = new URL(stringUrl);
+        } catch (MalformedURLException e) {
+            return getReturnError(e);
+        }
+
+        HttpURLConnection urlConnection;
+        try{
+            urlConnection = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
+           return getReturnError(e);
+        }
+        try {
+            urlConnection.setRequestMethod("GET");
+        } catch (ProtocolException e) {
+            return getReturnError(e);
+        }
+        urlConnection.setDoOutput(false);
+        urlConnection.setDoInput(true);
+        urlConnection.setUseCaches(true);
+        urlConnection.setInstanceFollowRedirects(true);
+        urlConnection.setConnectTimeout(3000);
+
+        //拷贝头信息
+        Map<String,String> header = session.getHeaders();
+        String[] b = {"user-agent","accept","accept-language"};
+        for (String s : b) {
+            String v = header.get(s);
+            urlConnection.addRequestProperty(s,v);
+        }
+        //添加指定的头部信息
+        addHeaders.forEach(urlConnection::addRequestProperty);
+
+        //添加配置的随机cookie
+        if(Cookies.cookies.length == 0){
+            return getReturnError("没有任何可用cookie，请前往Cookies.yml添加cookie");
+        }
+        urlConnection.addRequestProperty("cookie",Cookies.cookies[(int) (Math.random()*Cookies.cookies.length)]);
+
+        //添加X-forwarded-for
+        urlConnection.addRequestProperty(
+                "X-forwarded-for",
+                getRndInteger(3,5)+"."+getRndInteger(1,255)+"."+getRndInteger(1,255)+"."+getRndInteger(1,255)
+        );
+
+        //建立链接
+        try {
+            urlConnection.connect();
+        } catch (IOException e) {
+            return getReturnError(e);
+        }
+        int code;
+        try{
+            code = urlConnection.getResponseCode();
+        } catch (IOException e) {
+            return getReturnError(e);
+        }
+        //获取请求状态代码
+        if(code!=200){
+            urlConnection.disconnect();
+            return getReturnError("此魔法链接服务器请求被bing拒绝！请稍后再试。错误代码:"+code,null,false);
+        }
+
+        //将数据全部读取然后关闭流和链接
+        int len = urlConnection.getContentLength();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(Math.max(len, 0));
+        try(InputStream inputStream = urlConnection.getInputStream()){
+            for (int i = 0; i < len; i++) {
+                byteArrayOutputStream.write(inputStream.read());
+            }
+        }catch (FileNotFoundException e){
+            urlConnection.disconnect();
+            return getReturnError("此魔法链接服务器无法正常工作，请求被bing拒绝！",e,false);
+        }catch (IOException e) {
+            urlConnection.disconnect();
+            return getReturnError(e);
+        }
+        urlConnection.disconnect();
+
+        //创建用于输出的流
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+        return NanoHTTPD.newFixedLengthResponse(
+                Response.Status.OK,
+                "application/json",
+                byteArrayInputStream,
+                len
+        );
+    }
+
+    //生成随机数
+    public static int getRndInteger(int min, int max) {
+        return (((int)(Math.random() * (max-min))) + min);
+    }
+
+    public static WebSocket getReturnErrorWebSocket(IHTTPSession session,String error){
+        return new WebSocket(session) {
+            @Override
+            protected void onOpen(){
+                String errorMessage = "{\"type\": 2,\"result\":{\"value\":\"Error\",\"message\":\""+escapeJsonString(error)+"\"}}";
+                try{
+                    this.send(errorMessage);
+                    this.close(WebSocketFrame.CloseCode.NormalClosure,"error",false);
+                } catch (IOException ignored) {}
+            }
+            @Override
+            protected void onClose(WebSocketFrame.CloseCode code, String reason, boolean initiatedByRemote) {}
+            @Override
+            protected void onMessage(WebSocketFrame message) {}
+            @Override
+            protected void onPong(WebSocketFrame pong) {}
+            @Override
+            protected void onException(IOException exception) {}
+        };
+    }
+
+    /**
+     * 获取返回的错误
+     * */
+    public static Response getReturnError(Throwable error){
+        return getReturnError("服务器内部发生未知错误!",error,true);
+    }
+    public static Response getReturnError(String error){
+        return getReturnError(error,null,true);
+    }
+    /**
+     * @param all 是否全部打印
+     * */
+    public static Response getReturnError(String message,Throwable error,boolean all){
+        String r;
+        if (error==null){
+            r = "{\"result\":{\"value\":\"error\",\"message\":\""+escapeJsonString(message)+"\"}}";
+        }else if(all){
+            r = "{\"result\":{\"value\":\"error\",\"message\":\""+escapeJsonString(message+"详情:"+printErrorToString(error))+"\"}}";
+        }else {
+            r = "{\"result\":{\"value\":\"error\",\"message\":\""+escapeJsonString(message+"详情:"+error)+"\"}}";
+        }
+        return NanoHTTPD.newFixedLengthResponse(Response.Status.OK,"application/json",r);
+    }
+
+    /**
+     * 转义成json字符串
+     * */
+    public static String escapeJsonString(String input) {
+        return input
+                .replace("\\","\\\\")
+                .replace("\n","\\n")
+                .replace("\r","\\r")
+                .replace("\t","\\t")
+                .replace("\"","\\\"");
+    }
+    public static String printErrorToString(Throwable t) {
+        StringWriter sw = new StringWriter();
+        t.printStackTrace(new PrintWriter(sw, true));
+        return  sw.getBuffer().toString();
+    }
+
+}

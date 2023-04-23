@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group 'cn.jja8'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'org.java-websocket:Java-WebSocket:1.5.3'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.7'
+    implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '2.0.7'
+    //配置文件工具
+    implementation 'com.gitee.jja8:JJAConfigTool:2022.12.28'
+}
+
+shadowJar {
+    manifest {
+        //指定入口函数，其他的是默认
+        attributes(
+                'Main-Class': 'cn.jja8.newbinggogo.NewBingGoGoServer'
+        )
+    }
+}
