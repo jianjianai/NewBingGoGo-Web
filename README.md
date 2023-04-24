@@ -1,6 +1,6 @@
 # NewBingGoGo-web
 
-一个基于微软ChatGTP GTP4的NewBing接口的web服务。
+一个基于微软ChatGPT GPT4的NewBing接口的web服务。
 提供了好看的对话页面。
 实现了NewBing的大多数功能，还添加了一些自己的特色功能。
 开源免费。
