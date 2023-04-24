@@ -12,100 +12,24 @@ NewBingGoGo的web精简版。可用设置多个bing账号轮询。部署后可�
 实现了NewBing的大多数功能，还添加了一些自己的特色功能。
 开源免费，国内可用！
 
-完整版本：https://gitee.com/jja8/NewBingGoGo
+
 
 ![](./docs/img/1.png)
 
-## 安装和运行
-### docker
+## 部署方法
 
-这个仓库里有例子Dockerfile，可以按照需求修改后直接使用。记得设置Cookies.yml配置文件哦。
+[快速入门 wiki](https://github.com/jianjianai/NewBingGoGo-Web/wiki/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8)
 
-https://github.com/jianjianai/NewBingGoGo-Web-docker
 
-### ubuntu
-#### 从源代码编译运行
-准备好jdk17环境
-~~~
-sudo apt install openjdk-17-jdk
-~~~
+## 更加强大的插件版
+[NewBingGoGo : 简单开始和NewBing聊天 gitee](https://gitee.com/jja8/NewBingGoGo)
 
-安装git
-~~~
-sudo apt install git
-~~~
-
-克隆源代码
-~~~
-git clone https://github.com/jianjianai/NewBingGoGo-Web
-cd NewBingGoGo-Web
-~~~
-
-编译并生成jar包
-~~~
-./gradlew shadow
-~~~
-
-运行 (最后的80代表服务使用的端口号)
-~~~
-java -jar ./build/libs/NewBingGoGo-web-1.0-SNAPSHOT-all.jar 80
-~~~
-
-#### 下载jar包运行
-
-准备好jdk17环境
-~~~
-sudo apt install openjdk-17-jdk
-~~~
-
-运行 (最后的80代表服务使用的端口号)
-~~~
-java -jar 下载的jar文件.jar 80
-~~~
-
-## 配置文件
-### java
-Cookies.yml 按照格式添加cookie即可。
-~~~ yaml
-cookies: 
-    - 你的cookie
-    - xxx=xxx; xxx=xxx
-    - aaa=bbb
-~~~
-
-### cloudflareWorker.js
-
-第一行的cookies变量
-~~~ javascript
-let cookies = [
-    "你的cookie",
-    "xxx=xxx; xxx=xxx",
-    "aaa=bbb"
-]
-~~~
-
-## 获取cookie
-New Bing 网页 Cookie 最关键是 `_U` 这个 Cookie, 如果没有，可以访问 <https://www.bing.com/> 刷新一下 <https://cn.bing.com/> 也可以
-
-拿到 `_U` 的方法:  
-![cookie.png](./docs/img/2.png)
-
-拿到之后Cookies.yml里面可以这样填 ```_U=<这里填值>```
-
-java Cookies.yml
-~~~ yaml
-cookies: 
-    ...
-    - _U=1w7djTOUYWY2_bME6URBm5Jo.....
-    ...
-~~~
-
-cloudflareWorker.js
-~~~ javascript
-let cookies = [
-    ...,
-    "_U=1w7djTOUYWY2_bME6URBm5Jo.....",
-    ...
-]
-~~~
+| 功能     | 插件版 | web版 | 描述                                   |
+|--------|-----|------|--------------------------------------|
+| 聊天     | ✔   | ✔    | 和NewBing对话，提出问题。                     |
+| 免登录    | ❌   | ✔    | 无需登录，直接使用。                           |
+| 创作     | ✔   | ❌    | 使用NewBing生成文章，edge浏览器NewBing侧边栏的撰写功能 |
+| 小窗     | ✔   | ❌    | 在页面中打开小窗，可根据当前页面内容对话。edge浏览器侧边栏的聊天功能 |
+| 聊天记录   | ✔   | ❌    | 保存聊天记录，可查看或继续聊天                      |
+| 登录微软账号 | ✔   | ❌    | 登录微软账号，使用自己的账号访问NewBing              |
 
