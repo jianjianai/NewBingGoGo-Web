@@ -1,5 +1,6 @@
 let cookies = [
-
+    "_U=1w7djTOUYWY2_bME6URBm5JokK24eUUbAzYilpbrYu6eDXA6hdg9zwfoijjo3O_vfbN5uibb3y2xVRkEpPZNoTT1QQuG3PB0QISHt2ZQwnDrnaAe5FL1pw2jwausVSKufAXYie0wCs3fNBqa4cOZYgNU-aiAZomoV_vGf2l6Rd8ohN8pE_wcuM3kOCQKPAlTzofWUWbeN9b3OhnHk5DyhDCIdLvrVUwVKIAbbA-UMsGvPo49mkEJu_HfO9BNOpNAp",
+    "_U=16TEcydBCBZAJsKO5H9YIQwddN4SXVxFzcJh0zvWe6k89mE7C76bS0x6hQHqjTmPZaAql0PGHJduKhST6bnA16SI2gmShmzShY3qQQBrfqGSUhUJNsCutbuJDRQ6QQnCT3Anz14eL8xz7V7_jEtTaaS2ndrx2dEHp_QavsdkvK68cs5tkJAqSbuyqVVUcVKZoTzFMIORCJmztoDrRrR9B_g"
 ]
 
 export default {
@@ -86,10 +87,10 @@ async function goWeb(path) {
 async function goUrl(request, url, addHeaders) {
     //构建 fetch 参数
     let fp = {
-            method: request.method,
-            headers: {}
-        }
-        //保留头部信息
+        method: request.method,
+        headers: {}
+    }
+    //保留头部信息
     let reqHeaders = new Headers(request.headers);
     let dropHeaders = ["user-agent", "accept", "accept-language"];
     let he = reqHeaders.entries();
@@ -112,7 +113,7 @@ async function goUrl(request, url, addHeaders) {
         return getReturnError("没有任何可用cookie，请前在第一行代码cookies变量中添加cookie");
     }
     let cookieID = Math.floor(Math.random() * cookies.length);
-    let userCookieID = header.get("cookieID");
+    let userCookieID = reqHeaders.get("cookieID");
     if (userCookieID) {
         if (userCookieID >= 0 && userCookieID < cookies.length) {
             cookieID = userCookieID;
@@ -125,7 +126,14 @@ async function goUrl(request, url, addHeaders) {
     //添加X-forwarded-for
     fp.headers['X-forwarded-for'] = `${getRndInteger(3,5)}.${getRndInteger(1,255)}.${getRndInteger(1,255)}.${getRndInteger(1,255)}`;
 
-    return fetch(url, fp);
+    let res = await fetch(url, fp);
+    let headers = new Headers(res.headers);
+    headers.set("cookieID",cookieID);
+    return new Response(res.body,{
+        status:res.status,
+        statusText:res.statusText,
+        headers:headers
+    });
 }
 
 //随机数生成
