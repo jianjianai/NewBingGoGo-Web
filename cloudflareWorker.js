@@ -1,6 +1,5 @@
 let cookies = [
-    "_U=1w7djTOUYWY2_bME6URBm5JokK24eUUbAzYilpbrYu6eDXA6hdg9zwfoijjo3O_vfbN5uibb3y2xVRkEpPZNoTT1QQuG3PB0QISHt2ZQwnDrnaAe5FL1pw2jwausVSKufAXYie0wCs3fNBqa4cOZYgNU-aiAZomoV_vGf2l6Rd8ohN8pE_wcuM3kOCQKPAlTzofWUWbeN9b3OhnHk5DyhDCIdLvrVUwVKIAbbA-UMsGvPo49mkEJu_HfO9BNOpNAp",
-    "_U=16TEcydBCBZAJsKO5H9YIQwddN4SXVxFzcJh0zvWe6k89mE7C76bS0x6hQHqjTmPZaAql0PGHJduKhST6bnA16SI2gmShmzShY3qQQBrfqGSUhUJNsCutbuJDRQ6QQnCT3Anz14eL8xz7V7_jEtTaaS2ndrx2dEHp_QavsdkvK68cs5tkJAqSbuyqVVUcVKZoTzFMIORCJmztoDrRrR9B_g"
+    
 ]
 
 export default {
