@@ -1,20 +1,25 @@
 # NewBingGoGo-web
 
-NewBingGoGo的web精简版。可用设置多个bing账号轮询。部署后可直接通过网页访问。
-适用于自己搭建一个NewBing服务分享给他人使用。也可以作为魔法链接服务使用。
-作为魔法链接访问依旧使用自己的账号，web服务访问需要使用配置文件中的共享账号。
+一个基于微软ChatGTP GTP4的NewBing接口的web服务。
+提供了好看的对话页面。
+实现了NewBing的大多数功能，还添加了一些自己的特色功能。
+开源免费。
+
+![](./docs/img/1.png)
 
 演示站点：
 - java https://newbinggogo-web.zeabur.app/
 - cloudflareWorker.js https://bingweb.xn--xyza.top/
 
-提供了好看的对话页面。
-实现了NewBing的大多数功能，还添加了一些自己的特色功能。
-开源免费，国内可用！
+## 功能介绍
+此服务可直接通过网页访问也可以作为NewBingGoGo插件的魔法链接服务使用。
 
+### 直接访问 
+直接访问需要在配置文件中设置共享账号，可以设置多个共享账号随机访问。
 
+### 作为魔法链接
+作为魔法链接使用时，不会使用配置文件中的共享账号。用户需要登录自己的微软账号。
 
-![](./docs/img/1.png)
 
 ## 部署方法
 
