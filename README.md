@@ -63,12 +63,24 @@ java -jar 下载的jar文件.jar 80
 ~~~
 
 ## 配置文件
+### java
 Cookies.yml 按照格式添加cookie即可。
 ~~~ yaml
 cookies: 
     - 你的cookie
     - xxx=xxx; xxx=xxx
     - aaa=bbb
+~~~
+
+### cloudflareWorker.js
+
+第一行的cookies变量
+~~~ javascript
+let cookies = [
+    "你的cookie",
+    "xxx=xxx; xxx=xxx",
+    "aaa=bbb"
+]
 ~~~
 
 ## 获取cookie
@@ -78,9 +90,20 @@ New Bing 网页 Cookie 最关键是 `_U` 这个 Cookie, 如果没有，可以访
 ![cookie.png](./docs/img/2.png)
 
 拿到之后Cookies.yml里面可以这样填 ```_U=<这里填值>```
+
+java Cookies.yml
 ~~~ yaml
 cookies: 
     ...
     - _U=1w7djTOUYWY2_bME6URBm5Jo.....
     ...
+~~~
+
+cloudflareWorker.js
+~~~ javascript
+let cookies = [
+    ...,
+    "_U=1w7djTOUYWY2_bME6URBm5Jo.....",
+    ...
+]
 ~~~
