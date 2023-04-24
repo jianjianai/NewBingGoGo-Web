@@ -112,17 +112,22 @@ async function goUrl(request, url, addHeaders) {
     if (cookies.length == 0) {
         return getReturnError("没有任何可用cookie，请前在第一行代码cookies变量中添加cookie");
     }
-    let cookieID = Math.floor(Math.random() * cookies.length);
-    let userCookieID = reqHeaders.get("cookieID");
-    if (userCookieID) {
-        if (userCookieID >= 0 && userCookieID < cookies.length) {
-            cookieID = userCookieID;
-        } else {
-            return getReturnError("cookieID不存在，请刷新页面测试！");
+    let cookieID =0;
+    if(reqHeaders.get('NewBingGoGoWeb')){//如果是web版
+        cookieID = Math.floor(Math.random() * cookies.length);
+        let userCookieID = reqHeaders.get("cookieID");
+        if (userCookieID) {
+            if (userCookieID >= 0 && userCookieID < cookies.length) {
+                cookieID = userCookieID;
+            } else {
+                return getReturnError("cookieID不存在，请刷新页面测试！");
+            }
         }
+        fp.headers["cookie"] = cookies[cookieID];
+    }else {//如果是插件版
+        fp.headers["cookie"] = reqHeaders.get('cookie');
     }
-    let cookie = cookies[cookieID];
-    fp.headers["cookie"] = cookie;
+
     //添加X-forwarded-for
     fp.headers['X-forwarded-for'] = `${getRndInteger(3,5)}.${getRndInteger(1,255)}.${getRndInteger(1,255)}.${getRndInteger(1,255)}`;
 

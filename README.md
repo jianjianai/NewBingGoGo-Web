@@ -1,7 +1,7 @@
 # NewBingGoGo-web
 
 NewBingGoGo的web精简版。可用设置多个bing账号轮询。部署后可直接通过网页访问。
-适用于自己搭建一个NewBing服务分享给他人使用。
+适用于自己搭建一个NewBing服务分享给他人使用。也可以作为魔法链接服务使用。
 
 演示站点：
 - java https://newbinggogo-web.zeabur.app/

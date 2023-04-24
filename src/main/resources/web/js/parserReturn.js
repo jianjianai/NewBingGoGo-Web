@@ -200,7 +200,7 @@ function generateContentQueryImg(message, father){
         
         try{
             father.innerHTML = `正在生成${message.text}的图片.`;
-            let response  = await fetch(theUrl);
+            let response  = await fetch(theUrl,{headers:{"NewBingGoGoWeb":"true"}});
             let html = (await response.text());
             let cookieID = response.headers.get('cookieID');
 
@@ -235,7 +235,7 @@ function generateContentQueryImg(message, father){
                 count++;
                 let imgPageHtml;
                 try{
-                    imgPageHtml = (await (await fetch(imgPageHtmlUrl,{headers:{cookieID:cookieID}})).text());
+                    imgPageHtml = (await (await fetch(imgPageHtmlUrl,{headers:{"cookieID":cookieID,"NewBingGoGoWeb":"true"}})).text());
                 }catch(e){
                     console.error(e);
                 }

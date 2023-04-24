@@ -217,37 +217,6 @@ function URLTrue(magicUrl, thiePath) {
 	return url;
 }
 
-//获取newbing权限
-async function getPower() {
-	//设置cookies到魔法链接
-	let magicUrl = await getMagicUrl();
-	if (!magicUrl) {
-		return {
-			ok: false,
-			message: "需要设置魔法链接才能获取权限哦！"
-		};
-	}
-	if (!expUrl.test(magicUrl)) {
-		return {
-			ok: false,
-			message: "魔法链接不正确！请修改魔法链接。"
-		};
-	}
-
-	try {
-		await fetch(URLTrue(magicUrl, 'msrewards/api/v1/enroll?publ=BINGIP&crea=MY00IA&pn=bingcopilotwaitlist&partnerId=BingRewards&pred=true&wtc=MktPage_MY0291'));
-		return {
-			ok: true,
-			message: "ok"
-		};
-	} catch (e) {
-		console.warn(e);
-		return {
-			ok: false,
-			message: "发生错误,可能是魔法链接无法链接:" + e.message
-		};
-	}
-}
 
 
 
@@ -276,7 +245,7 @@ async function createChat(theChatType) {
 		};
 	}	
 	try {
-		let res = await fetch(URLTrue(magicUrl, 'turing/conversation/create'));
+		let res = await fetch(URLTrue(magicUrl, 'turing/conversation/create'),{headers:{"NewBingGoGoWeb":"true"}});
 		let rText = await res.text();
 		if(rText.length<1){
 			return {

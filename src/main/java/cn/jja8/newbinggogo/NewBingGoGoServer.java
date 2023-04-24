@@ -163,25 +163,33 @@ public class NewBingGoGoServer extends NanoWSD {
         //添加指定的头部信息
         addHeaders.forEach(urlConnection::addRequestProperty);
 
-        //添加配置的随机cookie
-        if(Cookies.cookies.length == 0){
-            return getReturnError("没有任何可用cookie，请前往Cookies.yml添加cookie");
-        }
-        int cookieID  = (int) (Math.random()*Cookies.cookies.length);;
-        String cookieIDString = header.get("cookieID");
-        if(cookieIDString!=null){
-            try{
-                cookieID = Integer.parseInt(cookieIDString);
-                if (cookieID<0||cookieID>Cookies.cookies.length){
-                    return getReturnError("cookieID不存在，请刷新页面测试！");
-                }
-            }catch (NumberFormatException e){
-                return getReturnError("cookieID错误，请刷新页面测试！",e,false);
+        int cookieID = 0;
+        //如果是NewBingGoGoWeb版本
+        if(header.get("newbinggogoweb")!=null){
+            //添加配置的随机cookie
+            if(Cookies.cookies.length == 0){
+                return getReturnError("没有任何可用cookie，请前往Cookies.yml添加cookie");
             }
+            cookieID  = (int) (Math.random()*Cookies.cookies.length);;
+            String cookieIDString = header.get("cookieID");
+            if(cookieIDString!=null){
+                try{
+                    cookieID = Integer.parseInt(cookieIDString);
+                    if (cookieID<0||cookieID>Cookies.cookies.length){
+                        return getReturnError("cookieID不存在，请刷新页面测试！");
+                    }
+                }catch (NumberFormatException e){
+                    return getReturnError("cookieID错误，请刷新页面测试！",e,false);
+                }
+            }
+            String cookie = Cookies.cookies[cookieID];
+            System.out.println("web版使用第"+cookieID+"个"+cookie);
+            urlConnection.addRequestProperty("cookie",cookie);
+        }else {//如果不是
+            System.out.println("插件版无需cookie");
+            urlConnection.addRequestProperty("cookie",header.get("cookie"));
         }
-        String cookie = Cookies.cookies[cookieID];
-        System.out.println("使用第"+cookieID+"个"+cookie);
-        urlConnection.addRequestProperty("cookie",cookie);
+
 
         //添加X-forwarded-for
         urlConnection.addRequestProperty(
