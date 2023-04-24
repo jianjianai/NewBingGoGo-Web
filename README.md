@@ -6,7 +6,7 @@ NewBingGoGo的web精简版。可用设置多个bing账号轮询。部署后可�
 
 演示站点：
 - java https://newbinggogo-web.zeabur.app/
-- cloudflareWorker.js http://bingweb.xn--xyza.top/
+- cloudflareWorker.js https://bingweb.xn--xyza.top/
 
 提供了好看的对话页面。
 实现了NewBing的大多数功能，还添加了一些自己的特色功能。
