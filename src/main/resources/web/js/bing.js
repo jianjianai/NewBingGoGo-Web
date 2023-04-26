@@ -155,10 +155,10 @@ class BingChat {
 		}
 	};
 	/**
-	 * 获取bing第一条消息的类
+	 * 获取bing第一条消息的类对象
 	 * */
-	static ChatFirstMessages = class {
-		static bingProposes = [
+	static ChatFirstMessages = new class {
+		bingProposes = [
 			'教我一个新单词',
 			'我需要有关家庭作业的帮助',
 			'我想学习一项新技能',
@@ -186,7 +186,7 @@ class BingChat {
 			'如何制作蛋糕?'
 		];
 
-		static bingmMessages = [
+		bingmMessages = [
 			'好的，我已清理好板子，可以重新开始了。我可以帮助你探索什么?',
 			'明白了，我已经抹去了过去，专注于现在。我们现在应该探索什么?',
 			'重新开始总是很棒。问我任何问题!',
@@ -198,12 +198,12 @@ class BingChat {
 			'当然，我已准备好进行新的挑战。我现在可以为你做什么?'
 		]
 
-		static StartMessage = this.bingmMessages[0];
-		static Proposes = [this.bingProposes[0],this.bingProposes[1],this.bingProposes[2]];
+		StartMessage = this.bingmMessages[0];
+		Proposes = [this.bingProposes[0],this.bingProposes[1],this.bingProposes[2]];
 		/**
 		 获取建议消息
 		 */
-		static async nextStartProposes(){
+		async nextStartProposes(){
 			this.Proposes[0] = this.bingProposes[Math.floor(Math.random() * this.bingProposes.length)];
 			this.Proposes[1] = this.bingProposes[Math.floor(Math.random() * this.bingProposes.length)];
 			this.Proposes[2] = this.bingProposes[Math.floor(Math.random() * this.bingProposes.length)];
@@ -212,24 +212,24 @@ class BingChat {
 		/*
         获取bing的第一条消息
         */
-		static nextStartMessage(){
+		nextStartMessage(){
 			return this.StartMessage = this.bingmMessages[Math.floor(Math.random() * this.bingmMessages.length)];
 		}
 
-		static getStartMessage(){
+		getStartMessage(){
 			return this.StartMessage;
 		}
 
-		static getStartProposes(){
+		getStartProposes(){
 			return this.Proposes;
 		}
-	}
+	};
 	/**
-	 * 处理聊天选项的内
+	 * 处理聊天选项的类对象
 	 * */
-	static ChatOptionsSets = class {
+	static ChatOptionsSets = new class {
 		//聊天选项
-		static chatTypes = {
+		chatTypes = {
 			//更有创造力选项
 			create: [
 				"nlu_direct_response_filter",
@@ -286,10 +286,10 @@ class BingChat {
 		}
 
 //消息来源
-		static source = "cib";
+		source = "cib";
 
 //接收消息类型
-		static allowedMessageTypes = [
+		allowedMessageTypes = [
 			"Chat",
 			"InternalSearchQuery",
 			"InternalSearchResult",
@@ -303,7 +303,7 @@ class BingChat {
 		]
 
 //切片id，也不知道是啥意思，反正官网的更新了
-		static sliceIds = [
+		sliceIds = [
 			"chk1cf",
 			"nopreloadsscf",
 			"winlongmsg2tf",
@@ -328,7 +328,7 @@ class BingChat {
 
 
 //生成消息对象
-		static async generateMessages(sendMessageManager/*消息管理器*/,chatMessageText/*要发送的消息文本*/){
+		async generateMessages(sendMessageManager/*消息管理器*/,chatMessageText/*要发送的消息文本*/){
 			function timeString() {
 				let d = new Date();
 				let year = d.getFullYear();
@@ -384,7 +384,7 @@ class BingChat {
 
 		}
 
-		static async getPreviousMessages(){
+		async getPreviousMessages(){
 			function getUuid() {
 				return URL.createObjectURL(new Blob()).split('/')[3];
 			}
@@ -976,27 +976,27 @@ class ChatModeSwitchingManager{
 
 		//创造力模式
 		chatTypeChoseCreate.onclick = () => {
-			if (chatTypeDiv.style.opacity === '0%') {
+			if (chatTypeDiv.style.opacity === '0') {
 				return;
 			}
 			this.setChatModType(ChatModeSwitchingManager.ChatType.create);
-			reSetStartChatMessage(ChatModeSwitchingManager.ChatType.create);
+			//reSetStartChatMessage(ChatModeSwitchingManager.ChatType.create);
 		}
 		//平衡模式
 		chatTypeChoseBalance.onclick = () => {
-			if (chatTypeDiv.style.opacity === '0%') {
+			if (chatTypeDiv.style.opacity === '0') {
 				return;
 			}
 			this.setChatModType(ChatModeSwitchingManager.ChatType.balance);
-			reSetStartChatMessage(ChatModeSwitchingManager.ChatType.balance);
+			// reSetStartChatMessage(ChatModeSwitchingManager.ChatType.balance);
 		}
 		//准确模式
 		chatTypeChoseAccurate.onclick = () => {
-			if (chatTypeDiv.style.opacity === '0%') {
+			if (chatTypeDiv.style.opacity === '0') {
 				return;
 			}
 			this.setChatModType(ChatModeSwitchingManager.ChatType.accurate);
-			reSetStartChatMessage(ChatModeSwitchingManager.ChatType.accurate);
+			// reSetStartChatMessage(ChatModeSwitchingManager.ChatType.accurate);
 		}
 	}
 
@@ -1005,41 +1005,55 @@ class ChatModeSwitchingManager{
 	 * @param chatType 聊天选项，ChatModeSwitchingManager.ChatType中的一种
 	 * */
 	setChatModType(chatType){
+		if(this.thisChatType === chatType){
+			return;
+		}
 		if (chatType === ChatModeSwitchingManager.ChatType.create) {//有创造力的
 			this.thisChatType = ChatModeSwitchingManager.ChatType.create;
 			this.chatTypeChoseCreate.classList.add('Chose');
 			this.chatTypeChoseBalance.classList.remove('Chose');
 			this.chatTypeChoseAccurate.classList.remove('Chose');
 			this.backgroundDIV.className = 'a';
-		} else if (chatType === ChatModeSwitchingManager.ChatType.create.balance) {//平衡
-			this.thisChatType = ChatModeSwitchingManager.ChatType.create.balance;
+		} else if (chatType === ChatModeSwitchingManager.ChatType.balance) {//平衡
+			this.thisChatType = ChatModeSwitchingManager.ChatType.balance;
 			this.chatTypeChoseCreate.classList.remove('Chose');
 			this.chatTypeChoseBalance.classList.add('Chose');
 			this.chatTypeChoseAccurate.classList.remove('Chose');
 			this.backgroundDIV.className = 'b';
-		} else if (chatType === ChatModeSwitchingManager.ChatType.create.accurate) {//精确的
-			this.thisChatType = ChatModeSwitchingManager.ChatType.create.accurate;
+		} else if (chatType === ChatModeSwitchingManager.ChatType.accurate) {//精确的
+			this.thisChatType = ChatModeSwitchingManager.ChatType.accurate;
 			this.chatTypeChoseCreate.classList.remove('Chose');
 			this.chatTypeChoseBalance.classList.remove('Chose');
 			this.chatTypeChoseAccurate.classList.add('Chose');
 			this.backgroundDIV.className = 'c';
 		} else {
 			console.warn("错误的聊天类型", chatType);
+			return;
 		}
+		this.onChatTypeChange(chatType);
+	}
+
+	/**
+	 * 需要重写
+	 * 当聊天类型改变时调用
+	 * @param chatType 新的聊天类型
+	 * */
+	onChatTypeChange(chatType){
+		console.log(`onChatTypeChange方法没有被重写！,聊天类型切换到'${chatType}'`);
 	}
 
 	/**
 	 * 显示聊天模式选项
 	 * */
 	show(){
-		this.chatTypeDiv.style.opacity = '100%';
+		this.chatTypeDiv.style.opacity = '1';
 	}
 
 	/**
 	 * 隐藏聊天模式选项
 	 * */
 	hide(){
-		this.chatTypeDiv.style.opacity = '0%';
+		this.chatTypeDiv.style.opacity = '0';
 	}
 }
 
@@ -1055,8 +1069,8 @@ class ChatSuggestionsManager{
 		//当被点击时发送消息
 		searchSuggestions.onclick = (event)=>{
 			if(event.target.parentElement===searchSuggestions){
-				if(searchSuggestions.style.opacity==="100%"){
-					send(event.target.innerText);
+				if(searchSuggestions.style.opacity==="1"){
+					this.onSend(event.target.innerText);
 				}
 			}
 		}
@@ -1069,12 +1083,12 @@ class ChatSuggestionsManager{
 			let scrollPos = window.scrollY;
 			// 如果滚动到底部，显示元素，否则隐藏元素
 			if (scrollPos + window.innerHeight >= docHeight - 25) {
-				searchSuggestions.style.opacity = '100%';
+				searchSuggestions.style.opacity = '1';
 			} else {
-				searchSuggestions.style.opacity = '0%';
+				searchSuggestions.style.opacity = '0';
 			}
 		});
-		searchSuggestions.style.opacity = '100%';//设置聊天建议显示
+		searchSuggestions.style.opacity = '1';//设置聊天建议显示
 	}
 
 	//重置聊天建议到初始状态
@@ -1092,6 +1106,15 @@ class ChatSuggestionsManager{
 	//清空聊天建议
 	clear(){
 		this.searchSuggestions.innerHTML = '';
+	}
+
+	/**
+	 * 需要重写
+	 * 当用户选择发生这条消息时触发
+	 * @param text 用户选择的文本
+	 * */
+	onSend(text) {
+		console.warn(`onSend方法没有被重写！,用户发送'${text}'`);
 	}
 }
 
@@ -1346,6 +1369,8 @@ window.addEventListener('load',()=>{
 		chatSuggestionsManager.restart();
 		titleManager.restart();
 	}
+	chatModeSwitchingManager.onChatTypeChange = reSetStartChatMessage;
+
 
 	/**正在创建聊天 */
 	function isAskingToMagic() {
@@ -1402,8 +1427,7 @@ window.addEventListener('load',()=>{
 			parserReturnMessage.addError(error.message);
 		}
 	}
-
-
+	chatSuggestionsManager.onSend = send;
 
 	function onSend(){
 		if (isSpeaking) {
@@ -1431,6 +1455,7 @@ window.addEventListener('load',()=>{
 	}
 	send_button.onclick = onSend;
 
+
 	//开始新主题
 	restart_button.onclick = () => {
 		onMessageIsOKClose = true;
@@ -1449,9 +1474,9 @@ window.addEventListener('load',()=>{
 	//发送按钮出现逻辑
 	function input_update_input_text_sstyle_show_update(v) {
 		if (v.target.value) {
-			send_button.style.opacity = '100%';
+			send_button.style.opacity = '1';
 		} else {
-			send_button.style.opacity = '0%';
+			send_button.style.opacity = '0';
 		}
 	}
 	input_text.addEventListener("input", input_update_input_text_sstyle_show_update);
