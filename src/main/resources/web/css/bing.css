@@ -248,8 +248,7 @@ body:has(.my) #restart {
     height: 100%;
 }
 #cueWord-selects-h3{
-    margin: 0;
-    margin-top: 0.5rem;
+    margin: 0.5rem 0 0;
     text-align: center;
 }
 
@@ -276,7 +275,7 @@ body:has(.my) #restart {
     width: 100%;
     background-color: #ffffff00;
     margin: 1rem 0 1rem 1rem;
-    height: -webkit-fill-available;
+    flex: 1;
 }
 
 #input:focus-visible {
@@ -291,10 +290,10 @@ body:has(.my) #restart {
     margin: 0 0;
     display: flex;
     flex-direction: row;
-    align-items: flex-end;
+    align-items: stretch;
     transition: all 0.5s;
     position: relative;
-    top:0;
+    top: 0;
     z-index: 1;
 }
 
@@ -302,7 +301,7 @@ body:has(.my) #restart {
     position: relative;
     top: -100%;
     height: 300%;
-    box-shadow: #00000052 0rem 0rem 0.5rem;
+    box-shadow: #00000052 0 0 0.5rem;
 }
 
 
@@ -312,12 +311,12 @@ body:has(.my) #restart {
     top: -25.5rem;
     height: 25rem;
     opacity: 1;
-    box-shadow: #00000052 0rem 0rem 0.5rem;
+    box-shadow: #00000052 0 0 0.5rem;
 }
 #cueWord-box{
     position: absolute;
-    top: 0rem;
-    height: 0rem;
+    top: 0;
+    height: 0;
     width: 100%;
     transition: all 0.5s;
     overflow: hidden;
@@ -343,7 +342,6 @@ div#cueWord-search{
     flex-wrap: nowrap;
     align-items: stretch;
     max-width: 100%;
-    max-width: -webkit-fill-available;
     width: 40rem;
     height: 2rem;
     border-radius: 1rem;
@@ -401,7 +399,7 @@ div#cueWord-search{
     border-radius: 1rem;
     height: 2rem;
     line-height: 2rem;
-    margin: 0rem 0.3rem 0.5rem 0.3rem;
+    margin: 0 0.3rem 0.5rem 0.3rem;
     padding: 0 0.5rem;
     font-size: 0.7rem;
     white-space: nowrap;
@@ -599,8 +597,7 @@ body {
 
 .InternalSearchQuery>p,
 .InternalLoaderMessage>p {
-    margin: 0;
-    margin-bottom: 1rem;
+    margin: 0 0 1rem;
 }
 
 .adaptiveCardsFatherDIV,
@@ -625,8 +622,7 @@ body {
 .bing>.sourceAttributions {
     font-size: 0.9rem;
     max-width: 90%;
-    margin: 0;
-    margin-bottom: 1rem;
+    margin: 0 0 1rem;
     display: inline-flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -721,7 +717,7 @@ body {
 
 .GenerateContentQuery>a>img:hover {
     margin: 0.2% 0.8% 0.8% 0.2%;
-    box-shadow: #0000007a 2px 3px 5px 0px;
+    box-shadow: #0000007a 2px 3px 5px 0;
     transition: all 0.3s;
 }
 
