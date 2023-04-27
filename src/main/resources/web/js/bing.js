@@ -1258,7 +1258,7 @@ class TitleManager{
 	 * 正在创建聊天时
 	 * */
 	onCreating(){
-		this.setSubtitleText('正在连接到魔法. 稍等！');
+		this.setSubtitleText('正在建立连接. 稍等！');
 	}
 	/**
 	 * 正在发送消息时
@@ -1270,7 +1270,7 @@ class TitleManager{
 	 * 正在回复时
 	 * */
 	onAnswering(){
-		this.setSubtitleText('正在接受消息.');
+		this.setSubtitleText('正在接收消息.');
 	}
 
 	/**
