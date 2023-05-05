@@ -284,13 +284,15 @@ public class NewBingGoGoServer extends NanoWSD {
     public static Response getReturnError(String message,Throwable error,boolean all){
         String r;
         if (error==null){
-            r = "{\"result\":{\"value\":\"error\",\"message\":\""+escapeJsonString(message)+"\"}}";
+            r = "{\"value\":\"error\",\"message\":\""+escapeJsonString(message)+"\"}";
         }else if(all){
-            r = "{\"result\":{\"value\":\"error\",\"message\":\""+escapeJsonString(message+"详情:"+printErrorToString(error))+"\"}}";
+            r = "{\"value\":\"error\",\"message\":\""+escapeJsonString(message+"详情:"+printErrorToString(error))+"\"}";
         }else {
-            r = "{\"result\":{\"value\":\"error\",\"message\":\""+escapeJsonString(message+"详情:"+error)+"\"}}";
+            r = "{\"value\":\"error\",\"message\":\""+escapeJsonString(message+"详情:"+error)+"\"}";
         }
-        return NanoHTTPD.newFixedLengthResponse(Response.Status.OK,"application/json",r);
+        Response res = NanoHTTPD.newFixedLengthResponse(Response.Status.OK,"application/json",r);
+        res.addHeader("NewBingGoGoError","true");
+        return res;
     }
 
     /**

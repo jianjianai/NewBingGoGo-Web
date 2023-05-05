@@ -7,98 +7,110 @@
     <link rel="stylesheet" href="./css/github-markdown-css.css">
     <link rel="stylesheet" href="./css/katex.min.css">
     <link rel="stylesheet" href="./css/bing.css">
+    <script src="./js/other/marked.min.js"></script>
+    <script src="./js/other/katex.min.js"></script>
+    <script src="./js/other/auto-render.min.js"></script>
+    <script src="./js/NewBingGoGo.js" type="module"></script>
 </head>
 
-<body>
-    <div id="background" class="b"></div>
-    <div id="head">
-        <div id='head-img-div'>
-            <img src="./img/nasapod128x128.png" alt="图标">
-            <div id='head-img-div-h2-img'>
-                <h2>NewBingGoGo-web</h2>
-                <h3 id="goGoSubtitle">想发什么呢？让我帮你！</h3>
-            </div>
-        </div>
-        <div id='head-li-div'>
-<!--            <li>创作</li>-->
+<body class="b">
+<div id="background"></div>
+<div id="head">
+    <div id='head-img-div'>
+        <img src="./img/nasapod128x128.png" alt="图标">
+        <div id='head-img-div-h2-img'>
+            <h2>NewBingGoGo</h2>
+            <h3 id="goGoSubtitle">想发什么呢？让我帮你！</h3>
         </div>
     </div>
-
-    <!-- 输入框部分 -->
-    <div id="tail">
-        <div id="tail-in">
-            <input id="restart" type="button" value="开始新主题">
-
-            <!-- 输入框 -->
-            <div id="input-div">
-                <textarea id="input" type="text"  autocapitalize="off" autocomplete="off" aria-autocomplete="both" spellcheck="false" aria-label="询问必应"  placeholder="有问题尽管问我..."></textarea>
-                <div id="input-div-box">
-                    <div id="expand">➤</div>
-                    <input id="send" class="ThemeColors" type="button" value="发送">
-                </div>
-
-                <!-- 提示词 -->
-                <div id="cueWord-box">
-                    <div id="cueWord-selects">
-                        <h3 id="cueWord-selects-h3">使用提示词优化回答</h3>
-                        <div id="cueWord-search">
-                            <input type="text" placeholder="搜索提示词.." id="cueWord-search-input">
-                        </div>
-                        <div id="cueWord-selects-list">
-                        </div>
-                    </div>
-                    <div id="cueWord-selected">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="SearchSuggestions">
-        </div>
+    <div id='head-li-div'>
+        <a href="./DrawImg.html" target="_blank">画图</a>
+        <a href="./Write.html" target="_blank">创作</a>
+        <li id="showChatRecords">聊天记录</li>
     </div>
+</div>
 
-    <div id="body">
-        <div id="body-top"></div>
-        <div style="text-align: center;">
-            <h1>NewBing</h1>
-            <h2>欢迎回来！开始愉快地聊天吧！</h2>
-            <p style="font-size: 0.5em">此站点由<a href="https://github.com/jianjianai/NewBingGoGo-Web" target="_blank">NewBingGoGo-web</a>强力驱动</p>
-        </div>
-        <div id="chatTypeDiv" style="opacity: 1;">
-            <div class="chatTypeChose" id="chatTypeChoseCreate">
-                <p>更多</p>
-                <h3>有创造力</h3>
+<!-- 输入框部分 -->
+<div id="tail">
+    <div id="tail-in">
+        <input id="restart" type="button" value="开始新主题">
+
+        <!-- 输入框 -->
+        <div id="input-div">
+            <textarea id="input" type="text" enterkeyhint="send" autocapitalize="off" autocomplete="off" aria-autocomplete="both" spellcheck="false" aria-label="询问必应" autocorrect="off" placeholder="有问题尽管问我..."></textarea>
+            <div id="input-div-box">
+                <div id="expand">➤</div>
+                <input style="opacity: 0" id="send" class="ThemeColors" type="button" value="发送">
             </div>
-            <div class="chatTypeChose Chose" id="chatTypeChoseBalance">
-                <p>更多</p>
-                <h3>平衡</h3>
-            </div>
-            <div class="chatTypeChose" id="chatTypeChoseAccurate">
-                <p>更多</p>
-                <h3>准确</h3>
-            </div>
-        </div>
-        <div id="chat">
-            <div class="bing">
-                <div class="adaptiveCardsFatherDIV">
-                    <div class="textBlock markdown-body">
-                        正在加载，请稍等一会！
+
+            <!-- 提示词 -->
+            <div id="cueWord-box">
+                <div id="cueWord-selects">
+                    <h3 id="cueWord-selects-h3">使用提示词优化回答</h3>
+                    <div id="cueWord-search">
+                        <input type="text" placeholder="搜索提示词.." id="cueWord-search-input">
                     </div>
-                    <div class="throttling">
-                        0 / 0
+                    <div id="cueWord-selects-list">
                     </div>
+                </div>
+                <div id="cueWord-selected">
+
                 </div>
             </div>
         </div>
-        <div id="body-bottom"></div>
     </div>
+    <div id="SearchSuggestions">
+    </div>
+</div>
 
-    
-
-    <script src="./js/marked.min.js"></script>
-    <script src="./js/katex.min.js"></script>
-    <script src="./js/auto-render.min.js"></script>
-    <script src="./js/bing.js"></script>
+<div id="body">
+    <div id="body-top"></div>
+    <div style="text-align: center;">
+        <h1>NewBingGoGo</h1>
+        <h2>简单的开始和NewBing聊天</h2>
+    </div>
+    <div id="chatTypeDiv" style="opacity: 1;">
+        <div class="chatTypeChose" id="chatTypeChoseCreate">
+            <p>更多</p>
+            <h3>有创造力</h3>
+        </div>
+        <div class="chatTypeChose Chose" id="chatTypeChoseBalance">
+            <p>更多</p>
+            <h3>平衡</h3>
+        </div>
+        <div class="chatTypeChose" id="chatTypeChoseAccurate">
+            <p>更多</p>
+            <h3>准确</h3>
+        </div>
+    </div>
+    <div id="chat">
+        <div class="bing">
+            <div class="adaptiveCardsFatherDIV">
+                <div class="textBlock markdown-body">
+                    正在加载，请稍等一会！
+                </div>
+                <div class="throttling">
+                    0 / 0
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="body-bottom"></div>
+</div>
+<!-- 聊天记录 -->
+<div id="ChatRecordsListDivOut">
+    <div id="ChatRecordsListIn" class="ThemeColors">
+        <li id="ChatRecordsNameli">
+            <div id="ChatRecordsServer">新建</div>
+        </li>
+        <div id="ChatRecordsListDiv">
+            <div>
+                <h3>开发时测试，开发时测试</h3>
+                <p>到时候这个会被覆盖掉，反正也不显示。懒得删了</p>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>
