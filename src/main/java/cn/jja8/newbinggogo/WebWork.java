@@ -36,6 +36,7 @@ public class WebWork {
                     inputStream,
                     -1
             );
+            response.addHeader("cache-control","max-age=14400");
             return response;
         } catch (IOException e) {
             throw new RuntimeException(e);
