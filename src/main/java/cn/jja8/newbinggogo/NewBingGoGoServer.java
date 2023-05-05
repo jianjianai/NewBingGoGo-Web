@@ -49,10 +49,10 @@ public class NewBingGoGoServer extends NanoWSD {
             System.out.println(ip+":请求创建聊天");
             return goUrl(session,"https://www.bing.com/turing/conversation/create");
         }
-//        if(url.equals("/msrewards/api/v1/enroll")){//加入候补
-//            System.out.println(ip+":请求加入候补");
-//            return goUrl(session,"https://www.bing.com/msrewards/api/v1/enroll?"+session.getQueryParameterString());
-//        }
+        if(url.equals("/msrewards/api/v1/enroll")){//加入候补
+            System.out.println(ip+":请求加入候补");
+            return goUrl(session,"https://www.bing.com/msrewards/api/v1/enroll?"+session.getQueryParameterString());
+        }
         if(url.equals("/images/create")){
             System.out.println(ip+":请求AI画图");
             HashMap<String,String> he = new HashMap<>();
@@ -171,7 +171,7 @@ public class NewBingGoGoServer extends NanoWSD {
                 return getReturnError("没有任何可用cookie，请前往Cookies.yml添加cookie");
             }
             cookieID  = (int) (Math.random()*Cookies.cookies.length);;
-            String cookieIDString = header.get("cookieID");
+            String cookieIDString = header.get("cookieid");
             if(cookieIDString!=null){
                 try{
                     cookieID = Integer.parseInt(cookieIDString);
@@ -306,6 +306,7 @@ public class NewBingGoGoServer extends NanoWSD {
                 .replace("\t","\\t")
                 .replace("\"","\\\"");
     }
+
     public static String printErrorToString(Throwable t) {
         StringWriter sw = new StringWriter();
         t.printStackTrace(new PrintWriter(sw, true));

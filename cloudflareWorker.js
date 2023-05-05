@@ -9,55 +9,63 @@ export default {
 }
 
 /**
+ * 去掉协议和主机头
+ * @param {string} url
+ * @return string
+ * */
+function urlToOder(url){
+    let w = url.split('/',3);
+    let left = '';
+    w.forEach((e)=>{
+        left = left+'/'+e;
+    });
+    left = left.substring(1);
+    return url.replace(left,'');
+}
+
+/**
  * Respond to the request
  * @param {Request} request
  */
-let startReg = new RegExp("^(https?://)([-a-zA-z0-9]+\\.)+([-a-zA-z0-9]+)+");
 async function handleRequest(request) {
-    if (isEquals(request, "/sydney/ChatHub")) { //魔法聊天
+    let path = urlToOder(request.url);
+
+    if (path === '/sydney/ChatHub') { //魔法聊天
         return bingChatHub(request)
     }
-    if (isEquals(request, "/turing/conversation/create")) { //创建聊天
+    if (path === "/turing/conversation/create") { //创建聊天
         return goUrl(request, "https://www.bing.com/turing/conversation/create");
     }
-    if (isEquals(request, "/msrewards/api/v1/enroll\\?(.*)")) { //加入候补
+    if (path.startsWith('/msrewards/api/v1/enroll?')) { //加入候补
         let a = request.url.split("?");
         return goUrl(request, "https://www.bing.com/msrewards/api/v1/enroll?" + a[1]);
     }
-    if (isEquals(request, "/images/create\\?(.*)")) { //AI画图
+    if (path.startsWith('/images/create?')) { //AI画图
         let a = request.url.split("?");
         return goUrl(request, "https://www.bing.com/images/create?" + a[1], {
             "sec-fetch-site": "same-origin",
             "referer": "https://www.bing.com/search?q=bingAI"
         });
     }
-    if (isEquals(request, "/images/create/async/results(.*)")) { //请求AI画图图片
-        let reg = new RegExp("^(https?://)([-a-zA-z0-9]+\\.)+([-a-zA-z0-9]+)+(/images/create/async/results)");
-        let a = request.url.replace(reg, "https://www.bing.com/images/create/async/results");
+    if (path.startsWith('/images/create/async/results')) { //请求AI画图图片
+        let a = path.replace('/images/create/async/results', "https://www.bing.com/images/create/async/results");
         return goUrl(request, a, {
             "sec-fetch-site": "same-origin",
             "referer": "https://www.bing.com/images/create?partner=sydney&showselective=1&sude=1&kseed=7000"
         });
     }
     //用于测试
-    if (isEquals(request, "/test/(.*)")) {
-        let reg = new RegExp(`^(https?://)([-a-zA-z0-9]+\\.)+([-a-zA-z0-9]+)+(${"/test/(.*)"})$`);
-        let a = request.url.replace(reg, "$5");
+    if (path.startsWith("/test/")) {
+        let a = path.replace("/test/",'');
         return goUrl(request, a);
     }
-    if (isEquals(request, "/web/(.*)")||isEquals(request, "/favicon.ico")) { //web请求
-        let reg = new RegExp("^(https?://)([-a-zA-z0-9]+\\.)+([-a-zA-z0-9]+)+(/)");
-        let a = request.url.replace(reg, "https://raw.githubusercontent.com/jianjianai/NewBingGoGo-Web/master/src/main/resources/");
+    if (path.startsWith("/web/")||path === "/favicon.ico") { //web请求
+        let a = `https://raw.githubusercontent.com/jianjianai/NewBingGoGo-Web/master/src/main/resources${path}`;
         return await goWeb(a);
     }
     return getRedirect('/web/NewBingGoGo.html');
 }
 
-//匹配url
-function isEquals(request, path) {
-    let reg = new RegExp(`^(https?://)([-a-zA-z0-9]+\\.)+([-a-zA-z0-9]+)+(${path})$`);
-    return reg.test(request.url);
-}
 
 async function goWeb(path) {
     let res = await fetch(path);
@@ -108,10 +116,10 @@ async function goUrl(request, url, addHeaders) {
     }
 
     //添加配置的随机cookie
-    if (cookies.length == 0) {
+    if (cookies.length === 0) {
         return getReturnError("没有任何可用cookie，请前在第一行代码cookies变量中添加cookie");
     }
-    let cookieID =0;
+    let cookieID = 0;
     if(reqHeaders.get('NewBingGoGoWeb')){//如果是web版
         cookieID = Math.floor(Math.random() * cookies.length);
         let userCookieID = reqHeaders.get("cookieID");
@@ -148,16 +156,14 @@ function getRndInteger(min, max) {
 //获取用于返回的错误信息
 function getReturnError(error) {
     return new Response(JSON.stringify({
-        result: {
-            value: 'error',
-            message: error
-        }
+        value: 'error',
+        message: error
     }), {
         status: 200,
         statusText: 'ok',
         headers: {
-            "content-type": "application/json"//,
-            //"Access-Control-Allow-Origin": "*"
+            "content-type": "application/json",
+            "NewBingGoGoError":'true'
         }
     })
 }
