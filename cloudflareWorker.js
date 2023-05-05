@@ -85,7 +85,8 @@ async function goWeb(path) {
         status: 200,
         statusText: 'ok',
         headers: {
-            "content-type": mimeType
+            "content-type": mimeType,
+            "cache-control":"max-age=14400"
         }
     });
 }
