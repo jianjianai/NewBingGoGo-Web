@@ -9,7 +9,7 @@
 
 演示站点：
 - java https://newbinggogo-web.zeabur.app/
-- cloudflareWorker.js https://bingweb.xn--xyza.top/
+- cloudflareWorker.js https://bingweb.jja8.cn/
 
 ## 功能介绍
 此服务可直接通过网页访问也可以作为NewBingGoGo插件的魔法链接服务使用。
