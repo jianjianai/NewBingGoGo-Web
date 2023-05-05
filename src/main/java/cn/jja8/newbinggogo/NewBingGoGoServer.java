@@ -49,10 +49,10 @@ public class NewBingGoGoServer extends NanoWSD {
             System.out.println(ip+":请求创建聊天");
             return goUrl(session,"https://www.bing.com/turing/conversation/create");
         }
-//        if(url.equals("/msrewards/api/v1/enroll")){//加入候补
-//            System.out.println(ip+":请求加入候补");
-//            return goUrl(session,"https://www.bing.com/msrewards/api/v1/enroll?"+session.getQueryParameterString());
-//        }
+        if(url.equals("/msrewards/api/v1/enroll")){//加入候补
+            System.out.println(ip+":请求加入候补");
+            return goUrl(session,"https://www.bing.com/msrewards/api/v1/enroll?"+session.getQueryParameterString());
+        }
         if(url.equals("/images/create")){
             System.out.println(ip+":请求AI画图");
             HashMap<String,String> he = new HashMap<>();
@@ -171,7 +171,7 @@ public class NewBingGoGoServer extends NanoWSD {
                 return getReturnError("没有任何可用cookie，请前往Cookies.yml添加cookie");
             }
             cookieID  = (int) (Math.random()*Cookies.cookies.length);;
-            String cookieIDString = header.get("cookieID");
+            String cookieIDString = header.get("cookieid");
             if(cookieIDString!=null){
                 try{
                     cookieID = Integer.parseInt(cookieIDString);
@@ -284,13 +284,15 @@ public class NewBingGoGoServer extends NanoWSD {
     public static Response getReturnError(String message,Throwable error,boolean all){
         String r;
         if (error==null){
-            r = "{\"result\":{\"value\":\"error\",\"message\":\""+escapeJsonString(message)+"\"}}";
+            r = "{\"value\":\"error\",\"message\":\""+escapeJsonString(message)+"\"}";
         }else if(all){
-            r = "{\"result\":{\"value\":\"error\",\"message\":\""+escapeJsonString(message+"详情:"+printErrorToString(error))+"\"}}";
+            r = "{\"value\":\"error\",\"message\":\""+escapeJsonString(message+"详情:"+printErrorToString(error))+"\"}";
         }else {
-            r = "{\"result\":{\"value\":\"error\",\"message\":\""+escapeJsonString(message+"详情:"+error)+"\"}}";
+            r = "{\"value\":\"error\",\"message\":\""+escapeJsonString(message+"详情:"+error)+"\"}";
         }
-        return NanoHTTPD.newFixedLengthResponse(Response.Status.OK,"application/json",r);
+        Response res = NanoHTTPD.newFixedLengthResponse(Response.Status.OK,"application/json",r);
+        res.addHeader("NewBingGoGoError","true");
+        return res;
     }
 
     /**
@@ -304,6 +306,7 @@ public class NewBingGoGoServer extends NanoWSD {
                 .replace("\t","\\t")
                 .replace("\"","\\\"");
     }
+
     public static String printErrorToString(Throwable t) {
         StringWriter sw = new StringWriter();
         t.printStackTrace(new PrintWriter(sw, true));

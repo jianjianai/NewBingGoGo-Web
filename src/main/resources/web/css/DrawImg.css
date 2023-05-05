@@ -1,0 +1,205 @@
+/* 头部分 */
+body {
+    font-family: "Segoe UI", Arial, "Microsoft Yahei", sans-serif;
+    font-size: 75%;
+}
+
+#head {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(10px);
+    background-color: #ffffff78;
+    z-index: 99;
+}
+
+#head-img-div {
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#head-img-div>img {
+    height: 100%;
+}
+
+#head-img-div-h2-img>* {
+    margin: 0;
+}
+
+#head-li-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#head-li-div>li {
+    list-style: none;
+    margin-right: 1rem;
+    font-size: 1rem;
+}
+
+#head-li-div>a {
+    display: inline-block;
+    list-style: none;
+    margin-right: 1rem;
+    font-size: 1rem;
+    color: inherit;
+    text-decoration: inherit;
+}
+
+#head-li-div>a:hover{
+    color: #ff8300;
+}
+
+/* 背景*/
+
+#background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: repeating-linear-gradient(359deg, rgb(182 196 255) 0%, rgb(207 225 255 / 78%) 100%);
+}
+
+body.a #background,
+body.a .ThemeColors {
+    transition: filter 1s;
+    filter: hue-rotate(10deg);
+}
+
+body.b #background,
+body.b .ThemeColors {
+    transition: filter 1s;
+    filter: hue-rotate(-15deg);
+}
+
+body.c #background,
+body.c .ThemeColors {
+    transition: filter 1s;
+    filter: hue-rotate(-40deg);
+}
+
+#body{
+    margin-top: 4rem;
+    overflow: hidden;
+}
+
+#DrawDiv{
+    background-color: #ffffff70;
+    min-height: 30rem;
+    max-width: 45rem;
+    margin: 1rem auto auto;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+}
+#inputDraw{
+    resize: none;
+    background-color: #ffffff00;
+    flex: 1;
+    margin-left: 1rem;
+    height: 2rem;
+    font-size: 1rem;
+    border: none;
+    outline:none;
+    line-height: 2rem;
+}
+#DrawInputDiv{
+    background-color: #ffffff;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+}
+#startDraw{
+    background-color: #0e00ff36;
+    border-radius: 0 0.5rem 0.5rem 0;
+    display: flex;
+    padding: 0.5rem;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1rem;
+}
+#startDraw:hover{
+    background-color: rgba(14, 0, 255, 0.56);
+}
+#DrawInputDiv{
+    border: 1px solid rgba(0, 0, 0, 0.21);
+}
+#DrawInputDiv:has(#inputDraw:focus-visible){
+    border: 1px solid #0e00ff36;
+}
+#imgs{
+    margin-top: 1rem;
+    background-color: #c2b4ff29;
+    flex: 1;
+    border: 0.2rem solid #ffffff70;
+    border-top: none;
+    border-radius: 0 0 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-around;
+    align-content: space-around;
+    color: #ff8300;
+    font-size: 1rem;
+    font-weight: bolder;
+}
+#imgs>img{
+    width: 49%;
+    margin: 0.5%;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+
+#imgs>img:hover{
+    transform:translate(-0.5%, -0.5%);
+}
+
+@media screen and (max-width:500px) {
+    :root {
+        font-size: 3.5vmin;
+    }
+    #imgs>img{
+        width: 99%;
+    }
+}
+
+@media screen and (orientation:portrait) and (max-device-width:800px) and (max-device-height:1000px) {
+    :root {
+        font-size: 3.5vmin;
+    }
+    #imgs>img{
+        width: 99%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

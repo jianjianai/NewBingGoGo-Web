@@ -15,15 +15,13 @@ body {
     justify-content: space-between;
     backdrop-filter: blur(10px);
     background-color: #ffffff78;
-    z-index: 99;
+    z-index: 100;
 }
 
 div.markdown-body {
     font-size: 0.7rem;
 }
-#restart {
-    font-size: 0.7rem;
-}
+
 
 #input {
     font-size: 0.7rem;
@@ -46,6 +44,8 @@ div.markdown-body {
 #head-img-div-h2-img>* {
     margin: 0;
 }
+
+
 
 #head-li-div {
     display: flex;
@@ -71,40 +71,6 @@ div.markdown-body {
 #head-li-div>a:hover{
     color: #ff8300;
 }
-
-
-
-
-
-#ChatRecordsNameli {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: nowrap;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    justify-content: flex-end;
-}
-
-
-
-#ChatRecordsServer {
-    white-space: nowrap;
-    transition: padding 0.5s, width 0.5s;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-right: 0.5rem;
-}
-
-#showChatRecords {
-    cursor: pointer;
-}
-
-#showChatRecords:hover,
-#ChatRecordsServer:hover {
-    color: #ff8300;
-}
-
 
 
 /* 背景*/
@@ -140,55 +106,8 @@ body.c .ThemeColors {
 
 /* 尾部分 */
 
-#tail {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 7rem;
-    display: flex;
-    justify-content: center;
-    backdrop-filter: blur(10px);
-    background-color: #ffffff78;
-    flex-direction: column-reverse;
-    align-items: center;
-    z-index: 99;
-}
 
-#SearchSuggestions {
-    position: fixed;
-    top: -3rem;
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    transition: opacity 0.2s;
-    overflow-x: auto;
-}
 
-#SearchSuggestions>a {
-    backdrop-filter: blur(10px);
-    background-color: #ffffff82;
-    border-radius: 2rem;
-    padding: 0.5rem;
-    font-size: 0.9rem;
-    margin: 0.2rem;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    transition: flex 0.5s;
-}
-#SearchSuggestions::-webkit-scrollbar{
-    display: none;
-}
-
-#SearchSuggestions>a:hover {
-    cursor: pointer;
-    background-color: #ffffff;
-    flex: none;
-}
 
 #tail-in {
     display: flex;
@@ -200,47 +119,6 @@ body.c .ThemeColors {
 }
 
 
-#restart:hover {
-    background-color: #ffffff;
-    cursor: pointer;
-}
-
-#restart {
-    border: 0;
-    border-radius: 1.5rem;
-    background-color: #ffffff9e;
-    height: 100%;
-    font-size: 0.8rem;
-    transition: all 0.5s;
-    overflow: hidden;
-    white-space: normal;
-}
-
-#tail.open #tail-in #restart,
-#restart {
-    width: 0;
-    margin: 0;
-    padding: 0;
-    opacity: 0;
-}
-
-body:has(.my) #restart {
-    width: 5rem;
-    margin-right: 0.5rem;
-    padding: 0;
-    opacity: 1;
-}
-
-#expand{
-    font-size: 1rem;
-    transform:rotate(270deg);
-    margin-top: 0.5rem;
-    transition: transform 0.5s;
-    cursor: pointer;
-}
-#tail.open #expand{
-    transform:rotate(90deg);
-}
 
 #input-div-box{
     display: flex;
@@ -250,11 +128,7 @@ body:has(.my) #restart {
     justify-content: space-between;
     height: 100%;
 }
-#cueWord-selects-h3{
-    margin: 0;
-    margin-top: 0.5rem;
-    text-align: center;
-}
+
 
 #send {
     border: 0;
@@ -301,132 +175,6 @@ body:has(.my) #restart {
     z-index: 1;
 }
 
-#tail.open #input-div{
-    position: relative;
-    top: -100%;
-    height: 300%;
-    box-shadow: #00000052 0rem 0rem 0.5rem;
-}
-
-
-/* 提示词 */
-
-#tail.open #input-div #cueWord-box{
-    top: -25.5rem;
-    height: 25rem;
-    opacity: 1;
-    box-shadow: #00000052 0rem 0rem 0.5rem;
-}
-#cueWord-box{
-    position: absolute;
-    top: 0rem;
-    height: 0rem;
-    width: 100%;
-    transition: all 0.5s;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: stretch;
-    opacity: 0;
-    background-color: rgba(182,196,255,20%);
-    border-radius: 1rem;
-    backdrop-filter: blur(10px);
-}
-#tail.open{
-    backdrop-filter: none;
-}
-#cueWord-box>div{
-    margin:0.5rem 0.5rem;
-}
-div#cueWord-search{
-    background-color: #ffffff;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: stretch;
-    max-width: 100%;
-    max-width: -webkit-fill-available;
-    width: 40rem;
-    height: 2rem;
-    border-radius: 1rem;
-    align-self: center;
-    margin-top: 0.5rem;
-    border: 1px solid #0000002e;
-}
-#cueWord-search-input{
-    background-color: #00000000;
-    border: none;
-    outline: none;
-    flex: 1;
-    margin-left: 0.5rem;
-    font-size: 0.7rem;
-}
-#cueWord-selects{
-    flex: 1;
-    height: 100%;
-    overflow: auto;
-    background-color: #ffffff75;
-    border-radius: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    flex-wrap: nowrap;
-    border: 1px solid #0000002e;
-}
-#cueWord-selected{
-    min-height: 2rem;
-    background-color: #ffffff75;
-    border-radius: 1rem;
-    border: 1px solid #0000002e;
-    flex: none;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding-top: 0.5rem;
-}
-#cueWord-selects-list{
-    overflow: auto;
-    height: 100%;
-    flex: 1;
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: stretch;
-    justify-content: center;
-    align-content: flex-start;
-}
-#cueWord-selected>li,
-#cueWord-selects-list>li{
-    list-style: none;
-    background-color: #ffffffb1;
-    border-radius: 1rem;
-    height: 2rem;
-    line-height: 2rem;
-    margin: 0rem 0.3rem 0.5rem 0.3rem;
-    padding: 0 0.5rem;
-    font-size: 0.7rem;
-    white-space: nowrap;
-}
-#cueWord-selected>li:hover,
-#cueWord-selects-list>li:hover{
-    cursor: pointer;
-    background-color: #ffffff;
-}
-
-@media screen and (max-height:52rem){
-    #tail.open #input-div #cueWord-box{
-        top: -51vh;
-        height: 50vh;
-    }
-    #tail.open #input-div{
-        max-height: 40vh;
-        top: -12.5vh;
-    }
-}
-
-
 
 /* 页面部分 */
 body {
@@ -438,142 +186,14 @@ body {
     margin: auto;
 }
 
-#body-top {
-    height: 20vh;
-    width: 100%;
-}
 
 #body-bottom {
     height: 10rem;
     width: 100%;
 }
 
-/**聊天记录部分*/
-#ChatRecordsListDivOut {
-    position: fixed;
-    right: 0;
-    top: 0;
-    width: 0;
-    height: 100%;
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: stretch;
-    overflow: hidden;
-    transition: all 0.5s;
-    justify-content: flex-end;
-}
-
-#ChatRecordsListDivOut.open {
-    width: 20rem;
-}
-
-#ChatRecordsListIn {
-    margin-top: 4rem;
-    margin-bottom: 7rem;
-    width: 20rem;
-    min-width: 20rem;
-    background-color: #ffffff33;
-    overflow-y: auto;
-}
-
-#ChatRecordsListDiv>div {
-    margin: 0.5rem 0;
-    padding: 0.5rem 0.5rem;
-    background-color: #ffffff70;
-    cursor: pointer;
-    backdrop-filter: blur(10px);
-    position: relative;
-}
-#ChatRecordsListDiv>div.edit{
-    background-color: #fffffff5;
-    cursor: auto;
-}
-
-#ChatRecordsListDiv>div:hover {
-    background-color: #fffffff5;
-}
-
-#ChatRecordsListDiv{
-    display: flex;
-    flex-direction: column-reverse;
-    flex-wrap: nowrap;
-    align-items: stretch;
-    justify-content: flex-start;
-}
-#ChatRecordsListDiv>div>.id{
-    position: absolute;
-    right: 0;
-    bottom: 0;
-}
-#ChatRecordsListDiv>div>.delete{
-    position: absolute;
-    right: 0.3rem;
-    top: 0.1rem;
-    font-size: 1rem;
-    color: red;
-    cursor: pointer;
-}
-#ChatRecordsListDiv>div>input{
-    font-size: 1rem;
-    width: 100%;
-    max-width: 17rem;
-}
 
 
-
-/* 聊天选项部分 */
-
-#chatTypeDiv {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
-    margin-bottom: 7rem;
-    transition: all 0.5s;
-}
-
-#chatTypeDiv>.chatTypeChose {
-    background-color: #ffffffcc;
-    border-radius: 2rem;
-    width: 9rem;
-    height: 4rem;
-    margin: 1rem 0.3rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 0.5rem solid #ffffffcc;
-    cursor: pointer;
-}
-
-#chatTypeDiv>.chatTypeChose>p {
-    margin: 0;
-    text-align: center;
-}
-
-#chatTypeDiv>.chatTypeChose>h3 {
-    margin: 0;
-    text-align: center;
-}
-
-#chatTypeChoseCreate.Chose {
-    background-color: #904887;
-    color: white;
-    cursor: default;
-}
-
-#chatTypeChoseBalance.Chose {
-    background-color: #2870EA;
-    color: white;
-    cursor: default;
-}
-
-#chatTypeChoseAccurate.Chose {
-    background-color: #006880;
-    color: white;
-    cursor: default;
-}
 
 
 /* 聊天部分,在页面内 */
@@ -796,13 +416,7 @@ div.markdown-body {
         font-size: 3.5vmin;
     }
 
-    #tail-in:has(#input:focus-visible) #restart,
-    #tail-in:has(#input:hover) #restart {
-        width: 0;
-        margin: 0;
-        padding: 0;
-        opacity: 0;
-    }
+
 
     .GenerateContentQuery>a>img {
         max-width: 49%;
@@ -884,13 +498,7 @@ div.markdown-body {
         width: 49%;
     }
 
-    #tail-in:has(#input:focus-visible) #restart,
-    #tail-in:has(#input:hover) #restart {
-        width: 0;
-        margin: 0;
-        padding: 0;
-        opacity: 0;
-    }
+
 
     /* 聊天部分,在页面内 */
     @keyframes acceptMeaaage {
@@ -911,4 +519,168 @@ div.markdown-body {
         to {}
     }
 
+}
+
+#head-img-div>h2 {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+#body {
+    margin: auto;
+    max-width: 80rem;
+}
+
+
+#tail {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    align-items: stretch;
+    background-color: rgba(255, 255, 255, 0);
+    min-width: 20rem;
+    flex: 1;
+}
+
+#body-top {
+    height: 4rem;
+}
+
+#send {
+    opacity: 1 !important;
+    width: auto;
+    margin: 0;
+    margin-bottom: 1rem;
+}
+
+#input-div {
+    width: auto;
+    height: 6rem;
+    flex: none;
+    display: flex;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    align-items: stretch;
+    border: 1px solid #00000078;
+}
+
+#input {
+    height: auto;
+    width: -webkit-fill-available;
+    margin: 1em;
+    display: block;
+}
+
+#body-body {
+    border-radius: 1rem;
+    margin: 0rem;
+    background-color: #ffffff78;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    padding: 1rem 0rem;
+    align-items: stretch;
+}
+
+#body-body>* {
+    margin: 0rem 1rem;
+}
+
+#tall-title,
+#chat-title {
+    margin: 0;
+    margin-left: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.select-div {
+    background-color: #ffffff78;
+    border-radius: 1rem;
+    border: 1px solid #00000078;
+    margin-bottom: 1rem;
+}
+
+.select-title {
+    margin: 1rem;
+    margin-top: 0.5rem;
+}
+
+.select-select {
+    display: flex;
+    flex-direction: row;
+    margin: 1rem;
+    margin-top: 0;
+    flex-wrap: wrap;
+}
+
+.select-buottn {
+    margin: 0.3rem 0.3rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    background-color: #ffffffc9;
+    border: 1px solid #00000042;
+    border-radius: 0.6rem;
+    padding: 0 1rem;
+}
+
+.select-buottn:hover {
+    background-color: #0091ff1f;
+    cursor: pointer;
+}
+
+.select-buottn.selected {
+    background-color: #0091ff6b;
+}
+
+.bing>* {
+    animation: none;
+}
+
+.adaptiveCardsFatherDIV,
+.my>.bobo {
+    max-width: none;
+    display: block;
+    margin-bottom: 0rem;
+    background-color: #ffffff00;
+}
+
+.bing {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 1rem;
+}
+
+#chat {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    min-height: 8rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    flex: 1;
+}
+
+#chat-div {
+    min-width: 20rem;
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+}
+
+.bing>.sourceAttributions {
+    display: inline-flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    background-color: #ffffff00;
+    align-items: flex-start;
+}
+
+#chat>.my,
+#chat>.bing>.InternalSearchQuery,
+#chat>.bing>.InternalLoaderMessage,
+#chat>.bing>.sourceAttributions,
+#chat .adaptiveCardsFatherDIV .throttling{
+    display: none;
 }
