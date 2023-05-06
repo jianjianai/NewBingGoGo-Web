@@ -1,5 +1,5 @@
 let cookies = [
-    
+
 ]
 
 export default {
@@ -25,7 +25,7 @@ async function handleRequest(request) {
     if (path.startsWith('/msrewards/api/v1/enroll')) { //加入候补
         return goUrl(request, "https://www.bing.com/msrewards/api/v1/enroll" + url.search);
     }
-    if (path.startsWith('/images/create')) { //AI画图
+    if (path === '/images/create') { //AI画图
         return goUrl(request, "https://www.bing.com/images/create" + url.search, {
             "sec-fetch-site": "same-origin",
             "referer": "https://www.bing.com/search?q=bingAI"
