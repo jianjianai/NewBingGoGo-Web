@@ -9,26 +9,12 @@ export default {
 }
 
 /**
- * 去掉协议和主机头
- * @param {string} url
- * @return string
- * */
-function urlToOder(url){
-    let w = url.split('/',3);
-    let left = '';
-    w.forEach((e)=>{
-        left = left+'/'+e;
-    });
-    left = left.substring(1);
-    return url.replace(left,'');
-}
-
-/**
  * Respond to the request
  * @param {Request} request
  */
 async function handleRequest(request) {
-    let path = urlToOder(request.url);
+    let url = new URL(request.url);
+    let path = url.pathname;
 
     if (path === '/sydney/ChatHub') { //魔法聊天
         return bingChatHub(request)
@@ -36,22 +22,27 @@ async function handleRequest(request) {
     if (path === "/turing/conversation/create") { //创建聊天
         return goUrl(request, "https://www.bing.com/turing/conversation/create");
     }
-    if (path.startsWith('/msrewards/api/v1/enroll?')) { //加入候补
-        let a = request.url.split("?");
-        return goUrl(request, "https://www.bing.com/msrewards/api/v1/enroll?" + a[1]);
+    if (path.startsWith('/msrewards/api/v1/enroll')) { //加入候补
+        return goUrl(request, "https://www.bing.com/msrewards/api/v1/enroll" + url.search);
     }
-    if (path.startsWith('/images/create?')) { //AI画图
-        let a = request.url.split("?");
-        return goUrl(request, "https://www.bing.com/images/create?" + a[1], {
+    if (path.startsWith('/images/create')) { //AI画图
+        return goUrl(request, "https://www.bing.com/images/create" + url.search, {
             "sec-fetch-site": "same-origin",
             "referer": "https://www.bing.com/search?q=bingAI"
         });
     }
     if (path.startsWith('/images/create/async/results')) { //请求AI画图图片
-        let a = path.replace('/images/create/async/results', "https://www.bing.com/images/create/async/results");
-        return goUrl(request, a, {
+        url.hostname = "www.bing.com";
+        return goUrl(request, url.toString(), {
             "sec-fetch-site": "same-origin",
             "referer": "https://www.bing.com/images/create?partner=sydney&showselective=1&sude=1&kseed=7000"
+        });
+    }
+    if (path.startsWith('/rp')) { //显示AI画图错误提示图片
+        url.hostname = "www.bing.com";
+        return goUrl(request, url.toString(), {
+            "sec-fetch-site": "same-origin",
+            "referer": "https://www.bing.com/search?q=bingAI"
         });
     }
     //用于测试
@@ -101,13 +92,8 @@ async function goUrl(request, url, addHeaders) {
     //保留头部信息
     let reqHeaders = new Headers(request.headers);
     let dropHeaders = ["user-agent", "accept", "accept-language"];
-    let he = reqHeaders.entries();
-    for (let h of he) {
-        let key = h[0],
-            value = h[1];
-        if (dropHeaders.includes(key)) {
-            fp.headers[key] = value;
-        }
+    for (let h of dropHeaders) {
+        fp.headers[h] = reqHeaders.get(h);
     }
     if (addHeaders) {
         //添加头部信息
