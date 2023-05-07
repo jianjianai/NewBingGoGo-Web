@@ -1,5 +1,6 @@
 import generateImages from "../aToos/generateImages.js";
 import nBGGFetch from "../aToos/nBGGFetch.js";
+import SwitchWorker from "../SwitchWorker.js";
 
 /**
  * 解析消息的对象
@@ -378,6 +379,21 @@ export default class ParserReturnWorker {
     porserTextBlock(body, father) {
         if (!body.size) {
             let div = this.getByClass('textBlock', 'div', father, 'markdown-body');
+
+            //如果新的内容长度小于旧的内容，则内容被撤回了。将就的内容冻结。并将新的内容输出。
+            if(div.dataset.text && div.dataset.text.length>body.text.length){
+                div.classList.remove('textBlock');
+                div.classList.add('textBlockDeleted');
+                let endDiv = document.createElement('div');
+                endDiv.classList.add('textBlockDeletedEnd');
+                endDiv.innerHTML = '[以上被撤回的信息可能包不适宜的内容，已被隐藏。] <input type="checkbox">显示'
+                insertAfter(endDiv,div);
+                let newDiv = this.getByClass('textBlock', 'div', father, 'markdown-body');
+                insertAfter(newDiv,endDiv);
+                div = newDiv;
+            }
+
+            div.dataset.text = body.text;
             div.innerHTML = marked.marked(this.completeCodeBlock(body.text));
             renderMathInElement(div,this.renderMathInElementOptions);
             let aaas = div.getElementsByTagName('a');
@@ -401,6 +417,7 @@ export default class ParserReturnWorker {
             //原本bing官网的small并没有输出
         }
     }
+
     /*
     添加单行简单文本
     */
@@ -433,5 +450,20 @@ export default class ParserReturnWorker {
             console.debug('chatSuggestionsWorker为null');
         }
 
+    }
+}
+
+
+/**
+ * 在指定元素后面插入新元素
+ * @param {Element} newElement
+ * @param {Element} targetElement
+ * */
+function insertAfter(newElement,targetElement){
+    let parent = targetElement.parentNode;
+    if(parent.lastChild === targetElement){
+        parent.appendChild(newElement);
+    }else{
+        parent.insertBefore(newElement,targetElement.nextSibling);
     }
 }

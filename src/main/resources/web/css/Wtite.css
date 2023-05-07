@@ -377,7 +377,21 @@ body {
     transition: all 0.3s;
 }
 
+/*不适宜的内容部分*/
+.textBlockDeleted{
+    height: 0;
+    margin: 0;
+    border-bottom: 1px solid #ff821391;
+    background-color: #ff8d000f;
+    /*transition: height 0.5s;*/
+}
+.textBlockDeletedEnd{
+    color: #ff8300;
+}
 
+.adaptiveCardsFatherDIV:has(.textBlockDeletedEnd>input:checked)>.textBlockDeleted{
+    height: unset;
+}
 
 /* 错误部分 */
 

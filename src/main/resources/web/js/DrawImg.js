@@ -41,6 +41,11 @@ window.addEventListener('load',()=>{
             img.onclick = ()=>{
                 window.open(v.img);
             }
+            //在低分辨率图片加载完成后替换成高分辨率图片
+            img.onload = ()=>{
+                img.onload = undefined;
+                img.src = v.img;
+            }
         });
         isDrawing = false;
         startDraw.innerText = '开始作图';
