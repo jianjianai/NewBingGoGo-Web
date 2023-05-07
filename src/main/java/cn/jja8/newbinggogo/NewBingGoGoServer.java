@@ -70,10 +70,20 @@ public class NewBingGoGoServer extends NanoWSD {
             HashMap<String,String> he = new HashMap<>();
             he.put("sec-fetch-site","same-origin");
             he.put("referer","https://www.bing.com/images/create?partner=sydney&showselective=1&sude=1&kseed=7000");
-            Response re = goUrl(session, gogoUrl,he);
-            re.setMimeType("text/html");
-            return re;
+            return goUrl(session, gogoUrl,he);
         }
+
+        if(url.startsWith("/rp")){
+            System.out.println(ip+":请求AI画图错误图片");
+            String gogoUrl = url.replace("/rp","https://www.bing.com/rp");
+            gogoUrl = gogoUrl+"?"+session.getQueryParameterString();
+            HashMap<String,String> he = new HashMap<>();
+            he.put("sec-fetch-site","same-origin");
+            he.put("referer","https://www.bing.com/search?q=bingAI");
+            return goUrl(session, gogoUrl,he);
+        }
+
+
         //用于测试
         if(url.startsWith("/test/")){
             String gogoUrl = url.replace("/test/","");
@@ -229,13 +239,14 @@ public class NewBingGoGoServer extends NanoWSD {
             urlConnection.disconnect();
             return getReturnError(e);
         }
+        String contentType = urlConnection.getContentType();
         urlConnection.disconnect();
 
         //创建用于输出的流
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
         Response response = NanoHTTPD.newFixedLengthResponse(
                 Response.Status.OK,
-                "application/json",
+                contentType,
                 byteArrayInputStream,
                 len
         );
