@@ -151,7 +151,7 @@ window.addEventListener('load',()=>{
         if (isSpeaking) {
             return;
         }
-        parserReturnMessage.addMyChat(text);
+        parserReturnMessage.setMyChat(text);
         if (!bingChat.isStart()) {
             isAskingToMagic();
             try {

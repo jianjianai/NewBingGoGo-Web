@@ -12,20 +12,22 @@ export default class CueWordWorker {
         this.cueWordSelectsList = cueWordSelectsList;
         this.cueWordSelected = cueWordSelected;
         this.cueWordSearchInput = cueWordSearchInput;
-        //添加和删除提示词
 //添加提示词
         cueWordSelectsList.onclick = (exent)=>{
             if(exent.target.parentElement === cueWordSelectsList){
                 cueWordSelected.appendChild(exent.target);
                 //exent.target.style.display = 'inline-block';
+                this.onChange();
             }
         }
 //取消选择提示词
         cueWordSelected.onclick = (exent)=>{
             if(exent.target.parentElement === cueWordSelected){
                 cueWordSelectsList.appendChild(exent.target);
+                this.onChange();
             }
         }
+
 //搜索提示词
         cueWordSearchInput.oninput = ()=>{
             let lis = cueWordSelectsList.getElementsByTagName("li");
@@ -66,15 +68,21 @@ export default class CueWordWorker {
         }
     }
 
-//获取提示词文本
-    getCutWordString(){
+//获取提示词处理后的文本
+    /**
+     * @param text 消息
+     * @return {string}
+     */
+    getCutWordString(text){
         let lis = this.cueWordSelected.getElementsByTagName("li");
-        let string = '';
-        for(let i=0;i<lis.length;i++){
-            let li = lis[i];
-            string = string+";"+li.dataset.word;
+        if(lis.length>0){
+            for(let i=0;i<lis.length;i++){
+                let li = lis[i];
+                let reg = new RegExp(li.dataset.replaceRegExp,'g');
+                text = text.replaceAll(reg,li.dataset.replaceTo);
+            }
         }
-        return string;
+        return text;
     }
 
 //加载提示词,从本地和网络
@@ -82,28 +90,27 @@ export default class CueWordWorker {
         try{
             let re = await nBGGFetch(this.url);
             let cueWords = await re.json();
+
             for(let i=0;i<cueWords.length;i++){
                 let cue = cueWords[i];
                 let li = document.createElement('li');
-
-                //加载tags
-                let tags = cue.tags;
-                let tagsString = '';
-                for(let j=0;j<tags.length;j++){
-                    let tag = tags[j];
-                    tagsString = tagsString+tag+'|'
+                li.innerHTML = cue.name;
+                //加载自定义数据
+                for(let t in cue){
+                    li.dataset[t] = cue[t];
                 }
-                li.dataset.tags = tagsString;
-
-                //加载word
-                li.dataset.word = cue.word;
-                //加载name
-                li.innerText = cue.name;
-
                 this.cueWordSelectsList.appendChild(li);
             }
         }catch(r){
             console.warn(r);
         }
+    }
+
+
+    /**
+     * 有当提示词更新时
+     */
+    onChange(){
+        console.debug('onChange没重写');
     }
 }

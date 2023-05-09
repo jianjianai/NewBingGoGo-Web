@@ -311,12 +311,24 @@ body:has(.my) #restart {
 
 /* 提示词 */
 
-#tail.open #input-div #cueWord-box{
-    top: -25.5rem;
-    height: 25rem;
+body:has(#tail.open) .preview{
+    margin-bottom: 15rem;
+}
+
+body:has(.preview) #tail.open #input-div #cueWord-box{
+    top: -5.5rem;
+    height: 5rem;
+}
+
+#tail.open #input-div #cueWord-box,
+body:has(.preview) #tail.open #input-div #cueWord-box:hover{
     opacity: 1;
     box-shadow: #00000052 0rem 0rem 0.5rem;
+    top: -25.5rem;
+    height: 25rem;
 }
+
+
 #cueWord-box{
     position: absolute;
     top: 0rem;
@@ -416,13 +428,21 @@ div#cueWord-search{
 }
 
 @media screen and (max-height:52rem){
-    #tail.open #input-div #cueWord-box{
+    #tail.open #input-div #cueWord-box,
+    body:has(.preview) #tail.open #input-div #cueWord-box:hover {
         top: -51vh;
         height: 50vh;
+    }
+    body:has(.preview) #tail.open #input-div #cueWord-box{
+        top: -5.5rem;
+        height: 5rem;
     }
     #tail.open #input-div{
         max-height: 40vh;
         top: -12.5vh;
+    }
+    body:has(#tail.open) .preview{
+        margin-bottom: 28vh;
     }
 }
 
@@ -644,6 +664,12 @@ body {
     max-width: 90%;
     margin-bottom: 1rem;
     text-align: left;
+}
+.my.preview>.bobo{
+    opacity: 70%;
+}
+.preview{
+    transition: all 0.5s;
 }
 
 .adaptiveCardsFatherDIV .throttling {
