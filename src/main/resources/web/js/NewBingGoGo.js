@@ -77,6 +77,7 @@ window.addEventListener('load',()=>{
     let onMessageIsOKClose = false;//消息是否正常接收完毕
     let returnMessage; //聊天返回对象
     let isSpeaking = false; //是否正在接收消息
+    let previewMessageID = undefined; //预览消息id，如果没有预览消息就undefined
 
 
     //当打开聊天记录时
@@ -182,12 +183,17 @@ window.addEventListener('load',()=>{
         isSpeaking = false;
     }
 
+    /**
+     * 发送消息
+     * @param text {string}
+     * */
     async function send(text) {
         if (isSpeaking) {
             return;
         }
         chatModeSwitchingManager.hide();
-        parserReturnMessage.addMyChat(text);
+        parserReturnMessage.setMyChat(text,previewMessageID,false);
+        previewMessageID = undefined;
         if (!bingChat.isStart()) {
             isAskingToMagic();
             try {
@@ -218,14 +224,40 @@ window.addEventListener('load',()=>{
     }
     chatSuggestionsManager.onSend = send;
 
+    /**
+     * 提示词改变也预览
+     * */
+    cueWordManager.onChange = ()=>{
+        onPreview();
+    }
+
+    /**
+     * 获取消息
+     * */
+    function getSendMessage(){
+        let text = input_text.value;
+        //连接提示词
+        return  cueWordManager.getCutWordString(text);
+    }
+
+    /**
+     * 当预览时候
+     * */
+    function onPreview(){
+        previewMessageID = parserReturnMessage.setMyChat(getSendMessage(),previewMessageID,true);
+        input_update_input_text_sstyle_show_update();
+    }
+
+    /**
+     * 当发送时候
+     * */
     function onSend(){
         if (isSpeaking) {
             return;
         }
-        let text = input_text.value;
+        let text = getSendMessage();
+        //清空输入框
         input_text.value = '';
-        //连接提示词
-        text = text+cueWordManager.getCutWordString();
         //清空提示词
         cueWordManager.clearCutWordString();
 
@@ -262,20 +294,22 @@ window.addEventListener('load',()=>{
 
 
     //发送按钮出现逻辑
-    function input_update_input_text_sstyle_show_update(v) {
-        if (v.target.value) {
+    function input_update_input_text_sstyle_show_update() {
+        if (getSendMessage()) {
             send_button.style.opacity = '1';
         } else {
             send_button.style.opacity = '0';
         }
     }
-    input_text.addEventListener("input", input_update_input_text_sstyle_show_update);
+    input_text.addEventListener("input", ()=>{
+        onPreview();
+    });
 
 
 
 
     reSetStartChatMessage().then();
-    input_update_input_text_sstyle_show_update({ target: input_text });
+    input_update_input_text_sstyle_show_update();
     cueWordManager.loadcueWorld().then();
 });
 
