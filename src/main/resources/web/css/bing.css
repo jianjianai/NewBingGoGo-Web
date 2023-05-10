@@ -468,6 +468,22 @@ body {
     width: 100%;
 }
 
+.CAPTCHAIframeDIV{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.CAPTCHAIframe{
+    min-width: 316px;
+    max-height: 84px;
+    overflow: hidden;
+    border: none;
+    border-radius: 1rem;
+    background-color: #ffffffc4;
+}
+
 /**聊天记录部分*/
 #ChatRecordsListDivOut {
     position: fixed;

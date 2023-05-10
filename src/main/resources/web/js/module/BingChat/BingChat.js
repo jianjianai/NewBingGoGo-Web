@@ -21,7 +21,7 @@ export default class BingChat{
 
     /**
      * 是否已经开始聊天
-     * @return boolean
+     * @return {boolean}
      * */
     isStart(){
         return !!this.bingChating;
@@ -29,9 +29,9 @@ export default class BingChat{
 
     /**
      * 发送消息
-     * @param text 消息文本
-     * @param onMessage 当bing回复时的回调函数
-     * @return ReturnMessage
+     * @param text {String} 消息文本
+     * @param onMessage {function} 当bing回复时的回调函数
+     * @return {ReturnMessage}
      * */
     sendMessage(text, onMessage){
         if (!this.isStart()){
@@ -42,8 +42,8 @@ export default class BingChat{
 
     /**
      开始聊天
-     @param theChatType 聊天选项 默认平衡
-     @return BingChat
+     @param theChatType {'accurate','balance','create'} 聊天选项 默认平衡
+     @return {BingChat}
      @throws Error
      */
     async start(theChatType) {
@@ -95,6 +95,7 @@ export default class BingChat{
             throw error;
         }
         this.bingChating = BingChating.create(this,resjson.conversationId, resjson.clientId, resjson.conversationSignature, theChatType);
+        this.bingChating.cookieID = cookieID;
         return this;
     }
 

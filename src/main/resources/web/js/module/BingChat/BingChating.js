@@ -12,14 +12,15 @@ export default class BingChating {
      */
     bingChat;
     sendMessageManager;
+    cookieID; //默认没有
 
     /**
-     * @param bingChat BingChat对象
-     * @param charID 会话id
-     * @param clientId 客户端id
-     * @param conversationSignature 会话签名
-     * @param theChatType 聊天类型 accurate 或 balance 或 create
-     * @param invocationId 对话id，就是这是第几次对话 可以不传
+     * @param bingChat {BingChat}对象
+     * @param charID {String} 会话id
+     * @param clientId {String} 客户端id
+     * @param conversationSignature {String} 会话签名
+     * @param theChatType {'accurate','balance','create'} 聊天类型 accurate 或 balance 或 create
+     * @param invocationId {number} 对话id，就是这是第几次对话 可以不传
      * */
     static create(bingChat, charID, clientId, conversationSignature, theChatType, invocationId){
         let bingChating = new BingChating();
@@ -28,8 +29,8 @@ export default class BingChating {
         return bingChating;
     }
     /**
-     * @param bingChat BingChat对象
-     * @param sendMessageManager SendMessageManager 对象
+     * @param bingChat {BingChat}对象
+     * @param sendMessageManager {SendMessageManager} 对象
      * */
     static createIn(bingChat, sendMessageManager){
         let bingChating = new BingChating();
@@ -39,19 +40,18 @@ export default class BingChating {
     }
 
     /**
-     * @param message String 发送的消息
-     * @param onMessage function 当收到消息时的回调函数
-     * @return ReturnMessage
-     * @throws Error
+     * @param message {String} 发送的消息
+     * @param onMessage {function} 当收到消息时的回调函数
+     * @return {ReturnMessage}
+     * @throws {Error}
      */
-    //(string,function:可以不传)
     async sendMessage(message, onMessage) {
         let restsrstUrl;
-        if(window.location.protocol==='http:'||window.location.protocol==='https:'){
-            restsrstUrl = `${window.location.origin.replace('http','ws')}/sydney/ChatHub`;
-        }else {
+        if(window.location.protocol==="chrome-extension:"){
             let re = await nBGGFetch(`${window.location.origin}/sydney/ChatHubUrl`);
             restsrstUrl = await re.text();
+        }else {
+            restsrstUrl = `${window.location.origin.replace('http','ws')}/sydney/ChatHub`;
         }
         try {
             let chatWebSocket = new WebSocket(restsrstUrl);
@@ -59,7 +59,9 @@ export default class BingChating {
                 this.sendMessageManager.sendShakeHandsJson(chatWebSocket);
                 this.sendMessageManager.sendChatMessage(chatWebSocket, message);
             }
-            return new ReturnMessage(chatWebSocket, onMessage);
+            let re = new ReturnMessage(chatWebSocket, onMessage);
+            re.bingChating = this;
+            return re;
         } catch (e) {
             console.warn(e);
             throw new Error("无法连接到web服务器，请刷新页面重试:" + e.message);

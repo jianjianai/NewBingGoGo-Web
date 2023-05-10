@@ -74,7 +74,6 @@ window.addEventListener('load',()=>{
 
 
     //定义需要用到的变量
-    let onMessageIsOKClose = false;//消息是否正常接收完毕
     let returnMessage; //聊天返回对象
     let isSpeaking = false; //是否正在接收消息
     let previewMessageID = undefined; //预览消息id，如果没有预览消息就undefined
@@ -87,9 +86,8 @@ window.addEventListener('load',()=>{
             alert("请等待本次对话结束。")
             return;
         }
-        onMessageIsOKClose = true;
         if (returnMessage) {
-            returnMessage.getCatWebSocket().close(1000, 'ok');
+            returnMessage.close();
             returnMessage = undefined;
         }
     }
@@ -110,37 +108,6 @@ window.addEventListener('load',()=>{
             input_text.value += "\n";
         }
     });
-
-
-    function onMessage(json, returnMessage) {
-        if (json.type === "close") {
-            isSpeakingFinish();
-            if (!onMessageIsOKClose) {
-                parserReturnMessage.addError("聊天异常中断了！可能是网络问题。");
-            }
-
-            //保存聊天记录
-            if(chatRecordWorker.isOpen()){
-                chatRecordWorker.save();
-            }
-            return;
-        }
-        if (json.type === 'error') {
-            parserReturnMessage.addError("连接发生错误：" + json.mess);
-            return;
-        }
-        onMessageIsOKClose = false
-        if (json.type === 3) {
-            onMessageIsOKClose = true;
-            returnMessage.getCatWebSocket().close(1000, 'ok');
-        } else if (json.type === 1) {
-            parserReturnMessage.porserArguments(json.arguments);
-        } else if (json.type === 2) {
-            parserReturnMessage.porserType2Item(json.item);
-        } else {
-            console.log(JSON.stringify(json));
-        }
-    }
 
     /**重置聊天框和聊天建议到初始状态 */
     async function reSetStartChatMessage() {
@@ -214,7 +181,15 @@ window.addEventListener('load',()=>{
         }
         try {
             isSpeakingStart();
-            returnMessage = await bingChat.sendMessage(text, onMessage);
+            returnMessage = await bingChat.sendMessage(text, parserReturnMessage.getOnMessageFun((even)=>{
+                if (even.type==='close'||even.type==='close-accident'||even.type==='error') {
+                    isSpeakingFinish();
+                    //保存聊天记录
+                    if(chatRecordWorker.isOpen()){
+                        chatRecordWorker.save();
+                    }
+                }
+            }));
             isSpeakingStart(text);
         }catch (error){
             console.warn(error);
@@ -279,9 +254,8 @@ window.addEventListener('load',()=>{
 
     //开始新主题
     restart_button.onclick = () => {
-        onMessageIsOKClose = true;
         if (returnMessage) {
-            returnMessage.getCatWebSocket().close(1000, 'ok');
+            returnMessage.close();
             returnMessage = undefined;
         }
         bingChat.end();
