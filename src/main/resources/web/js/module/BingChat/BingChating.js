@@ -64,7 +64,11 @@ export default class BingChating {
             return re;
         } catch (e) {
             console.warn(e);
-            throw new Error("无法连接到web服务器，请刷新页面重试:" + e.message);
+            if(e.isNewBingGoGoError){
+                throw new Error(e.message);
+            }else {
+                throw new Error("无法连接到web服务器，请刷新页面重试:" + e.message);
+            }
         }
     }
 }
