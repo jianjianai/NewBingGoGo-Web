@@ -59,11 +59,7 @@ export default class BingChat{
         }
         let cookieID = res.headers.get("cookieID");
         if (res.status === 404) {
-            if(cookieID === 'self'){
-                throw new Error(`当前魔法链接服务所在地区不提供NewBing服务,请切换其他魔法链接服务。`);
-            }else {
-                throw new Error(`服务所在地区不提供NewBing服务，请联系服务搭建者切换服务所在地区，第${cookieID}个账号。`);
-            }
+            throw new Error(`服务所在地区不提供NewBing服务，请联系服务搭建者切换服务所在地区，第${cookieID}个账号。`);
         }
         let rText = await res.text();
         if(rText.length<1){
