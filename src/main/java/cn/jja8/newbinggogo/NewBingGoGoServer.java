@@ -11,6 +11,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -46,8 +47,17 @@ public class NewBingGoGoServer extends NanoWSD {
         String ip = new Date()+":"+getIp(session);
         String url = session.getUri();
         if(url.equals("/turing/conversation/create")){//创建聊天
-            System.out.println(ip+":请求创建聊天");
-            return goUrl(session,"https://www.bing.com/turing/conversation/create");
+            List<String> pars = session.getParameters().get("redirect");
+            if(pars!=null&&pars.size()>0){
+                return redirectTo(pars.get(0));//如果有重定向超时那么就是用于过cf机器验证的请求
+            }
+            //如果是插件请求或者是web请求
+            if(session.getHeaders().containsKey("new_bing_go_go-plug-create")||session.getHeaders().containsKey("newbinggogoweb")){
+                System.out.println(ip+":请求创建聊天");
+                return goUrl(session,"https://www.bing.com/turing/conversation/create");
+            }
+            //如果啥都不是
+            return getReturnError("请升级NewBingGoGo插件到2023.5.13.0以上版本。");
         }
         if(url.equals("/msrewards/api/v1/enroll")){//加入候补
             System.out.println(ip+":请求加入候补");
