@@ -111,12 +111,13 @@ async function goUrl(request, url, addHeaders) {
         }
     }
 
-    //添加配置的随机cookie
-    if (cookies.length === 0) {
-        return getReturnError("没有任何可用cookie，请前在第一行代码cookies变量中添加cookie");
-    }
+
     let cookieID = 0;
     if(reqHeaders.get('NewBingGoGoWeb')){//如果是web版
+        //添加配置的随机cookie
+        if (cookies.length === 0) {
+            return getReturnError("没有任何可用cookie，请前在第一行代码cookies变量中添加cookie");
+        }
         cookieID = Math.floor(Math.random() * cookies.length);
         let userCookieID = reqHeaders.get("cookieID");
         if (userCookieID) {
