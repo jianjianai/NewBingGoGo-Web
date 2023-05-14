@@ -44,7 +44,7 @@ export default class SendMessageManager {
      * @param conversationId 会话id
      * @param clientId 客户端id
      * @param conversationSignature 签名id
-     * @param theChatType 聊天类型，默认平衡 accurate 或 balance 或 create
+     * @param theChatType {"Creative","Balanced","Precise"} 聊天类型，默认平衡 Precise 或 Balanced 或 Creative
      * @param invocationId 对话id，也就是第几次对话
      */
     constructor(bingChat,conversationId, clientId, conversationSignature,theChatType,invocationId) {
@@ -53,7 +53,7 @@ export default class SendMessageManager {
         this.conversationId = conversationId;
         this.clientId = clientId;
         this.conversationSignature = conversationSignature;
-        this.optionsSets = !!theChatType?theChatType:'balance';
+        this.optionsSets = !!theChatType?theChatType:'Balanced';
     }
 
     /**
@@ -86,37 +86,7 @@ export default class SendMessageManager {
      * @return {Promise<void>}
      */
     async sendChatMessage(chatWebSocket, chat) {
-        let optionsSets = this.bingChat.chatOptionsSets.chatTypes[this.optionsSets];
-        if(!optionsSets){
-            optionsSets = this.bingChat.chatOptionsSets.chatTypes.balance;
-            console.warn("不存在的ChatType",this.optionsSets);
-        }
-
-        let json = {
-            "arguments": [{
-                "source": this.bingChat.chatOptionsSets.source,
-                "optionsSets": optionsSets,
-                "allowedMessageTypes": this.bingChat.chatOptionsSets.allowedMessageTypes,
-                "sliceIds": this.bingChat.chatOptionsSets.sliceIds,
-                "verbosity": "verbose",
-                "traceId": this.getUuidNojian(),
-                "isStartOfSession": (this.invocationId <= 1),
-                "message": await this.bingChat.chatOptionsSets.generateMessages(this,chat),
-                "conversationSignature": this.conversationSignature,
-                "participant": {
-                    "id": this.clientId
-                },
-                "conversationId": this.conversationId,
-                "previousMessages": (this.invocationId <= 1) ? await this.bingChat.chatOptionsSets.getPreviousMessages(this.bingChat) : undefined
-            }],
-            "invocationId": this.invocationId.toString(),
-            "target": "chat",
-            "type": 4
-        };
-        await this.sendJson(chatWebSocket, json);
+        await this.sendJson(chatWebSocket,  await this.bingChat.chatOptionsSets.getSendJson(this,chat));
         this.invocationId++;
-    }
-    getUuidNojian() {
-        return URL.createObjectURL(new Blob()).split('/')[3].replace(/-/g, '');
     }
 }

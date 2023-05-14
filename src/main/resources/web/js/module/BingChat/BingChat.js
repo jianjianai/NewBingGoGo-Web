@@ -42,7 +42,7 @@ export default class BingChat{
 
     /**
      开始聊天
-     @param theChatType {'accurate','balance','create'} 聊天选项 默认平衡
+     @param theChatType {"Creative","Balanced","Precise"} 聊天选项 默认平衡
      @return {BingChat}
      @throws Error
      */

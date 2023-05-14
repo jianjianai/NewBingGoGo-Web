@@ -19,7 +19,7 @@ export default class BingChating {
      * @param charID {String} 会话id
      * @param clientId {String} 客户端id
      * @param conversationSignature {String} 会话签名
-     * @param theChatType {'accurate','balance','create'} 聊天类型 accurate 或 balance 或 create
+     * @param theChatType {"Creative","Balanced","Precise"} 聊天类型 Precise 或 Balanced 或 Creative
      * @param invocationId {number} 对话id，就是这是第几次对话 可以不传
      * */
     static create(bingChat, charID, clientId, conversationSignature, theChatType, invocationId){
