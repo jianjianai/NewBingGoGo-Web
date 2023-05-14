@@ -128,7 +128,7 @@ window.addEventListener('load',()=>{
         if (!bingChat.isStart()) {
             isAskingToMagic();
             try {
-                await bingChat.start('balance');
+                await bingChat.start('Balanced');
             }catch (error){
                 console.warn(error);
                 parserReturnMessage.addError(error.message);
