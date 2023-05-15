@@ -8,7 +8,7 @@
 ![](./docs/img/1.png)
 
 演示站点：
-- java https://newbinggogo-web.zeabur.app/
+- java https://chat.jja8.cn/
 - cloudflareWorker.js https://bingweb.jja8.cn/
 
 ## 功能介绍
