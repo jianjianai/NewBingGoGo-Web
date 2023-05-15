@@ -43,65 +43,29 @@
         }
         #display > h1{
             margin: 0 0 0.5rem 0;
+            font-size: 1rem;
         }
-        #display > h3{
-            margin: 0 0 0.5rem 0;
-        }
-        #imgs{
-            display: flex;
-            flex-direction: row;
-            align-items: stretch;
-            flex-wrap: wrap;
-        }
-        #imgs>img{
-            display: block;
-            width: 48%;
-            margin: 1%;
-            transition: all 0.8s;
-            cursor: pointer;
-        }
-
-        #imgs>img:hover{
-            margin: 0.5% 1.5% 1.5% 0.5%;
-            box-shadow: #00000087 0.2rem 0.2rem 1rem 0px;
-            transition: all 0.3s;
-        }
-
-
-        /* 窄窗口 */
-        @media screen and (max-width:550px){
-            #imgs>img{
-                display: block;
-                width: 98%;
-                margin: 1%;
-            }
+        #img{
+            height: 6rem;
         }
         /*手机 css*/
         @media screen and (orientation:portrait) and (max-device-width:800px) and (max-device-height:1000px){
             :root {
                 font-size: 2rem;
             }
-            #imgs>img{
-                display: block;
-                width: 98%;
-                margin: 1%;
-            }
-            #display{
-                max-width:98vw;
-            }
         }
     </style>
-    <script src="./js/other/stats.js"  async="async"></script>
+    <script src="./js/ChatImgCAPTCHA.js" type="module"></script>
+    <script src="./js/other/stats.js" async="async"></script>
 </head>
 <body>
 <div id="background">
     <div id="display">
-        <h1>生成的图片</h1>
-        <h2 id="createMessage">未知生成语句</h2>
-        <div id="imgs"></div>
+        <h1 id="h1">验证码</h1>
+        <img id="img">
+        <input type="text" id="input">
+        <input type="button" value="提交" id="sub">
     </div>
-
 </div>
-<script src="./js/imgs.js"></script>
 </body>
 </html>

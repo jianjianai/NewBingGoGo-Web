@@ -1,5 +1,6 @@
 import nBGGFetch from "../aToos/nBGGFetch.js";
 import BingChating from "./BingChating.js";
+import CookieID from "../CookieID.js";
 
 export default class BingChat{
     bingChating;
@@ -10,6 +11,8 @@ export default class BingChat{
     constructor(chatFirstMessages, chatOptionsSets) {
         this.chatFirstMessages = chatFirstMessages;
         this.chatOptionsSets = chatOptionsSets;
+
+
     }
 
     /**
@@ -52,7 +55,8 @@ export default class BingChat{
         }
         let res
         try {
-            res = await nBGGFetch(`${window.location.origin}/turing/conversation/create`);
+            res = await nBGGFetch(`${window.location.origin}/turing/conversation/create`,
+                !CookieID.cookieID?undefined:{headers:{"cookieID":CookieID.cookieID}});
         } catch (e) {
             console.warn(e);
             throw e.isNewBingGoGoError?e:new Error("无法连接到web服务器，请刷新页面重试:" + e.message);
@@ -87,11 +91,10 @@ export default class BingChat{
             }
             let error = new Error(mess);
             error.type = type;
-            error.cookieID = cookieID;
             throw error;
         }
         this.bingChating = BingChating.create(this,resjson.conversationId, resjson.clientId, resjson.conversationSignature, theChatType);
-        this.bingChating.cookieID = cookieID;
+        CookieID.cookieID = cookieID;
         return this;
     }
 

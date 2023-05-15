@@ -31,6 +31,14 @@ async function handleRequest(request) {
         //如果啥都不是
         return getReturnError("请升级NewBingGoGo插件到2023.5.13.0以上版本。");
     }
+
+    if(path==="/edgesvc/turing/captcha/create"){//请求验证码图片
+        return goUrl(request,"https://edgeservices.bing.com/edgesvc/turing/captcha/create");
+    }
+    if(path==="/edgesvc/turing/captcha/verify"){//提交验证码
+        return goUrl(request,"https://edgeservices.bing.com/edgesvc/turing/captcha/verify?"+ url.search);
+    }
+
     if (path.startsWith('/msrewards/api/v1/enroll')) { //加入候补
         return goUrl(request, "https://www.bing.com/msrewards/api/v1/enroll" + url.search);
     }
@@ -121,7 +129,7 @@ async function goUrl(request, url, addHeaders) {
         cookieID = Math.floor(Math.random() * cookies.length);
         let userCookieID = reqHeaders.get("cookieID");
         if (userCookieID) {
-            if (userCookieID >= 0 && userCookieID < cookies.length) {
+            if (userCookieID >= 0 && userCookieID < cookies.length-1) {
                 cookieID = userCookieID;
             } else {
                 return getReturnError("cookieID不存在，请刷新页面测试！");

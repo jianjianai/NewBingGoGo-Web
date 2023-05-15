@@ -1,4 +1,5 @@
 import nBGGFetch from "./nBGGFetch.js";
+import CookieID from "../CookieID.js";
 
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 /**
@@ -17,7 +18,8 @@ export default async function generateImages(text,requestId,countF){
     theUrls.append('q', text);
     theUrls.append('iframeid', requestId);
     let theUrl = `${window.location.origin}/images/create?${theUrls.toString()}`;
-    let response  = await nBGGFetch(theUrl);
+    let response  = await nBGGFetch(theUrl,
+        CookieID.cookieID?{headers:{"cookieID":CookieID.cookieID}}:undefined);
     let html = (await response.text());
     let cookieID = response.headers.get('cookieID');
 

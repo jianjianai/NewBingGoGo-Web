@@ -1,5 +1,6 @@
 import generateImages from "../aToos/generateImages.js";
 import nBGGFetch from "../aToos/nBGGFetch.js";
+import CookieID from "../CookieID.js";
 
 /**
  * 解析消息的对象
@@ -15,6 +16,7 @@ export default class ParserReturnWorker {
         this.chatSuggestionsWorker = chatSuggestionsWorker;
         this.chatDiv = chatDiv;
         this.chatDiv.parserReturnWorker = this;//用于调试
+        // this.chatDiv.CookieID = CookieID;//用于调试
     }
     /**
      (id,元素的tag,父元素,创建时顺便添加的class:可以多个)
@@ -162,14 +164,15 @@ export default class ParserReturnWorker {
                 this.addError(result.message);
                 if(window.location.protocol==="chrome-extension:"){
                     this.addError('当前账号请求过多，需要通过机器人检查！需要科学上网！无法通过请等待24小时后再试。');
-                    this.addCAPTCHA();
                 }else {
-                    if(returnMessage && returnMessage.bingChating && returnMessage.bingChating.cookieID){
-                        this.addError(`当前账号请求过多，需要通过机器人检查！第${returnMessage.bingChating.cookieID}个账号`);
-                    }else {
-                        this.addError(`当前账号请求过多，需要通过机器人检查！`);
-                    }
+                    this.addError(`当前账号请求过多，需要通过机器人检查！第${CookieID.cookieID}个账号`);
                 }
+                let rURL = new URL(window.location.href);
+                rURL.searchParams.set("cookieID",CookieID.cookieID);
+                let p = new URLSearchParams();
+                p.append("cookieID",CookieID.cookieID);
+                p.append("redirect",rURL.href);
+                this.addError(`<p><a href="./ChatImgCAPTCHA.html?${p.toString()}">点击前往验证</a></p>`)
             }else{
                 this.addError(result.message);
                 this.addError('发生未知错误！');
@@ -485,22 +488,6 @@ export default class ParserReturnWorker {
             console.debug('chatSuggestionsWorker为null');
         }
 
-    }
-
-    /**
-     * 添加机器人检查验证
-     * */
-    addCAPTCHA() {
-       let div = this.getByID(new Date().getTime()+'CAPTCHA','div',this.chatDiv);
-
-       // let div = document.createElement('div');
-       // document.getElementById('chat').appendChild(div);
-
-       div.classList.add('CAPTCHAIframeDIV');
-       let iframe = document.createElement('iframe');
-       iframe.classList.add('CAPTCHAIframe');
-       iframe.src = 'https://www.bing.com/turing/captcha/challenge';
-       div.appendChild(iframe);
     }
 
     /**
