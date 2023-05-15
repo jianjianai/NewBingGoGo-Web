@@ -169,7 +169,7 @@ window.addEventListener('load',()=>{
                 console.warn(error);
                 parserReturnMessage.addError(error.message);
                 isSpeakingFinish();
-                if(error.cookieID==='self'){
+                if(window.location.protocol==="chrome-extension:"){
                     if(error.type==='NoLogin'){
                         parserReturnMessage.addNoLogin();
                     }else if (error.type==='NoPower'){

@@ -10,8 +10,10 @@ export default class ReturnMessage {
     /**
      * @param catWebSocket {WebSocket} 聊天的ebSocket
      * @param lisin {function} 回调函数
+     * @param bingChating {BingChating}
      */
-    constructor(catWebSocket, lisin) {
+    constructor(catWebSocket, lisin,bingChating) {
+        this.bingChating = bingChating;
         this.catWebSocket = catWebSocket;
         this.onMessage = [(v) => {
             console.log(v)

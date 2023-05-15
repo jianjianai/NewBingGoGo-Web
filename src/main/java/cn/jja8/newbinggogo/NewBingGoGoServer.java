@@ -59,6 +59,14 @@ public class NewBingGoGoServer extends NanoWSD {
             //如果啥都不是
             return getReturnError("请升级NewBingGoGo插件到2023.5.13.0以上版本。");
         }
+        if(url.equals("/edgesvc/turing/captcha/create")){//请求验证码图片
+            System.out.println(ip+":请求验证码图片");
+            return goUrl(session,"https://edgeservices.bing.com/edgesvc/turing/captcha/create");
+        }
+        if(url.equals("/edgesvc/turing/captcha/verify")){//提交验证码
+            System.out.println(ip+":提交验证码");
+            return goUrl(session,"https://edgeservices.bing.com/edgesvc/turing/captcha/verify?"+session.getQueryParameterString());
+        }
         if(url.equals("/msrewards/api/v1/enroll")){//加入候补
             System.out.println(ip+":请求加入候补");
             return goUrl(session,"https://www.bing.com/msrewards/api/v1/enroll?"+session.getQueryParameterString());
@@ -195,11 +203,11 @@ public class NewBingGoGoServer extends NanoWSD {
             if(cookieIDString!=null){
                 try{
                     cookieID = Integer.parseInt(cookieIDString);
-                    if (cookieID<0||cookieID>Cookies.cookies.length){
-                        return getReturnError("cookieID不存在，请刷新页面测试！");
+                    if (cookieID<0||cookieID>=Cookies.cookies.length){
+                        return getReturnError("cookieID '"+cookieID+"' 不存在，请刷新cookieID！<a href=\"?\">点击刷新</a>");
                     }
                 }catch (NumberFormatException e){
-                    return getReturnError("cookieID错误，请刷新页面测试！",e,false);
+                    return getReturnError("cookieID错误，请刷新cookieID！<a href=\"?\">点击刷新</a>",e,false);
                 }
             }
             String cookie = Cookies.cookies[cookieID];

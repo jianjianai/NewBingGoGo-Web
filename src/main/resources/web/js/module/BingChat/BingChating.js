@@ -12,7 +12,6 @@ export default class BingChating {
      */
     bingChat;
     sendMessageManager;
-    cookieID; //默认没有
 
     /**
      * @param bingChat {BingChat}对象
@@ -59,9 +58,7 @@ export default class BingChating {
                 this.sendMessageManager.sendShakeHandsJson(chatWebSocket);
                 this.sendMessageManager.sendChatMessage(chatWebSocket, message);
             }
-            let re = new ReturnMessage(chatWebSocket, onMessage);
-            re.bingChating = this;
-            return re;
+            return new ReturnMessage(chatWebSocket, onMessage, this);
         } catch (e) {
             console.warn(e);
             if(e.isNewBingGoGoError){

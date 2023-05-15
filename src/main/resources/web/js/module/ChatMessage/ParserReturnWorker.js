@@ -1,5 +1,6 @@
 import generateImages from "../aToos/generateImages.js";
 import nBGGFetch from "../aToos/nBGGFetch.js";
+import CookieID from "../CookieID.js";
 
 /**
  * 解析消息的对象
@@ -15,6 +16,29 @@ export default class ParserReturnWorker {
         this.chatSuggestionsWorker = chatSuggestionsWorker;
         this.chatDiv = chatDiv;
         this.chatDiv.parserReturnWorker = this;//用于调试
+        // this.chatDiv.CookieID = CookieID;//用于调试
+
+        //用于更新消息卡片
+        window.addEventListener('message',(event)=>{
+            let data = event.data;
+            if (data.type==="AnswerCardDimensionUpdate" ||
+                data.type==="AnswerCardResize"){
+                let cardF = document.getElementById(data.data.iframeid);
+                let card = document.getElementById(data.data.iframeid+"Card");
+                if(card){
+                    card.style.width = data.data.width+'px';
+                    card.style.height = data.data.height+'px';
+                }
+                if(cardF){
+                    if(data.data.width<0||data.data.height<=0){
+                        cardF.classList.add("onshow");
+                    }else {
+                        cardF.classList.remove("onshow")
+                    }
+                }
+
+            }
+        });
     }
     /**
      (id,元素的tag,父元素,创建时顺便添加的class:可以多个)
@@ -162,14 +186,15 @@ export default class ParserReturnWorker {
                 this.addError(result.message);
                 if(window.location.protocol==="chrome-extension:"){
                     this.addError('当前账号请求过多，需要通过机器人检查！需要科学上网！无法通过请等待24小时后再试。');
-                    this.addCAPTCHA();
                 }else {
-                    if(returnMessage && returnMessage.bingChating && returnMessage.bingChating.cookieID){
-                        this.addError(`当前账号请求过多，需要通过机器人检查！第${returnMessage.bingChating.cookieID}个账号`);
-                    }else {
-                        this.addError(`当前账号请求过多，需要通过机器人检查！`);
-                    }
+                    this.addError(`当前账号请求过多，需要通过机器人检查！第${CookieID.cookieID}个账号`);
                 }
+                let rURL = new URL(window.location.href);
+                rURL.searchParams.set("cookieID",CookieID.cookieID);
+                let p = new URLSearchParams();
+                p.append("cookieID",CookieID.cookieID);
+                p.append("redirect",rURL.href);
+                this.addError(`<p><a href="./ChatImgCAPTCHA.html?${p.toString()}">点击前往验证</a></p>`)
             }else{
                 this.addError(result.message);
                 this.addError('发生未知错误！');
@@ -259,26 +284,26 @@ export default class ParserReturnWorker {
     解析渲染卡片请求，暂时不知道如何解析这个请求,就先判断里面有没有内容吧！没有就不显示。
     */
     renderCardRequest(message,father){
-        if(father[message.messageId+'renderCardRequest']){//防止解析多次
+        let messageId = message.messageId;
+        if(father[messageId+'renderCardRequest']){//防止解析多次
             return;
         }
-        father[message.messageId+'renderCardRequest'] = true;
+        father[messageId+'renderCardRequest'] = true;
 
         let url = 'https://www.bing.com/search?'
         let theUrls = new URLSearchParams();
         theUrls.append("showselans",1);
         theUrls.append("q",message.text);
-        theUrls.append("iframeid",message.messageId);
+        theUrls.append("iframeid",messageId);
         let src = url+theUrls.toString();
 
-        nBGGFetch(src,undefined,true).then(async (ret)=>{
-            let html = await ret.text();
-            // b_poleContent pc设备  || b_ans b_imgans 移动设备
-            if(html.indexOf('class="b_poleContent"')>=0 || html.indexOf('class="b_ans')>=0){
-                let div = this.getByID(message.messageId, 'div', father, 'RenderCardRequest');
-                div.innerHTML = `<iframe role="presentation" src="${src}"></iframe>`;
-            }
-        });
+        let div = this.getByID(messageId, 'div', father, 'RenderCardRequest');
+        div.classList.add("onshow");
+        let iframe = document.createElement('iframe');
+        iframe.id= messageId+"Card";
+        iframe.role = 'presentation';
+        iframe.src = src;
+        div.appendChild(iframe);
     }
 
 
@@ -485,22 +510,6 @@ export default class ParserReturnWorker {
             console.debug('chatSuggestionsWorker为null');
         }
 
-    }
-
-    /**
-     * 添加机器人检查验证
-     * */
-    addCAPTCHA() {
-       let div = this.getByID(new Date().getTime()+'CAPTCHA','div',this.chatDiv);
-
-       // let div = document.createElement('div');
-       // document.getElementById('chat').appendChild(div);
-
-       div.classList.add('CAPTCHAIframeDIV');
-       let iframe = document.createElement('iframe');
-       iframe.classList.add('CAPTCHAIframe');
-       iframe.src = 'https://www.bing.com/turing/captcha/challenge';
-       div.appendChild(iframe);
     }
 
     /**

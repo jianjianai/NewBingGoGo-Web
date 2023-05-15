@@ -468,21 +468,6 @@ body {
     width: 100%;
 }
 
-.CAPTCHAIframeDIV{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-.CAPTCHAIframe{
-    min-width: 316px;
-    max-height: 84px;
-    overflow: hidden;
-    border: none;
-    border-radius: 1rem;
-    background-color: #ffffffc4;
-}
 
 /**聊天记录部分*/
 #ChatRecordsListDivOut {
@@ -754,19 +739,25 @@ body {
 }
 
 /*暂时不知道如何解析的渲染卡片请求*/
-.RenderCardRequest {
+.RenderCardRequest.onshow {
+    height: 0;
+    width: 0;
+    padding: 0;
+    margin: 0;
+    transform: translate(-4rem, 1rem);
+    opacity: 0;
+}
+.RenderCardRequest{
     border-radius: 1em;
     background-color: white;
     overflow: auto;
     padding: 1em;
-    width: 90%;
-    max-width: 1100px;
+    max-width: 90%;
+    transform: none;
+    transition: 0.5s;
 }
 
 .RenderCardRequest>iframe {
-    min-width: 768px;
-    width: 100%;
-    height: 602px;
     border: 0;
 }
 
