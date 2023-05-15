@@ -20,14 +20,11 @@ export default class ParserReturnWorker {
 
         //用于更新消息卡片
         window.addEventListener('message',(event)=>{
-            console.log(event);
             let data = event.data;
-            console.log(data)
             if (data.type==="AnswerCardDimensionUpdate" ||
                 data.type==="AnswerCardResize"){
                 let cardF = document.getElementById(data.data.iframeid);
                 let card = document.getElementById(data.data.iframeid+"Card");
-                console.log(cardF,card)
                 if(card){
                     card.style.width = data.data.width+'px';
                     card.style.height = data.data.height+'px';
