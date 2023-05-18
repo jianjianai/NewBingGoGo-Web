@@ -46,18 +46,18 @@ public class NewBingGoGoServer extends NanoWSD {
     public Response serveHttp(IHTTPSession session) {
         String ip = new Date()+":"+getIp(session);
         String url = session.getUri();
-        if(url.equals("/turing/conversation/create")){//创建聊天
+
+        if(url.equals("/challenge")){//过cf验证的接口
+            System.out.println(ip+":请求通过验证");
             List<String> pars = session.getParameters().get("redirect");
             if(pars!=null&&pars.size()>0){
-                return redirectTo(pars.get(0));//如果有重定向超时那么就是用于过cf机器验证的请求
+                return redirectTo(pars.get(0));
             }
-            //如果是插件请求或者是web请求
-            if(session.getHeaders().containsKey("new_bing_go_go-plug-create")||session.getHeaders().containsKey("newbinggogoweb")){
-                System.out.println(ip+":请求创建聊天");
-                return goUrl(session,"https://www.bing.com/turing/conversation/create");
-            }
-            //如果啥都不是
-            return getReturnError("请升级NewBingGoGo插件到2023.5.13.0以上版本。");
+            return NanoHTTPD.newFixedLengthResponse(Response.Status.OK,"text/html","验证成功");
+        }
+        if(url.equals("/turing/conversation/create")){//创建聊天
+            System.out.println(ip+":请求创建聊天");
+            return goUrl(session,"https://www.bing.com/turing/conversation/create");
         }
         if(url.equals("/edgesvc/turing/captcha/create")){//请求验证码图片
             System.out.println(ip+":请求验证码图片");
@@ -100,7 +100,6 @@ public class NewBingGoGoServer extends NanoWSD {
             he.put("referer","https://www.bing.com/search?q=bingAI");
             return goUrl(session, gogoUrl,he);
         }
-
 
         //用于测试
         if(url.startsWith("/test/")){
