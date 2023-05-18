@@ -681,6 +681,26 @@ body {
     border-top: 1px solid #0000005c;
 }
 
+.throttling{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.throttling>div{
+    margin-left: 0.5rem;
+    border: 1px solid #707070;
+    border-radius: 1rem;
+    padding: 0 0.5rem;
+    margin-top: 0.3rem;
+}
+.throttling>div.click:hover{
+    cursor: pointer;
+    background-color: rgb(182 196 255 / 51%);
+}
+
 .bing>.sourceAttributions {
     font-size: 0.9rem;
     max-width: 90%;

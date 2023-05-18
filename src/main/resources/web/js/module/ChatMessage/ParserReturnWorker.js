@@ -39,6 +39,19 @@ export default class ParserReturnWorker {
 
             }
         });
+
+        //复制粘贴
+        chatDiv.addEventListener('click', async function(event) {
+            if (event.target.classList.contains("copy-bingcat")) {
+                let messageElement = event.target.parentElement.parentElement.getElementsByClassName('textBlock')[0];
+                await navigator.clipboard.writeText(messageElement.innerText);
+            }
+            if(event.target.classList.contains("copy-bingcat-markdown")){
+                let messageElement = event.target.parentElement.parentElement.getElementsByClassName('textBlock')[0];
+                await navigator.clipboard.writeText(messageElement.dataset.the_markdown_text);
+            }
+        });
+
     }
     /**
      (id,元素的tag,父元素,创建时顺便添加的class:可以多个)
@@ -441,7 +454,7 @@ export default class ParserReturnWorker {
             let div = this.getByClass('textBlock', 'div', father, 'markdown-body');
 
             //如果新的内容长度小于旧的内容，则内容被撤回了。将就的内容冻结。并将新的内容输出。
-            if(div.the_markdown_text && div.the_markdown_text.length>body.text.length){
+            if(div.dataset.the_markdown_text && div.dataset.the_markdown_text.length>body.text.length){
                 div.classList.remove('textBlock');
                 div.classList.add('textBlockDeleted');
                 let endDiv = document.createElement('div');
@@ -453,7 +466,7 @@ export default class ParserReturnWorker {
                 div = newDiv;
             }
 
-            div.the_markdown_text = body.text;
+            div.dataset.the_markdown_text = body.text;
             div.innerHTML = marked.marked(this.completeCodeBlock(body.text));
             renderMathInElement(div,this.renderMathInElementOptions);
             let aaas = div.getElementsByTagName('a');
@@ -472,7 +485,10 @@ export default class ParserReturnWorker {
 
 
             let nxdiv = this.getByClass('throttling', 'div', father);
-            nxdiv.innerHTML = `${this.throttling.numUserMessagesInConversation} / ${this.throttling.maxNumUserMessagesInConversation}`;
+            nxdiv.innerHTML = `
+<div class="copy-bingcat click">复制</div>
+<div class="copy-bingcat-markdown click">复制Markdowm</div>
+<div>${this.throttling.numUserMessagesInConversation} / ${this.throttling.maxNumUserMessagesInConversation}</div>`;
         } else if (body.size === 'small') {
             //原本bing官网的small并没有输出
         }

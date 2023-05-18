@@ -16,20 +16,25 @@ async function handleRequest(request) {
     let url = new URL(request.url);
     let path = url.pathname;
 
+    if(path === '/challenge'){//过验证的接口
+        let r = url.searchParams.get('redirect');
+        if (r){
+            return getRedirect(r);
+        }
+        return new Response(`验证成功`,{
+            status: 200,
+            statusText: 'ok',
+            headers: {
+                "content-type": "text/html; charset=utf-8"
+            }
+        })
+    }
+
     if (path === '/sydney/ChatHub') { //魔法聊天
         return bingChatHub(request)
     }
     if (path === "/turing/conversation/create") { //创建聊天
-        let r = url.searchParams.get('redirect');
-        if (r){
-            return getRedirect(r); //如果有重定向超时那么就是用于过cf机器验证的请求
-        }
-        //如果是插件请求或者是web请求
-        if(request.headers.has('new_bing_go_go-plug-create')||request.headers.has('NewBingGoGoWeb')){
-            return goUrl(request, "https://www.bing.com/turing/conversation/create");
-        }
-        //如果啥都不是
-        return getReturnError("请升级NewBingGoGo插件到2023.5.13.0以上版本。");
+        return goUrl(request, "https://www.bing.com/turing/conversation/create");
     }
 
     if(path==="/edgesvc/turing/captcha/create"){//请求验证码图片

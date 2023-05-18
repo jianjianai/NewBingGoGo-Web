@@ -1,5 +1,11 @@
 [
     {
+        "name":"不要搜索",
+        "tags":"聊天,对话",
+        "replaceRegExp":"^((.*\\n*)*)$",
+        "replaceTo":"$1;不要搜索"
+    },
+    {
         "提示词来源":"https://github.com/PlexPt/awesome-chatgpt-prompts-zh",
         "name":"担任雅思写作考官",
         "tags":"聊天,对话",
