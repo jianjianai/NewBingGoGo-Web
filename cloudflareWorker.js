@@ -134,7 +134,7 @@ async function goUrl(request, url, addHeaders) {
         cookieID = Math.floor(Math.random() * cookies.length);
         let userCookieID = reqHeaders.get("cookieID");
         if (userCookieID) {
-            if (userCookieID >= 0 && userCookieID < cookies.length-1) {
+            if (userCookieID >= 0 && userCookieID <= cookies.length-1) {
                 cookieID = userCookieID;
             } else {
                 return getReturnError("cookieID不存在，请刷新页面测试！");
