@@ -33,6 +33,7 @@ async function start(){
         theH1.innerText = `错误代码:${res.status}原因:${res.statusText}`
         return;
     }
+    let id = res.headers.get('id');
     let blob = await res.blob();
     theImg.src = URL.createObjectURL(blob);
 
@@ -42,7 +43,7 @@ async function start(){
         theImg.src = '';
         let q  = new URLSearchParams();
         q.append("type","visual");
-        q.append("id",getUuid());
+        q.append("id",id);
         q.append("regionId","0");
         q.append("value",theInput.value);
         let res
@@ -60,7 +61,7 @@ async function start(){
             return;
         }
         let json = await res.json();
-        if(json.statusCode===200&&(json.reason==="Solved"||json.reason==="NoChallengeSession")){
+        if(json.statusCode===200&&(json.reason==="Solved")){ // ||json.reason==="NoChallengeSession"
             theH1.innerText = `已解决！✅`;
             theImg.remove();
             theInput.remove();
