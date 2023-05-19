@@ -198,7 +198,7 @@ export default class ParserReturnWorker {
             }else if(result.value === 'CaptchaChallenge'){
                 this.addError(result.message);
                 if(window.location.protocol==="chrome-extension:"){
-                    this.addError('当前账号请求过多，需要通过机器人检查！需要科学上网！无法通过请等待24小时后再试。');
+                    this.addError('当前账号请求过多，需要通过机器人检查！无法通过请等待24小时后再试。');
                 }else {
                     this.addError(`当前账号请求过多，需要通过机器人检查！第${CookieID.cookieID}个账号`);
                 }
