@@ -27,7 +27,7 @@
 
 
 ## 更加强大的插件版
-浏览器插件版的NewBingGoGo，不受到网页的限制，更加强大。可以登录自己的微软账号，更稳定。
+浏览器插件版的NewBingGoGo不受到网页的限制，更加强大。可以登录自己的微软账号，速度更快，更稳定。
 
 [NewBingGoGo : 简单开始和NewBing聊天 gitee](https://gitee.com/jja8/NewBingGoGo)
 
