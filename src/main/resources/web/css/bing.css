@@ -666,6 +666,10 @@ body {
     margin-bottom: 1rem;
     text-align: left;
 }
+.my>.bobo{
+    font-size: 1rem;
+    white-space: pre-wrap;
+}
 .my.preview>.bobo{
     opacity: 70%;
 }
@@ -781,6 +785,31 @@ body {
     border: 0;
 }
 
+/*代码块*/
+pre{
+    position:relative;
+}
+.code-copy::before{
+    content: "复制";
+    border: 1px solid #0000005c;
+    border-radius: .5rem;
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    color: #666;
+    padding: 0 0.4rem;
+    font-size: 0.3rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.code-copy:hover::before{
+    background-color: rgb(182 196 255 / 51%);
+    cursor: pointer;
+}
+
+pre:hover .code-copy::before{
+    opacity: 1;
+}
 
 
 /* 画图部分 */
