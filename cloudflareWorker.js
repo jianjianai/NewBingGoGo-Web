@@ -127,10 +127,12 @@ async function goUrl(request, url, addHeaders) {
         headers: {}
     }
     //保留头部信息
-    let reqHeaders = new Headers(request.headers);
+    let reqHeaders = request.headers;
     let dropHeaders = ["user-agent", "accept", "accept-language"];
     for (let h of dropHeaders) {
-        fp.headers[h] = reqHeaders.get(h);
+        if (reqHeaders.has(h)) {
+            fp.headers[h] = reqHeaders.get(h);
+        }
     }
     if (addHeaders) {
         //添加头部信息
@@ -160,8 +162,13 @@ async function goUrl(request, url, addHeaders) {
         fp.headers["cookie"] = reqHeaders.get('cookie');
     }
 
+    //客户端指定的随机地址
+    let randomAddress = reqHeaders.get("randomAddress");
+    if(!randomAddress){
+        randomAddress = "12.24.144.227";
+    }
     //添加X-forwarded-for
-    fp.headers['X-forwarded-for'] = `${getRndInteger(3,5)}.${getRndInteger(1,255)}.${getRndInteger(1,255)}.${getRndInteger(1,255)}`;
+    fp.headers['X-forwarded-for'] = randomAddress;
 
     let res = await fetch(url, fp);
     let headers = new Headers(res.headers);
@@ -171,11 +178,6 @@ async function goUrl(request, url, addHeaders) {
         statusText:res.statusText,
         headers:headers
     });
-}
-
-//随机数生成
-function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
 }
 
 //获取用于返回的错误信息

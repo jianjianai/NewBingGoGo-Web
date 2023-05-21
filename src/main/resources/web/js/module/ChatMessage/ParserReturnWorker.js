@@ -1,6 +1,7 @@
-import generateImages from "../aToos/generateImages.js";
-import nBGGFetch from "../aToos/nBGGFetch.js";
+import generateImages from "../generateImages.js";
+import nBGGFetch from "../nBGGFetch.js";
 import CookieID from "../CookieID.js";
+import RandomAddress from "../RandomAddress.js";
 
 /**
  * 解析消息的对象
@@ -208,9 +209,11 @@ export default class ParserReturnWorker {
                 }
                 let rURL = new URL(window.location.href);
                 rURL.searchParams.set("cookieID",CookieID.cookieID);
+                rURL.searchParams.set("randomAddress",RandomAddress.randomAddress);
                 let p = new URLSearchParams();
                 p.append("cookieID",CookieID.cookieID);
                 p.append("redirect",rURL.href);
+                p.append("randomAddress",RandomAddress.randomAddress)
                 this.addError(`<p><a href="./ChatImgCAPTCHA.html?${p.toString()}">点击前往验证</a></p>`)
             }else{
                 this.addError(result.message);

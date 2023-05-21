@@ -5,6 +5,8 @@
  * @param noAddHeader {boolean,undefined} 是否不添加用于标示的请求头
  *
  * */
+import RandomAddress from "./RandomAddress.js";
+
 export default async function nBGGFetch(url,rr,noAddHeader){
     if(!noAddHeader){
         if(!rr){
@@ -14,6 +16,7 @@ export default async function nBGGFetch(url,rr,noAddHeader){
         }else {
             rr.headers['NewBingGoGoWeb'] = "true";
         }
+        rr.headers['randomAddress'] = RandomAddress.randomAddress;
     }
    let re = await fetch(url,rr)
    if(re.headers.get('NewBingGoGoError')){

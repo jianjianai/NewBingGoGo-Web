@@ -226,11 +226,15 @@ public class NewBingGoGoServer extends NanoWSD {
             urlConnection.addRequestProperty("cookie",header.get("cookie"));
         }
 
-
+        //客户端指定的随机地址
+        String randomAddress = header.get("randomaddress");
+        if(randomAddress==null){
+            randomAddress = "12.24.144.227";
+        }
         //添加X-forwarded-for
         urlConnection.addRequestProperty(
                 "X-forwarded-for",
-                getRndInteger(3,5)+"."+getRndInteger(1,255)+"."+getRndInteger(1,255)+"."+getRndInteger(1,255)
+                randomAddress
         );
 
         //建立链接
@@ -278,11 +282,6 @@ public class NewBingGoGoServer extends NanoWSD {
         );
         response.addHeader("cookieID", String.valueOf(cookieID));
         return response;
-    }
-
-    //生成随机数
-    public static int getRndInteger(int min, int max) {
-        return (((int)(Math.random() * (max-min))) + min);
     }
 
     public static WebSocket getReturnErrorWebSocket(IHTTPSession session,String error){
