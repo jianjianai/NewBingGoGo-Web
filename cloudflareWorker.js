@@ -1,5 +1,5 @@
 let joinStats = true;  //可选加入统计。 加入统计不会收集任何隐私信息，仅统计访问量。
-
+let webPath = 'https://raw.githubusercontent.com/jianjianai/NewBingGoGo-Web/master/src/main/resources'; //web页面地址，可以修改成自己的仓库来自定义前端页面
 let cookies = [
     ""
 ]
@@ -88,7 +88,7 @@ async function handleRequest(request) {
                 })
             }
         }
-        let a = `https://raw.githubusercontent.com/jianjianai/NewBingGoGo-Web/master/src/main/resources${path}`;
+        let a = `${webPath}${path}`;
         return await goWeb(a);
     }
     return getRedirect('/web/NewBingGoGo.html');
