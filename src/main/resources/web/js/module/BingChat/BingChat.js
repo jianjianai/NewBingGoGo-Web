@@ -1,4 +1,4 @@
-import nBGGFetch from "../aToos/nBGGFetch.js";
+import nBGGFetch from "../nBGGFetch.js";
 import BingChating from "./BingChating.js";
 import CookieID from "../CookieID.js";
 

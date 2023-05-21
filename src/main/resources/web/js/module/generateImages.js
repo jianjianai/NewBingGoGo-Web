@@ -1,5 +1,5 @@
 import nBGGFetch from "./nBGGFetch.js";
-import CookieID from "../CookieID.js";
+import CookieID from "./CookieID.js";
 
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 /**

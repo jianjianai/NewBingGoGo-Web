@@ -17,4 +17,5 @@ if(id){
     CookieID.cookieID = id;
 }
 
+
 export default CookieID;

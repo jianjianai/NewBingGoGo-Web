@@ -1,4 +1,4 @@
-import nBGGFetch from "./module/aToos/nBGGFetch.js";
+import nBGGFetch from "./module/nBGGFetch.js";
 
 const theH1 = document.getElementById("h1");
 const theImg = document.getElementById("img");

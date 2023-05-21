@@ -1,4 +1,4 @@
-import generateImages from "./module/aToos/generateImages.js";
+import generateImages from "./module/generateImages.js";
 
 
 window.addEventListener('load',()=>{

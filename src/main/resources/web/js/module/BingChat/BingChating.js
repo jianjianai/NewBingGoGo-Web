@@ -1,5 +1,5 @@
 import SendMessageManager from "./SendMessageManager.js";
-import nBGGFetch from "../aToos/nBGGFetch.js";
+import nBGGFetch from "../nBGGFetch.js";
 import ReturnMessage from "./ReturnMessage.js";
 
 /**
