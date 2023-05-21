@@ -1,6 +1,9 @@
+let joinStats = true;  //可选加入统计。 加入统计不会收集任何隐私信息，仅统计访问量。
+
 let cookies = [
 
 ]
+
 
 export default {
     async fetch(request, _env) {
@@ -73,6 +76,18 @@ async function handleRequest(request) {
         return goUrl(request, a);
     }
     if (path.startsWith("/web/")||path === "/favicon.ico") { //web请求
+        if(!joinStats){
+            if(path==="/web/js/other/stats.js"){
+                return new Response("console.log(\"未加入统计\");",{
+                    status: 200,
+                    statusText: 'ok',
+                    headers: {
+                        "content-type": "application/x-javascript; charset=utf-8",
+                        "cache-control":"max-age=14400"
+                    }
+                })
+            }
+        }
         let a = `https://raw.githubusercontent.com/jianjianai/NewBingGoGo-Web/master/src/main/resources${path}`;
         return await goWeb(a);
     }

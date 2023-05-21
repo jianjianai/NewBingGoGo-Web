@@ -26,7 +26,7 @@ public class NewBingGoGoServer extends NanoWSD {
         //加载配置文件
         new YamlConfig()
                 .load(new File("Cookies.yml"))
-                .as(Cookies.class)
+                .as(Config.class)
                 .save(new File("Cookies.yml"));
 
         //启动
@@ -108,6 +108,15 @@ public class NewBingGoGoServer extends NanoWSD {
         }
         //返回页面
         if(url.startsWith("/web/")||url.equals("/favicon.ico")){
+            if (!Config.joinStats) {
+                if(url.equals("/web/js/other/stats.js")){
+                    return NanoHTTPD.newFixedLengthResponse(
+                            Response.Status.OK,
+                            "application/x-javascript; charset=utf-8",
+                            "console.log(\"未加入统计\");"
+                    );
+                }
+            }
             return WebWork.getFile(url);
         }
         return redirectTo("/web/NewBingGoGo.html");
@@ -194,22 +203,22 @@ public class NewBingGoGoServer extends NanoWSD {
         //如果是NewBingGoGoWeb版本
         if(header.get("newbinggogoweb")!=null){
             //添加配置的随机cookie
-            if(Cookies.cookies.length == 0){
+            if(Config.cookies.length == 0){
                 return getReturnError("没有任何可用cookie，请前往Cookies.yml添加cookie");
             }
-            cookieID  = (int) (Math.random()*Cookies.cookies.length);;
+            cookieID  = (int) (Math.random()* Config.cookies.length);;
             String cookieIDString = header.get("cookieid");
             if(cookieIDString!=null){
                 try{
                     cookieID = Integer.parseInt(cookieIDString);
-                    if (cookieID<0||cookieID>=Cookies.cookies.length){
+                    if (cookieID<0||cookieID>= Config.cookies.length){
                         return getReturnError("cookieID '"+cookieID+"' 不存在，请刷新cookieID！<a href=\"?\">点击刷新</a>");
                     }
                 }catch (NumberFormatException e){
                     return getReturnError("cookieID错误，请刷新cookieID！<a href=\"?\">点击刷新</a>",e,false);
                 }
             }
-            String cookie = Cookies.cookies[cookieID];
+            String cookie = Config.cookies[cookieID];
             System.out.println("web版使用第"+cookieID+"个"+cookie);
             urlConnection.addRequestProperty("cookie",cookie);
         }else {//如果不是
