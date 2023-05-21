@@ -42,7 +42,7 @@ export default class ChatSuggestionsWorker {
         this.suggestions = suggestions;
         suggestions.forEach((s) => {
             let a = document.createElement('a');
-            a.innerHTML = s;
+            a.innerText = s;
             this.searchSuggestions.appendChild(a);
         });
     }
