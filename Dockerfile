@@ -4,4 +4,4 @@ WORKDIR /
 RUN gradle shadow
 EXPOSE 80
 ENV PORT=80
-CMD sh -c  "java -jar /NewBingGoGo-Web/build/libs/NewBingGoGo-web-1.0-SNAPSHOT-all.jar \$PORT"
+CMD sh -c  "java -jar /build/libs/NewBingGoGo-web-1.0-SNAPSHOT-all.jar \$PORT"
