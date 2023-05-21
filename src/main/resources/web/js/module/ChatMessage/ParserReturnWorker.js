@@ -50,6 +50,10 @@ export default class ParserReturnWorker {
                 let messageElement = event.target.parentElement.parentElement.getElementsByClassName('textBlock')[0];
                 await navigator.clipboard.writeText(messageElement.dataset.the_markdown_text);
             }
+            if(event.target.classList.contains("code-copy")){
+                let messageElement = event.target.parentElement;
+                await navigator.clipboard.writeText(messageElement.innerText);
+            }
         });
 
     }
@@ -127,7 +131,7 @@ export default class ParserReturnWorker {
         }else {
             go.classList.remove('preview');
         }
-        let bobo = this.getByClass('bobo','div',go);
+        let bobo = this.getByClass('bobo','pre',go);
         bobo.innerText = message;
         bobo.classList.add('markdown-body');
         return id;
@@ -245,7 +249,7 @@ export default class ParserReturnWorker {
             }
 
             //解析adaptiveCards 也就是聊天消息部分 下面类型的都是带有adaptiveCards的
-            if (!message.messageType && message.adaptiveCards) {//如果是正常的聊天
+            if (!message.messageType && message.adaptiveCards) {//如果是正常的聊天消息
                 let adaptiveCardsFatherDIV = this.getByID(message.messageId, 'div', father, 'adaptiveCardsFatherDIV');
                 this.porserAdaptiveCards(message.adaptiveCards, adaptiveCardsFatherDIV);
 
@@ -447,7 +451,7 @@ export default class ParserReturnWorker {
         throwOnError: false
     }
     /*
-    解析TextBlock body.type==TextBlock
+    解析TextBlock body.type==TextBlock，聊天正文内容
     */
     porserTextBlock(body, father) {
         if (!body.size) {
@@ -467,8 +471,19 @@ export default class ParserReturnWorker {
             }
 
             div.dataset.the_markdown_text = body.text;
-            div.innerHTML = marked.marked(this.completeCodeBlock(body.text));
-            renderMathInElement(div,this.renderMathInElementOptions);
+            div.innerHTML = marked.marked(this.completeCodeBlock(body.text));//解析markdown
+            renderMathInElement(div,this.renderMathInElementOptions);//解析数学公式
+            for (let codeBox of div.getElementsByTagName('code')) {
+                hljs.highlightElement(codeBox);//代码高亮
+            }
+
+            for (let pre of div.getElementsByTagName('pre')){//添加复制按钮
+                //添加复制按钮
+                let div = document.createElement('div');
+                div.classList.add('code-copy');
+                pre.appendChild(div);
+            }
+
             let aaas = div.getElementsByTagName('a');
             //将超链接在新页面打开
             for(let i=0;i<aaas.length;i++){
