@@ -1,7 +1,7 @@
 let joinStats = true;  //可选加入统计。 加入统计不会收集任何隐私信息，仅统计访问量。
 
 let cookies = [
-
+    ""
 ]
 
 
