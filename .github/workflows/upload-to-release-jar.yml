@@ -1,0 +1,48 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+
+name: upload to release jar
+
+permissions:
+  contents: write
+
+on:
+  push:
+    tags:
+      - "*.*.*.*"
+
+jobs:
+  build-jar:
+    name: 构建jar包并发布
+    runs-on: ubuntu-latest
+    steps:
+    - name : 检查
+      uses: actions/checkout@v3
+    
+    - name: 安装jdk11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+
+    - name: gradle shadow jar 
+      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      with:
+        arguments: shadow
+    
+    - name: 重命名
+      run: mv ./build/libs/NewBingGoGo-web-1.0-SNAPSHOT-all.jar ./NewBingGoGo-web.jar
+      
+    - name: 创建发行版
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: |
+           ./NewBingGoGo-web.jar
+ 
+ 
+ 
