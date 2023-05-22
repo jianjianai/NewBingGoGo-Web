@@ -16,8 +16,8 @@ on:
       - "*.*.*.*"
 
 jobs:
-  build:
-    name: 构建并发布
+  build-jar:
+    name: 构建jar包并发布
     runs-on: ubuntu-latest
     steps:
     - name : 检查
@@ -43,3 +43,6 @@ jobs:
       with:
         files: |
            ./NewBingGoGo-web.jar
+ 
+ 
+ 
