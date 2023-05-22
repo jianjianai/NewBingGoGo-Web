@@ -33,10 +33,13 @@ jobs:
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: shadow
+    
+    - name: 重命名
+      run: mv ./build/libs/NewBingGoGo-web-1.0-SNAPSHOT-all.jar ./NewBingGoGo-web.jar
       
     - name: 创建发行版
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: |
-           ./build/libs/NewBingGoGo-web-1.0-SNAPSHOT-all.jar
+           ./NewBingGoGo-web.jar
