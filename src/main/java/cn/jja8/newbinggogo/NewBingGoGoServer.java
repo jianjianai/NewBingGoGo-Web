@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.function.BiConsumer;
 
 public class NewBingGoGoServer extends NanoWSD {
     ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
@@ -28,7 +29,7 @@ public class NewBingGoGoServer extends NanoWSD {
                 .load(new File("Cookies.yml"))
                 .as(Config.class)
                 .save(new File("Cookies.yml"));
-
+        WebWork.init();
         //启动
         try{
             int porint = Integer.parseInt(args[0]);
@@ -255,6 +256,8 @@ public class NewBingGoGoServer extends NanoWSD {
             return getReturnError("此魔法链接服务器请求被bing拒绝！请稍后再试。错误代码:"+code,null,false);
         }
 
+        Map<String, java.util.List<String>> responseHeader = urlConnection.getHeaderFields();
+
         //将数据全部读取然后关闭流和链接
         int len = urlConnection.getContentLength();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(Math.max(len, 0));
@@ -280,6 +283,17 @@ public class NewBingGoGoServer extends NanoWSD {
                 byteArrayInputStream,
                 len
         );
+        //保留返回头
+        responseHeader.forEach((s, strings) -> {
+            if(s!=null
+                    && !s.equals("Content-Length")
+                    && !s.equals("Content-Type")
+            ){
+                for (String string : strings) {
+                    response.addHeader(s, string);
+                }
+            }
+        });
         response.addHeader("cookieID", String.valueOf(cookieID));
         return response;
     }
