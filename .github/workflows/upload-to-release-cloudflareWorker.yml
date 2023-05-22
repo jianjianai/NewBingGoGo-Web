@@ -1,0 +1,26 @@
+name: upload to release cloudflareWorker
+
+permissions:
+  contents: write
+
+on:
+  push:
+    tags:
+      - "*.*.*.*"
+
+
+jobs:
+  build-jar:
+    name: 发布cloudflareWorker
+    runs-on: ubuntu-latest
+    steps:
+    - name : 检查
+      uses: actions/checkout@v3
+      
+    - name: 创建发行版
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: |
+           ./cloudflareWorker.js
+ 
