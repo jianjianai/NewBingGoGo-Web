@@ -7,6 +7,9 @@
 
 name: upload to release jar
 
+permissions:
+  contents: write
+
 on:
   push:
     tags:
