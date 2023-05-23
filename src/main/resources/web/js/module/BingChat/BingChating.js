@@ -54,11 +54,19 @@ export default class BingChating {
         }
         try {
             let chatWebSocket = new WebSocket(restsrstUrl);
+            let returnMessage = new ReturnMessage(chatWebSocket, onMessage, this);
             chatWebSocket.onopen = () => {
                 this.sendMessageManager.sendShakeHandsJson(chatWebSocket);
-                this.sendMessageManager.sendChatMessage(chatWebSocket, message);
             }
-            return new ReturnMessage(chatWebSocket, onMessage, this);
+            let onopen = (even)=>{
+                if('{}'===JSON.stringify(even)){
+                    this.sendMessageManager.sendJson(chatWebSocket,{"type":6});
+                    this.sendMessageManager.sendChatMessage(chatWebSocket, message);
+                    returnMessage.outOnMessage(onopen);
+                }
+            };
+            returnMessage.regOnMessage(onopen);
+            return returnMessage;
         } catch (e) {
             console.warn(e);
             if(e.isNewBingGoGoError){

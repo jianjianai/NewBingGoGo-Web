@@ -569,6 +569,10 @@ export default class ParserReturnWorker {
                 return;
             }
             if (json.type === 3) {
+                if(json.error){
+                    this.addError(json.error)
+                    this.addError("发生未知错误")
+                }
                 returnMessage.close();
             } else if (json.type === 1) {
                 this.porserArguments(json.arguments,returnMessage);
