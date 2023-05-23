@@ -6,7 +6,9 @@ import fi.iki.elonen.NanoWSD;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +19,7 @@ public class NewBingGoGoServerWebSocket extends NanoWSD.WebSocket {
     ScheduledExecutorService scheduledExecutorService;
     ScheduledFuture<?> task;
 
-    public NewBingGoGoServerWebSocket(NanoHTTPD.IHTTPSession handshakeRequest, ScheduledExecutorService scheduledExecutorService) {
+    public NewBingGoGoServerWebSocket(NanoHTTPD.IHTTPSession handshakeRequest,Map<String,String> httpHeaders, ScheduledExecutorService scheduledExecutorService) {
         super(handshakeRequest);
         URI url;
         try {
@@ -26,7 +28,7 @@ public class NewBingGoGoServerWebSocket extends NanoWSD.WebSocket {
             throw new RuntimeException(e);//这个异常这辈子都不会出的
         }
         this.scheduledExecutorService = scheduledExecutorService;
-        newBingGoGoClientWebSocket = new NewBingGoGoClientWebSocket(url,this,messList);
+        newBingGoGoClientWebSocket = new NewBingGoGoClientWebSocket(url,httpHeaders,this,messList);
     }
 
     @Override

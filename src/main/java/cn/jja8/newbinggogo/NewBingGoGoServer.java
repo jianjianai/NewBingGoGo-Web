@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.function.BiConsumer;
 
 public class NewBingGoGoServer extends NanoWSD {
     ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
@@ -129,7 +128,17 @@ public class NewBingGoGoServer extends NanoWSD {
         String url = handshake.getUri();
         if(url.equals("/sydney/ChatHub")){
             System.out.println(ip+":创建魔法聊天连接");
-            return new NewBingGoGoServerWebSocket(handshake,scheduledExecutorService);
+            Map<String,String> httpHeaders = new HashMap<>();
+            String[] b = {"user-agent","accept","accept-language"};//保留请求头
+            Map<String, String> header = handshake.getHeaders();
+            for (String s : b) {
+                String v = header.get(s);
+                httpHeaders.put(s,v);
+            }
+            httpHeaders.put("Host","sydney.bing.com");
+            httpHeaders.put("Origin","https://www.bing.com");
+            httpHeaders.put("Cache-Control","no-cache");
+            return new NewBingGoGoServerWebSocket(handshake,httpHeaders,scheduledExecutorService);
         }
         return getReturnErrorWebSocket(handshake,"请求接口错误！");
     }

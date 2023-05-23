@@ -73,10 +73,21 @@ export default class ReturnMessage {
 
     /**
      * 注册接收消息的监听器
-     * @param theFun 回调函数
+     * @param theFun {function(message)} 回调函数
      */
     regOnMessage(theFun) {
         this.onMessage[this.onMessage.length] = theFun;
+    }
+    /**
+     * 取消注册接收消息监听器
+     * */
+    outOnMessage(theFun){
+        for (let i = 0; i < this.onMessage.length; i++) {
+            if (this.onMessage[i] === theFun) {
+                this.onMessage.splice(i,1);
+                return;
+            }
+        }
     }
 
     /**
