@@ -30,7 +30,7 @@
 |---|---|
 |[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/GE_YVq?referralCode=s40fic)|Railway|
 |[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/jianjianai/NewBingGoGo-Web)|Render|
-|[![Deploy to Replit](https://github.com/jianjianai/NewBingGoGo-Web/assets/59829816/3cb3727d-0541-4a6f-856c-19e0e1bfa51a)](https://replit.com/@jianjianai/NewBingGoGo-Web)|replit|
+|[![Deploy to Replit]()](https://replit.com/@jianjianai/NewBingGoGo-Web)|replit|
 
 
 
