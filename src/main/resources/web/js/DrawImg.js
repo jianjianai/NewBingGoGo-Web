@@ -1,4 +1,5 @@
 import generateImages from "./module/generateImages.js";
+import {LoadAnimation} from "./module/aToos/AToos.js";
 
 
 window.addEventListener('load',()=>{
@@ -50,4 +51,7 @@ window.addEventListener('load',()=>{
         isDrawing = false;
         startDraw.innerText = '开始作图';
     }
+
+
+    LoadAnimation.loaded(document.getElementById('load'));
 })

@@ -109,7 +109,7 @@ div.markdown-body {
 
 /*加载动画*/
 #load{
-    position: absolute;
+    position: fixed;
     z-index: 9999;
     height: 100vh;
     width: 100vw;

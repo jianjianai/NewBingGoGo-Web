@@ -1,4 +1,4 @@
-import DateFormat from "../aToos/DateFormat.js";
+import {DateFormat} from "../aToos/AToos.js";
 
 /**
  * 一个聊天记录类
