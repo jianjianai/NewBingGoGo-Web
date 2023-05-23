@@ -10,6 +10,7 @@ import ChatRecordWorker from "./module/ChatRecord/ChatRecordWorker.js";
 import ChatFirstMessages from "./module/BingChat/ChatFirstMessages.js";
 import ChatOptionsSets from "./module/BingChat/ChatOptionsSets.js";
 import nBGGFetch from "./module/nBGGFetch.js";
+import {LoadAnimation} from "./module/aToos/AToos.js";
 
 /**
  * 给bingChat加载服务器配置
@@ -53,19 +54,6 @@ function domLoadServerConfig(h1,h2,p,serverConfig){
     hasShow(h1,serverConfig['h1']);
     hasShow(h2,serverConfig['h2']);
     hasShow(p,serverConfig['p']);
-}
-
-/**
- * 页面加载完成
- * @param loaded {HTMLElement}
- */
-function loaded(loaded){
-     if (loaded){
-         loaded.classList.add('loaded');
-         setTimeout(()=>{
-             loaded.remove()
-         },500)
-     }
 }
 
 //页面加载完成之后执行
@@ -361,7 +349,8 @@ window.addEventListener('load',async ()=>{
     reSetStartChatMessage().then();
     input_update_input_text_sstyle_show_update();
     cueWordManager.loadcueWorld().then();
-    loaded(document.getElementById('load'));
+
+    LoadAnimation.loaded(document.getElementById('load'));
 });
 
 

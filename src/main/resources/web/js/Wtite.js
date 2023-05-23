@@ -3,6 +3,7 @@ import TitleWorker from './module/TitleWorker.js'
 import BingChat from './module/BingChat/BingChat.js';
 import ChatFirstMessages from "./module/BingChat/ChatFirstMessages.js";
 import ChatOptionsSets_Write from "./module/BingChat/ChatOptionsSets_Write.js";
+import {LoadAnimation} from "./module/aToos/AToos.js";
 
 /*控制按钮组选择，当选中新的按钮时回调函数*/
 function selectButtonFunRetrun(buttonGroup, returnFun) {
@@ -180,6 +181,7 @@ window.addEventListener('load',()=>{
 
 
     reSetStartChatMessage().then();
+    LoadAnimation.loaded(document.getElementById('load'));
 });
 
 
