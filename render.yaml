@@ -6,6 +6,4 @@ services:
     region: oregon 
     plan: standard 
     branch: master 
-    rootDir: /
-    numInstances: 3 
-    healthCheckPath: /
+    rootDir: ./
