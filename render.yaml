@@ -4,6 +4,6 @@ services:
     env: docker
     repo: https://github.com/jianjianai/NewBingGoGo-Web.git 
     region: oregon 
-    plan: standard 
+    plan: free 
     branch: master 
     rootDir: ./
