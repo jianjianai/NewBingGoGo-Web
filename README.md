@@ -33,10 +33,21 @@
 |[![Deploy to Replit]()](https://replit.com/@jianjianai/NewBingGoGo-Web)|replit|
 
 
+## 注意区分
+### NewBingGoGo-web
+NewBingGoGo-web是一个网页服务，用户可以直接打开网页，在网页上聊天。
+但是由于网页的限制，用户是不能在网页上登录自己的微软账号的，必须使用服务端上配置的共享账号。
 
+### NewBingGoGo
+NewBingGoGo是一个浏览器插件，浏览器插件不同于网页，浏览器插件的权限更高。
+所以在使用NewBingGoGo插件的时候，NewBingGoGo插件会从浏览器中自动获取当前登录的微软账号。
 
+### NewBingGoGo-web 作为 NewBingGoGo 的魔法链接
+NewBingGoGo-web既可以是一个网页服务，也可以是NewBingGoGo的魔法链接服务。当NewBingGoGo设置好魔法链接之后，就可以通过NewBingGoGo-web来代理聊天。
+这个时候NewBingGoGo-web不会使用服务端上配置的共享账号，而是使用用户浏览器中当前登录的微软账号。
 
-
+### 总结
+搭建NewBingGoGo-web服务后，如果想直接打开网页使用则需要配置共享账号。如果仅仅作为NewBingGoGo的魔法链接使用则不需要配置共享账号。
 
 
 ## 更加强大的插件版
