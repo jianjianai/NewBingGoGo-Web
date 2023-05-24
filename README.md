@@ -8,8 +8,8 @@
 ![](./docs/img/1.png)
 
 演示站点：
-- repl java https://newbinggogo-web--jianjianai.repl.co
-- java https://chat.jja8.cn/
+- repl java https://newbinggogo-web--jianjianai.repl.co (没配置账号)
+- java https://chat.jja8.cn/ (加了一个我小号，轻掠)
 - cloudflareWorker.js https://bingweb.jja8.cn/  (cloudflare已经废了，但是作为插件的魔法链接还是很不错的)
 
 ## 功能介绍
