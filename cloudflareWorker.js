@@ -1,52 +1,27 @@
 let joinStats = true;  //可选加入统计。 加入统计不会收集任何隐私信息，仅统计访问量。
 let webPath = 'https://raw.githubusercontent.com/jianjianai/NewBingGoGo-Web/master/src/main/resources'; //web页面地址，可以修改成自己的仓库来自定义前端页面
-let serverConfig = { //此配置需要插件需要2023.5.22.0以上版本才会生效
-    "h1": "NewBingGoGo",
-    "h2": "简单开始和NewBing聊天",
-    "p": "",
+let serverConfig = {
+    "h1": "jianjian’s NewBingGoGo 此服务正在测试！",
+    "h2": "欢迎使用‘简简aw’的超高速聊天服务！",
+    "p": "鼓励大家自己搭建聊天服务，于是就安排了自定义标题,自定义消息和自定义建议功能。如果朋友使用你的魔法链接就可以看见你设置的标题,消息和建议哦！",
     "firstMessages":[
-        "好的，我已清理好板子，可以重新开始了。我可以帮助你探索什么?",
-        "明白了，我已经抹去了过去，专注于现在。我们现在应该探索什么?",
-        "重新开始总是很棒。问我任何问题!",
-        "好了，我已经为新的对话重置了我的大脑。你现在想聊些什么?",
-        "很好，让我们来更改主题。你在想什么?",
-        "谢谢你帮我理清头绪! 我现在能帮你做什么?",
-        "没问题，很高兴你喜欢上一次对话。让我们转到一个新主题。你想要了解有关哪些内容的详细信息?",
-        "谢谢你! 知道你什么时候准备好继续前进总是很有帮助的。我现在能为你回答什么问题?",
-        "当然，我已准备好进行新的挑战。我现在可以为你做什么?"
+        "欢迎使用‘简简aw’NewBingGoGo聊天服务！那么我们愉快地开始吧！",
+        "‘简简aw’NewBingGoGo聊天服务稳定又好用，那么开始愉快地聊天吧！",
+        "你想了解‘简简aw’吗？那么开始愉快地聊天吧！"
     ],
     "firstProposes":[
-        "教我一个新单词",
-        "我需要有关家庭作业的帮助",
-        "我想学习一项新技能",
-        "最深的海洋是哪个?",
-        "一年有多少小时?",
-        "宇宙是如何开始的?",
-        "寻找非虚构作品",
-        "火烈鸟为何为粉色?",
-        "有什么新闻?",
-        "让我大笑",
-        "给我看鼓舞人心的名言",
-        "世界上最小的哺乳动物是什么?",
-        "向我显示食谱",
-        "最深的海洋是哪个?",
-        "为什么人类需要睡眠?",
-        "教我有关登月的信息",
-        "我想学习一项新技能",
-        "如何创建预算?",
-        "给我说个笑话",
-        "全息影像的工作原理是什么?",
-        "如何设定可实现的目标?",
-        "金字塔是如何建成的?",
-        "激励我!",
-        "宇宙是如何开始的?",
-        "如何制作蛋糕?"
+        "‘简简aw’是谁？",
+        "我想了解‘简简aw’",
+        "‘简简aw’有多少粉丝？",
+        "‘简简aw’的b站主页是什么？",
+        "‘简简aw’是学生吗？",
+        "‘简简aw’发过哪些视频？",
+        "NewBingGoGo的作者是‘简简aw’吗？"
     ]
 }
 let cookies = [
     ""
 ]
-
 
 
 export default {
@@ -78,7 +53,7 @@ async function handleRequest(request) {
     }
 
     if (path === '/sydney/ChatHub') { //魔法聊天
-        return bingChatHub(request)
+        return await websocketHandler(request)
     }
     if (path === "/turing/conversation/create") { //创建聊天
         return goUrl(request, "https://www.bing.com/turing/conversation/create");
@@ -262,41 +237,58 @@ function getRedirect(url) {
     })
 }
 
-//websocket
-function bingChatHub(request) {
-    // 如果请求包含 Upgrade 头，说明是 WebSocket 连接
-    if (request.headers.get('Upgrade') === 'websocket') {
-        const webSocketPair = new WebSocketPair()
-        const serverWebSocket = webSocketPair[1]
-        var bingws = new WebSocket('wss://sydney.bing.com/sydney/ChatHub')
-        serverWebSocket.onmessage = event => {
-            bingws.send(event.data);
-        }
-        bingws.onmessage = event => {
-            serverWebSocket.send(event.data)
-        }
-        bingws.onopen = event => {
+
+
+
+/**
+ * @param serverWebSocket {WebSocket}
+ * */
+async function handleSession(serverWebSocket) {
+    let isAccept = false;
+    let bingws = new WebSocket('wss://sydney.bing.com/sydney/ChatHub');
+    serverWebSocket.addEventListener("message", event => {
+        bingws.send(event.data);
+    });
+    bingws.addEventListener("message", event => {
+        serverWebSocket.send(event.data)
+    });
+    bingws.addEventListener("open", event => {
+        isAccept = true;
+        serverWebSocket.accept();
+    })
+    bingws.addEventListener("close", event => {
+        serverWebSocket.close(event.code, event.reason);
+    })
+    bingws.addEventListener("error", event => {
+        if(!isAccept){
             serverWebSocket.accept();
         }
-        bingws.onclose = event => {
-            serverWebSocket.close(event.code, event.reason);
-        }
-        bingws.onerror = event => {
-            serverWebSocket.send(JSON.stringify({
-                type: 'error',
-                mess: "workers接到bing错误：" + event
-            }));
-            serverWebSocket.close();
-        }
-        serverWebSocket.onerror = event => {
-            serverWebSocket.close();
-        }
-        serverWebSocket.onclose = event => {
-            bingws.close(event.code, event.reason);
-        }
-
-        return new Response(null, { status: 101, webSocket: webSocketPair[0] })
-    } else {
-        return new Response('这不是websocket请求！')
-    }
+        serverWebSocket.send(JSON.stringify({
+            type: 'error',
+            mess: "workers接到bing错误：" + event.message
+        }));
+        serverWebSocket.close();
+    });
+    serverWebSocket.addEventListener("error", event => {
+        serverWebSocket.close();
+    })
+    serverWebSocket.addEventListener("close",event => {
+        bingws.close(event.code, event.reason);
+    });
 }
+
+const websocketHandler = async request => {
+    const upgradeHeader = request.headers.get("Upgrade")
+    if (upgradeHeader !== "websocket") {
+        return new Response("Expected websocket", { status: 400 })
+    }
+
+    const [client, server] = Object.values(new WebSocketPair())
+    await handleSession(server)
+
+    return new Response(null, {
+        status: 101,
+        webSocket: client
+    })
+}
+

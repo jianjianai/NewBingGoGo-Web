@@ -46,7 +46,7 @@ export default class ReturnMessage {
                         this.onMessage[i]({
                             type: 'close',
                             ok:this.closed,
-                            mess: event
+                            mess: event.reason
                         }, this);
                     } catch (e) {
                         console.warn(e)
@@ -61,7 +61,7 @@ export default class ReturnMessage {
                     try {
                         this.onMessage[i]({
                             type: 'error',
-                            mess: mess
+                            mess: mess.message?mess.message:"异常中断"
                         }, this);
                     } catch (e) {
                         console.warn(e)
