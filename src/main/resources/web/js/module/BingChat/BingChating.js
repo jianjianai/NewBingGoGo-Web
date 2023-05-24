@@ -1,6 +1,7 @@
 import SendMessageManager from "./SendMessageManager.js";
 import nBGGFetch from "../nBGGFetch.js";
 import ReturnMessage from "./ReturnMessage.js";
+import RandomAddress from "../RandomAddress.js";
 
 /**
  * 用于发送聊天消息和接受消息的对象
@@ -50,7 +51,9 @@ export default class BingChating {
             let re = await nBGGFetch(`${window.location.origin}/sydney/ChatHubUrl`);
             restsrstUrl = await re.text();
         }else {
-            restsrstUrl = `${window.location.origin.replace('http','ws')}/sydney/ChatHub`;
+            let p = new URLSearchParams();
+            p.append("randomAddress",RandomAddress.randomAddress);
+            restsrstUrl = `${window.location.origin.replace('http','ws')}/sydney/ChatHub?${p.toString()}`;
         }
         try {
             let chatWebSocket = new WebSocket(restsrstUrl);

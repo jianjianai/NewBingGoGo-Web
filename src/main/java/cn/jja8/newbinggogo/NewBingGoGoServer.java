@@ -138,6 +138,16 @@ public class NewBingGoGoServer extends NanoWSD {
             httpHeaders.put("Host","sydney.bing.com");
             httpHeaders.put("Origin","https://www.bing.com");
             httpHeaders.put("Cache-Control","no-cache");
+            List<String> ls = handshake.getParameters().get("randomAddress");
+            String add = null;
+            if(ls!=null){
+                if(ls.size()>0){
+                    add = ls.get(0);
+                }
+            }
+            if(add!=null){
+                httpHeaders.put("X-forwarded-for",add);
+            }
             return new NewBingGoGoServerWebSocket(handshake,httpHeaders,scheduledExecutorService);
         }
         return getReturnErrorWebSocket(handshake,"请求接口错误！");
