@@ -8,6 +8,7 @@
 ![](./docs/img/1.png)
 
 演示站点：
+- repl java https://newbinggogo-web--jianjianai.repl.co
 - java https://chat.jja8.cn/
 - cloudflareWorker.js https://bingweb.jja8.cn/
 
