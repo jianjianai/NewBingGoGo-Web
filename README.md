@@ -25,8 +25,32 @@
 
 [快速入门 wiki](https://github.com/jianjianai/NewBingGoGo-Web/wiki/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8)
 
+### 一键部署到免费的云服务器
+|服务商 点击图标一键部署|简介|
+|---|---|
+|[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/GE_YVq?referralCode=s40fic)|Railway|
+|[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/jianjianai/NewBingGoGo-Web)|Render|
+|[![Deploy to Replit]()](https://replit.com/@jianjianai/NewBingGoGo-Web)|replit|
 
-## 更加强大的插件版
+
+## 注意区分
+### NewBingGoGo-web
+NewBingGoGo-web是一个网页服务，用户可以直接打开网页，在网页上聊天。
+但是由于网页的限制，用户是不能在网页上登录自己的微软账号的，必须使用服务端上配置的共享账号。
+
+### NewBingGoGo
+NewBingGoGo是一个浏览器插件，浏览器插件不同于网页，浏览器插件的权限更高。
+所以在使用NewBingGoGo插件的时候，NewBingGoGo插件会从浏览器中自动获取当前登录的微软账号。
+
+### NewBingGoGo-web 作为 NewBingGoGo 的魔法链接
+NewBingGoGo-web既可以是一个网页服务，也可以是NewBingGoGo的魔法链接服务。当NewBingGoGo设置好魔法链接之后，就可以通过NewBingGoGo-web来代理聊天。
+这个时候NewBingGoGo-web不会使用服务端上配置的共享账号，而是使用用户浏览器中当前登录的微软账号。
+
+### 总结
+搭建NewBingGoGo-web服务后，如果想直接打开网页使用则需要配置共享账号。如果仅仅作为NewBingGoGo的魔法链接使用则不需要配置共享账号。
+
+
+## 更加强大的NewBingGoGo插件
 浏览器插件版的NewBingGoGo不受到网页的限制，更加强大。可以登录自己的微软账号，速度更快，更稳定。
 
 [NewBingGoGo : 简单开始和NewBing聊天 gitee](https://gitee.com/jja8/NewBingGoGo)
@@ -44,3 +68,10 @@
 | 内容卡片   | ✔   | ✔    | 显示天气，查找图片，地图等等。                        |
 | 通过机器人验证| ✔ | ✔  | 当请求频繁时，微软要求通过机器人验证，就是输入验证码|
 
+
+## 其他
+一个好消息和一个坏消息
+### 好消息
+我获得了蓝桥杯省赛一等奖
+### 坏消息
+因为准备参加国赛，所以暂时停更一段时间，6月10日之后继续更新。
