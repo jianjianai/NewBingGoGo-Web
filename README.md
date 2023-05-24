@@ -25,8 +25,8 @@
 
 [快速入门 wiki](https://github.com/jianjianai/NewBingGoGo-Web/wiki/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8)
 
-### 一件部署到免费的云服务器
-|服务商 点击图标一件部署|简介|
+### 一键部署到免费的云服务器
+|服务商 点击图标一键部署|简介|
 |---|---|
 |[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/GE_YVq?referralCode=s40fic)|Railway|
 |[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/jianjianai/NewBingGoGo-Web)|Render|
