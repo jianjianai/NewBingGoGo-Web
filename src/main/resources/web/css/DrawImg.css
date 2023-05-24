@@ -60,6 +60,9 @@ body {
 
 /*加载动画*/
 #load{
+    left: 0;
+    top: 0;
+    margin: 0;
     position: fixed;
     z-index: 9999;
     height: 100vh;
