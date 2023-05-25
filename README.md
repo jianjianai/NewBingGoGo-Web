@@ -10,7 +10,7 @@
 演示站点：
 - repl java https://newbinggogo-web--jianjianai.repl.co (没配置账号)
 - java https://chat.jja8.cn/ (加了一个我小号，轻掠)
-- cloudflareWorker.js https://bingweb.jja8.cn/  (cloudflare已经废了，但是作为插件的魔法链接还是很不错的)
+- cloudflareWorker.js https://bingweb.jja8.cn/  (没配置账号)
 
 ## 功能介绍
 此服务可直接通过网页访问也可以作为NewBingGoGo插件的魔法链接服务使用。
