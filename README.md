@@ -5,7 +5,19 @@
 实现了微软New Bing的大多数功能，还添加了一些自己的特色功能。
 开源免费。
 
-![](./docs/img/1.png)
+## 主要功能展示
+### 聊天功能
+聊天实现了NewBing的大多数功能，搜索，画图，天气，地图等等。
+![1](https://github.com/jianjianai/NewBingGoGo-Web/assets/59829816/f951030f-7941-4ec7-887c-355d003a67be)
+
+### 创作功能
+创作实现了NewBing侧边栏的撰写的大多数功能，可更具需求生成文章。
+![1 2](https://github.com/jianjianai/NewBingGoGo-Web/assets/59829816/c6469529-0571-4a5d-8161-1a9707f52592)
+
+### 小窗功能 (插件专属)
+小窗实现了NewBing侧边栏的根据当前页面信息问答的功能，可以在同一个页面中同时打开多个小窗同时问答，高效地查阅资料和完成文章编辑工作。
+![1 1](https://github.com/jianjianai/NewBingGoGo-Web/assets/59829816/09d6cf75-f870-4c04-8809-70a3d7bc9817)
+
 
 演示站点：
 - repl java https://newbinggogo-web--jianjianai.repl.co (没配置账号)
