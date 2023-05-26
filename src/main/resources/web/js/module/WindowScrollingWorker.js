@@ -7,7 +7,7 @@ export default class WindowScrollingWorker {
      * */
     constructor(element) {
         // 当聊天更新时，如果窗口在底部则将窗口滚动到底部
-        let isOnBottom = (window.scrollY + window.innerHeight >= document.body.scrollHeight);//标记页面是否在底部
+        let isOnBottom = (window.scrollY + window.innerHeight >= document.body.scrollHeight-10);//标记页面是否在底部
         //监听页面变化
         let observer = new MutationObserver(()=>{
             //如果窗口变化前在底部则滚动到底部
@@ -23,7 +23,7 @@ export default class WindowScrollingWorker {
 
         //当窗口滚动时判断是否在底部
         window.addEventListener("scroll", function() {
-            if (window.scrollY + window.innerHeight >= document.body.scrollHeight) {
+            if (window.scrollY + window.innerHeight >= document.body.scrollHeight-10) {
                 isOnBottom = true;
             }else{
                 isOnBottom = false;
