@@ -238,6 +238,15 @@ window.addEventListener('load',async ()=>{
                         parserReturnMessage.addNoLogin();
                     }else if (error.type==='NoPower'){
                         parserReturnMessage.addNoPower();
+                    }else if(error.theType === "cf-mitigated"){
+                        let reUrl = error.theData;
+                        if(reUrl){
+                            let rUrl = new URL(reUrl);
+                            let myUrl = new URL(location.href);
+                            myUrl.searchParams.append("sendMessage",text);
+                            rUrl.searchParams.set("redirect",myUrl.toString());
+                            window.location.href = rUrl.toString();
+                        }
                     }
                 }
                 return;
@@ -346,11 +355,21 @@ window.addEventListener('load',async ()=>{
 
 
 
-    reSetStartChatMessage().then();
+
     input_update_input_text_sstyle_show_update();
     cueWordManager.loadcueWorld().then();
-
     LoadAnimation.loaded(document.getElementById('load'));
+
+
+    await reSetStartChatMessage();
+    //如果有发送第一条消息的参数
+    let url = new URL(window.location.href);
+    let sendMessage = url.searchParams.get("sendMessage");
+    if(sendMessage){
+        send(sendMessage).then()
+        url.searchParams.delete("sendMessage");
+        window.history.pushState('','',url.toString());
+    }
 });
 
 

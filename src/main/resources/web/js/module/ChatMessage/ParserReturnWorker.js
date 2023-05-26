@@ -226,6 +226,9 @@ export default class ParserReturnWorker {
         if (item.messages) {
             let nextFather = this.getByID(item.requestId, 'div', chatDiv, 'bing');
             this.porserMessages(item.messages, nextFather);
+            if (!nextFather.innerHTML) {
+                nextFather.remove();
+            }
         }
 
     }

@@ -13,6 +13,9 @@ export default class BingChating {
      */
     bingChat;
     sendMessageManager;
+   // invocationId = 1;
+    // historySendMessage = [];
+
 
     /**
      * @param bingChat {BingChat}对象
@@ -26,6 +29,7 @@ export default class BingChating {
         let bingChating = new BingChating();
         bingChating.bingChat = bingChat;
         bingChating.sendMessageManager = new SendMessageManager(bingChat,charID, clientId, conversationSignature,theChatType,invocationId);
+        // bingChating.invocationId = bingChating.sendMessageManager.invocationId;
         return bingChating;
     }
     /**
@@ -36,16 +40,26 @@ export default class BingChating {
         let bingChating = new BingChating();
         bingChating.bingChat = bingChat;
         bingChating.sendMessageManager = sendMessageManager;
+        // bingChating.invocationId = sendMessageManager.invocationId;
         return bingChating;
     }
 
     /**
      * @param message {String} 发送的消息
-     * @param onMessage {function} 当收到消息时的回调函数
+     * @param onMessage {function(Object,ReturnMessage)} 当收到消息时的回调函数
      * @return {ReturnMessage}
      * @throws {Error}
      */
     async sendMessage(message, onMessage) {
+        // //记录，和分配id
+        // if(id){
+        //     this.sendMessageManager.invocationId = id;
+        // }else {
+        //    // this.addHistorySendMessage(this.invocationId,message);
+        //     this.sendMessageManager.invocationId = this.invocationId;
+        //     this.invocationId++;
+        // }
+
         let restsrstUrl;
         if(window.location.protocol==="chrome-extension:"){
             let re = await nBGGFetch(`${window.location.origin}/sydney/ChatHubUrl`);
@@ -61,14 +75,21 @@ export default class BingChating {
             chatWebSocket.onopen = () => {
                 this.sendMessageManager.sendShakeHandsJson(chatWebSocket);
             }
-            let onopen = (even)=>{
+            //当连接打开时发送
+            let onopen = async (even)=>{
                 if('{}'===JSON.stringify(even)){
-                    this.sendMessageManager.sendJson(chatWebSocket,{"type":6});
-                    this.sendMessageManager.sendChatMessage(chatWebSocket, message);
+                    await this.sendMessageManager.sendJson(chatWebSocket,{"type":6});
+                    await this.sendMessageManager.sendChatMessage(chatWebSocket, message);
                     returnMessage.outOnMessage(onopen);
                 }
             };
             returnMessage.regOnMessage(onopen);
+            //ping回复
+            returnMessage.regOnMessage(async (even)=>{
+                if (even["type"] === 6) {
+                    await this.sendMessageManager.sendJson(chatWebSocket,{"type":6});
+                }
+            });
             return returnMessage;
         } catch (e) {
             console.warn(e);
@@ -79,4 +100,25 @@ export default class BingChating {
             }
         }
     }
+
+    // /**
+    //  * 添加一条历史消息
+    //  * @param id {number}
+    //  * @param message {String}
+    //  * */
+    // addHistorySendMessage(id,message){
+    //     this.historySendMessage[this.historySendMessage.length] = {id:id,message:message};
+    //     return this.historySendMessage[this.historySendMessage.length-1];
+    // }
+    //
+    // /**
+    //  * 获取最后一条历史消息
+    //  * @return {{id:number,message:string}}
+    //  * */
+    // getLastSendMessage(){
+    //     if(this.historySendMessage.length<1){
+    //         return undefined;
+    //     }
+    //     return this.historySendMessage[this.historySendMessage.length-1];
+    // }
 }

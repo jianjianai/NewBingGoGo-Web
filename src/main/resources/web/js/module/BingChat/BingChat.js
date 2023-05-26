@@ -40,7 +40,9 @@ export default class BingChat{
         if (!this.isStart()){
             throw new Error("聊天没有开始，需要先使用start方法开始聊天");
         }
-        return this.bingChating.sendMessage(text, onMessage);
+        return this.bingChating.sendMessage(text, (message,returnMessage)=>{
+            onMessage(message,returnMessage);
+        });
     }
 
     /**
@@ -93,7 +95,7 @@ export default class BingChat{
             error.type = type;
             throw error;
         }
-        this.bingChating = BingChating.create(this,resjson.conversationId, resjson.clientId, resjson.conversationSignature, theChatType);
+        this.bingChating = BingChating.create(this,resjson.conversationId, resjson.clientId, resjson.conversationSignature, theChatType,undefined);
         CookieID.cookieID = cookieID;
         return this;
     }

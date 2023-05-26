@@ -9,7 +9,7 @@ export default class ReturnMessage {
     //(WebSocket,function:可以不传)
     /**
      * @param catWebSocket {WebSocket} 聊天的ebSocket
-     * @param lisin {function} 回调函数
+     * @param lisin {function(Object,ReturnMessage)} 回调函数
      * @param bingChating {BingChating}
      */
     constructor(catWebSocket, lisin,bingChating) {

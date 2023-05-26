@@ -58,7 +58,7 @@ export default class SendMessageManager {
 
     /**
      * 发送json数据
-     * @param chatWebSocket
+     * @param chatWebSocket {WebSocket}
      * @param json
      * @return Promise<void>
      */
@@ -69,7 +69,7 @@ export default class SendMessageManager {
     }
     /**
      * 获取用于发送的握手数据
-     * @param chatWebSocket WebSocket
+     * @param chatWebSocket {WebSocket}
      * @return {Promise<void>}
      */
     async sendShakeHandsJson(chatWebSocket) {
@@ -81,12 +81,11 @@ export default class SendMessageManager {
 
     /***
      * 获取用于发送的聊天数据
-     * @param chatWebSocket WebSocket
-     * @param chat sreing 聊天消息
-     * @return {Promise<void>}
+     * @param chatWebSocket {WebSocket}
+     * @param chat {String} 聊天消息
      */
     async sendChatMessage(chatWebSocket, chat) {
-        await this.sendJson(chatWebSocket,  await this.bingChat.chatOptionsSets.getSendJson(this,chat));
+        await this.sendJson(chatWebSocket, await this.bingChat.chatOptionsSets.getSendJson(this,chat));
         this.invocationId++;
     }
 }

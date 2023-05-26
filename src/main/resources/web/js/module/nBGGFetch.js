@@ -24,6 +24,8 @@ export default async function nBGGFetch(url,rr,noAddHeader){
        let error= new Error(json.message);
        error.value = json.value;
        error.isNewBingGoGoError = true;
+       error.theType = json.type;//newBingGoGo 自定义错误类型
+       error.theData = json.data;//newBingGoGo 自定义错误数据
        throw error;
    }
    return re;
