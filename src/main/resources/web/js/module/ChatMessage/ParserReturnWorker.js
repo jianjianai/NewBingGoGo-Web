@@ -204,6 +204,9 @@ export default class ParserReturnWorker {
                 this.addError(result.message);
                 if(window.location.protocol==="chrome-extension:"){
                     this.addError('当前账号请求过多，需要通过机器人检查！无法通过请等待24小时后再试。');
+                    this.addError('正在尝试通过验证，需要科学上网环境。');
+                    this.addCAPTCHA();
+                    this.addError('若无法通过可尝试验证码验证');
                 }else {
                     this.addError(`当前账号请求过多，需要通过机器人检查！第${CookieID.cookieID}个账号`);
                 }
@@ -232,6 +235,23 @@ export default class ParserReturnWorker {
         }
 
     }
+
+    /**
+     * 添加机器人检查验证
+     * */
+    addCAPTCHA() {
+        let div = this.getByID(new Date().getTime()+'CAPTCHA','div',this.chatDiv);
+
+        // let div = document.createElement('div');
+        // document.getElementById('chat').appendChild(div);
+
+        div.classList.add('CAPTCHAIframeDIV');
+        let iframe = document.createElement('iframe');
+        iframe.classList.add('CAPTCHAIframe');
+        iframe.src = 'https://www.bing.com/turing/captcha/challenge';
+        div.appendChild(iframe);
+    }
+
     /**
      * 解析arguments
      * 解析聊天消息，将消息添加到页面
