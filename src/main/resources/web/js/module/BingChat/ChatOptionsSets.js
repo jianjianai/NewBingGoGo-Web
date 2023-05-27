@@ -31,15 +31,13 @@ function getOptionsSets(tone){
             "responsible_ai_policy_235",
             "enablemm",
             "h3imaginative",
-            "cachewriteext",
-            "e2ecachewrite",
-            "nodlcpcwrite",
-            "nointernalsugg",
-            "saharasugg",
-            "enablenewsfc",
+            "objopinion",
+            "eredirecturl",
             "dv3sugg",
+            "autosave",
             "clgalileo",
-            "gencontentv3"
+            "gencontentv3",
+            "prompttrcp"
         ],
         //Balanced 平衡模式选项
         Balanced: [
@@ -49,13 +47,11 @@ function getOptionsSets(tone){
             "responsible_ai_policy_235",
             "enablemm",
             "galileo",
-            "cachewriteext",
-            "e2ecachewrite",
-            "nodlcpcwrite",
-            "nointernalsugg",
-            "saharasugg",
-            "enablenewsfc",
-            "dv3sugg"
+            "objopinion",
+            "eredirecturl",
+            "dv3sugg",
+            "autosave",
+            "saharagenconv5"
         ],
         //精准选项
         Precise: [
@@ -65,15 +61,13 @@ function getOptionsSets(tone){
             "responsible_ai_policy_235",
             "enablemm",
             "h3precise",
-            "cachewriteext",
-            "e2ecachewrite",
-            "nodlcpcwrite",
-            "nointernalsugg",
-            "saharasugg",
-            "enablenewsfc",
+            "objopinion",
+            "eredirecturl",
             "dv3sugg",
+            "autosave",
             "clgalileo",
-            "gencontentv3"
+            "gencontentv3",
+            "prompttrcp"
         ]
     };
     let optionsSets = op[tone];
@@ -126,23 +120,21 @@ function getObj(optionsSets,
                 ],
                 "sliceIds": [
                     "winmuid1tf",
-                    "516ajcoal",
                     "osbsdusgreccf",
-                    "mlchatpc-c",
-                    "winlongmsg2tf",
-                    "creatgoglt",
+                    "contansperf",
+                    "mlchatpc2",
+                    "winstmsg2tf",
+                    "creatgoglt2",
                     "creatorv2t",
-                    "norespwtf",
-                    "tempcacheread",
-                    "temptacache",
-                    "wrapnoins",
-                    "517bicsh",
-                    "505scsv5",
-                    "scprompt2",
-                    "0516conv1",
-                    "515vaoprvs",
-                    "424dagslnv1s0",
-                    "427startpm"
+                    "norespwcf",
+                    "0521dur5",
+                    "dur5",
+                    "517opinion",
+                    "418dhlths0",
+                    "525ptrcp",
+                    "kcimgv2cf",
+                    "kcimgatt",
+                    "427startpms0"
                 ],
                 "verbosity": "verbose",
                 "traceId": getUuidNojian(),

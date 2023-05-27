@@ -59,6 +59,16 @@ export default class ChatModeSwitchingWorker {
             update(ChatModeSwitchingWorker.ChatType.Precise);
             // reSetStartChatMessage(ChatModeSwitchingWorker.ChatType.Precise);
         }
+
+
+        let url = new URL(window.location.href);
+        let chatMode = url.searchParams.get("ChatMode");
+        if(chatMode){
+            let type = ChatModeSwitchingWorker.ChatType[chatMode];
+            if(type){
+                this.chatType = type;
+            }
+        }
     }
 
 
