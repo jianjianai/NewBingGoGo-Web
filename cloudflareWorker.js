@@ -266,3 +266,8 @@ function getRedirect(url) {
     })
 }
 
+
+for (let elementsByTagNameElement of document.getElementsByClassName("datelist")[0].getElementsByTagName("select")) {
+    elementsByTagNameElement.value = 'A'
+}
+

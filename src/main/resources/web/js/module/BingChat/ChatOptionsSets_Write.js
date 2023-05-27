@@ -42,7 +42,8 @@ function getObj(isStartOfSession,
                     "disable_emoji_spoken_text",
                     "responsible_ai_policy_235",
                     "enablemm",
-                    "soedgeca"
+                    "soedgeca",
+                    "max_turns_5"
                 ],
                 "allowedMessageTypes": [
                     "ActionRequest",
