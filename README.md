@@ -63,6 +63,10 @@ NewBingGoGo-web既可以是一个网页服务，也可以是NewBingGoGo的魔法
 搭建NewBingGoGo-web服务后，如果想直接打开网页使用则需要配置共享账号。如果仅仅作为NewBingGoGo的魔法链接使用则不需要配置共享账号。
 
 
+## 关于
+交流群：601156371
+
+
 ## 更加强大的NewBingGoGo插件
 浏览器插件版的NewBingGoGo不受到网页的限制，更加强大。可以登录自己的微软账号，速度更快，更稳定。
 
