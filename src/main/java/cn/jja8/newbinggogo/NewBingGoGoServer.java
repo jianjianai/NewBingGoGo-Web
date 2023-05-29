@@ -258,10 +258,7 @@ public class NewBingGoGoServer extends NanoWSD {
             randomAddress = "12.24.144.227";
         }
         //添加X-forwarded-for
-        urlConnection.addRequestProperty(
-                "X-forwarded-for",
-                randomAddress
-        );
+        urlConnection.addRequestProperty("x-forwarded-for", randomAddress);
 
         //建立链接
         try {
