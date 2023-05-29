@@ -78,8 +78,8 @@ async function handleRequest(request) {
 
     if (path === '/sydney/ChatHub') { //魔法聊天
         let h = {
-            "sec-fetch-site": "same-origin",
-            "referer": "https://www.bing.com/search?q=bingAI"
+            "Host":"sydney.bing.com",
+            "Origin":"https://www.bing.com"
         }
         let randomAddress = url.searchParams.get("randomAddress");
         if(randomAddress){
@@ -88,14 +88,20 @@ async function handleRequest(request) {
         return goUrl(request,"https://sydney.bing.com/sydney/ChatHub",h);
     }
     if (path === "/turing/conversation/create") { //创建聊天
-        return goUrl(request, "https://www.bing.com/turing/conversation/create");
+        return goUrl(request, "https://www.bing.com/turing/conversation/create",{
+            "referer":"https://www.bing.com/search?q=Bing+AI"
+        });
     }
 
     if(path==="/edgesvc/turing/captcha/create"){//请求验证码图片
-        return goUrl(request,"https://edgeservices.bing.com/edgesvc/turing/captcha/create");
+        return goUrl(request,"https://edgeservices.bing.com/edgesvc/turing/captcha/create",{
+            "referer":"https://edgeservices.bing.com/edgesvc/chat?udsframed=1&form=SHORUN&clientscopes=chat,noheader,channelstable,&shellsig=709707142d65bbf48ac1671757ee0fd1996e2943&setlang=zh-CN&lightschemeovr=1"
+        });
     }
     if(path==="/edgesvc/turing/captcha/verify"){//提交验证码
-        return goUrl(request,"https://edgeservices.bing.com/edgesvc/turing/captcha/verify?"+ url.search);
+        return goUrl(request,"https://edgeservices.bing.com/edgesvc/turing/captcha/verify?"+ url.search,{
+            "referer":"https://edgeservices.bing.com/edgesvc/chat?udsframed=1&form=SHORUN&clientscopes=chat,noheader,channelstable,&shellsig=709707142d65bbf48ac1671757ee0fd1996e2943&setlang=zh-CN&lightschemeovr=1"
+        });
     }
 
     if (path.startsWith('/msrewards/api/v1/enroll')) { //加入候补
@@ -103,21 +109,18 @@ async function handleRequest(request) {
     }
     if (path === '/images/create') { //AI画图
         return goUrl(request, "https://www.bing.com/images/create" + url.search, {
-            "sec-fetch-site": "same-origin",
             "referer": "https://www.bing.com/search?q=bingAI"
         });
     }
     if (path.startsWith('/images/create/async/results')) { //请求AI画图图片
         url.hostname = "www.bing.com";
         return goUrl(request, url.toString(), {
-            "sec-fetch-site": "same-origin",
             "referer": "https://www.bing.com/images/create?partner=sydney&showselective=1&sude=1&kseed=7000"
         });
     }
     if (path.startsWith('/rp')) { //显示AI画图错误提示图片
         url.hostname = "www.bing.com";
         return goUrl(request, url.toString(), {
-            "sec-fetch-site": "same-origin",
             "referer": "https://www.bing.com/search?q=bingAI"
         });
     }
@@ -190,12 +193,14 @@ async function goUrl(request, url, addHeaders) {
     }
     //保留头部信息
     let reqHeaders = request.headers;
-    let dropHeaders = ["user-agent", "accept", "accept-language","Connection","Upgrade"];
+    let dropHeaders = ["accept", "accept-language","accept-encoding","Connection","Upgrade"];
     for (let h of dropHeaders) {
         if (reqHeaders.has(h)) {
             fp.headers[h] = reqHeaders.get(h);
         }
     }
+
+    fp.headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.57"
 
     //客户端指定的随机地址
     let randomAddress = reqHeaders.get("randomAddress");
@@ -235,7 +240,7 @@ async function goUrl(request, url, addHeaders) {
 
     let res = await fetch(url, fp);
     let newRes = new Response(res.body,res);
-    newRes.headers.set("cookieID",cookieID);
+    newRes.headers.set("cookieID",`${cookieID}`);
     return newRes;
 }
 
