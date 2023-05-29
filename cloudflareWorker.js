@@ -77,15 +77,7 @@ async function handleRequest(request) {
     }
 
     if (path === '/sydney/ChatHub') { //魔法聊天
-        let h = {
-            "Host":"sydney.bing.com",
-            "Origin":"https://www.bing.com"
-        }
-        let randomAddress = url.searchParams.get("randomAddress");
-        if(randomAddress){
-            h["X-forwarded-for"] = randomAddress;
-        }
-        return goUrl(request,"https://sydney.bing.com/sydney/ChatHub",h);
+        return goChatHub(request);
     }
     if (path === "/turing/conversation/create") { //创建聊天
         return goUrl(request, "https://www.bing.com/turing/conversation/create",{
@@ -184,6 +176,33 @@ async function goWeb(path) {
     });
 }
 
+
+async function goChatHub(request){
+    let url = new URL(request.url);
+    //构建 fetch 参数
+    let fp = {
+        method: request.method,
+        headers: {
+            "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.57",
+            "Host":"sydney.bing.com",
+            "Origin":"https://www.bing.com"
+        }
+    }
+    //保留头部信息
+    let reqHeaders = request.headers;
+    let dropHeaders = ["Accept-Language","Accept-Encoding","Connection","Upgrade"];
+    for (let h of dropHeaders) {
+        if (reqHeaders.has(h)) {
+            fp.headers[h] = reqHeaders.get(h);
+        }
+    }
+    let randomAddress = url.searchParams.get("randomAddress");
+    if(randomAddress){
+        fp.headers["X-forwarded-for"] = randomAddress;
+    }
+    let res = await fetch("https://sydney.bing.com/sydney/ChatHub", fp);
+    return new Response(res.body, res);
+}
 //请求某地址
 async function goUrl(request, url, addHeaders) {
     //构建 fetch 参数
@@ -193,14 +212,15 @@ async function goUrl(request, url, addHeaders) {
     }
     //保留头部信息
     let reqHeaders = request.headers;
-    let dropHeaders = ["accept", "accept-language","accept-encoding","Connection","Upgrade"];
+    let dropHeaders = ["accept", "accept-language","accept-encoding"];
     for (let h of dropHeaders) {
         if (reqHeaders.has(h)) {
             fp.headers[h] = reqHeaders.get(h);
         }
     }
 
-    fp.headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.57"
+
+    fp.headers["user-agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.57"
 
     //客户端指定的随机地址
     let randomAddress = reqHeaders.get("randomAddress");
@@ -208,7 +228,7 @@ async function goUrl(request, url, addHeaders) {
         randomAddress = "12.24.144.227";
     }
     //添加X-forwarded-for
-    fp.headers['X-forwarded-for'] = randomAddress;
+    fp.headers['x-forwarded-for'] = randomAddress;
 
     if (addHeaders) {
         //添加头部信息
