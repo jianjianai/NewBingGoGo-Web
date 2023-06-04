@@ -11,6 +11,7 @@ import ChatFirstMessages from "./module/BingChat/ChatFirstMessages.js";
 import ChatOptionsSets from "./module/BingChat/ChatOptionsSets.js";
 import nBGGFetch from "./module/nBGGFetch.js";
 import {LoadAnimation} from "./module/aToos/AToos.js";
+import cookies from "./module/CookieUtil.js";
 
 /**
  * 给bingChat加载服务器配置
@@ -109,6 +110,17 @@ window.addEventListener('load',async ()=>{
         document.getElementById("tail")
     );
 
+    const settingSwitch = new SwitchWorker(
+      document.getElementById("showSettings"),
+      document.getElementById("SettingsDivOut"),
+      (ch) => {
+        if (ch) {
+          cookie_text.value = cookies.get("_U");
+          newtab_button.checked = localStorage.getItem("newtab") === "true";
+        }
+      }
+    );
+
     //聊天记录
     const chatRecordWorker = new ChatRecordWorker(
         bingChat,
@@ -135,7 +147,9 @@ window.addEventListener('load',async ()=>{
     const restart_button = document.getElementById('restart');
     const input_text = document.getElementById('input');
     const send_button = document.getElementById('send');
-
+    const cookie_text = document.getElementById("cookie-input");
+    const cookie_button = document.getElementById("confirm");
+    const newtab_button = document.getElementById("newtab");
 
     //定义需要用到的变量
     let returnMessage; //聊天返回对象
@@ -171,6 +185,24 @@ window.addEventListener('load',async ()=>{
             // 插入换行符s
             input_text.value += "\n";
         }
+    });
+
+    cookie_text.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+        event.preventDefault();
+        //更新用户cookie
+        cookies.set("_U", cookie_text.value, 60 * 24 * 7, "/");
+        cookie_text.blur();
+        }
+    });
+
+    cookie_button.addEventListener("click", () => {
+        //更新用户cookie
+        cookies.set("_U", cookie_text.value, 60 * 24 * 7, "/");
+    });
+
+    newtab_button.addEventListener("change", () => {
+        localStorage.setItem("newtab", newtab_button.checked);
     });
 
     /**重置聊天框和聊天建议到初始状态 */
@@ -373,10 +405,15 @@ window.addEventListener('load',async ()=>{
     }
 });
 
+document.querySelectorAll("a").forEach((a) => {
+    a.addEventListener("click", (e) => {
+    if (localStorage.newtab === "true") {
+        e.target.target = "_blank";
+    } else {
+        e.target.target = "_self";
+    }
+    });
+});
 
-
-
-
-
-
-
+if (localStorage.newtab === undefined)
+    localStorage.setItem("newtab", "true");

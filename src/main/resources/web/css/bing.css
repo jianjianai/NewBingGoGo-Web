@@ -107,6 +107,31 @@ div.markdown-body {
     color: #ff8300;
 }
 
+#showSettings {
+    cursor: pointer;
+}
+
+#showSettings:hover {
+    color: #ff8300;
+}
+
+#SettingsNameli {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    justify-content: flex-end;
+}
+
+#SettingsName {
+    white-space: nowrap;
+    transition: padding 0.5s, width 0.5s;
+    font-size: 1rem;
+    margin-right: 0.5rem;
+}
+
 /*加载动画*/
 #load{
     left: 0;
@@ -668,7 +693,72 @@ body {
     max-width: 17rem;
 }
 
+/* 设置部分 */
+#SettingsDivOut {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: stretch;
+    overflow: hidden;
+    transition: all 0.5s;
+    justify-content: flex-end;
+}
+#SettingsDivOut.open {
+    width: 20rem;
+}
+#SettingsIn {
+    margin-top: 4rem;
+    margin-bottom: 7rem;
+    width: 20rem;
+    min-width: 20rem;
+    background-color: #ffffff33;
+    overflow-y: auto;
+}
 
+#SettingsDiv>div {
+    margin: 0.5rem 0;
+    padding: 0.5rem 0.5rem;
+    background-color: #ffffff70;
+    cursor: auto;
+    backdrop-filter: blur(10px);
+    position: relative;
+}
+#SettingsDiv>div.edit{
+    background-color: #fffffff5;
+    cursor: auto;
+}
+
+#SettingsDiv{
+    display: flex;
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+#SettingsDiv>div>.id{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+#SettingsDiv>div>div {
+    display: flex;
+}
+#SettingsDiv>div>div>.confirm{
+    position: absolute;
+    right: 0.8rem;
+    font-size: 1.2rem;
+    color: green;
+    cursor: pointer;
+}
+#SettingsDiv>div>div>input{
+    font-size: 1rem;
+    width: 100%;
+    max-width: 17rem;
+}
 
 /* 聊天选项部分 */
 
