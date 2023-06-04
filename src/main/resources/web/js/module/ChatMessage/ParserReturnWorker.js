@@ -391,7 +391,7 @@ export default class ParserReturnWorker {
             img.src = v.mImg;
             a.appendChild(img);
         });
-        a.target = '_blank';
+        if (localStorage.newtab === "true") a.target = "_blank";
         a.href = './imgs.html?'+theUrls.toString();
     }
 

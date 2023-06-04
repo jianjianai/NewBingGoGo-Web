@@ -240,20 +240,27 @@ async function goUrl(request, url, addHeaders) {
 
     let cookieID = 0;
     if(reqHeaders.get('NewBingGoGoWeb')){//如果是web版
-        //添加配置的随机cookie
-        if (cookies.length === 0) {
-            return getReturnError("没有任何可用cookie，请前在第一行代码cookies变量中添加cookie");
-        }
-        cookieID = Math.floor(Math.random() * cookies.length);
-        let userCookieID = reqHeaders.get("cookieID");
-        if (userCookieID) {
-            if (userCookieID >= 0 && userCookieID <= cookies.length-1) {
-                cookieID = userCookieID;
+        let user_cookie = reqHeaders.get('cookie');
+        if (user_cookie && user_cookie.includes('_U=')) {
+            fp.headers["cookie"] = user_cookie;
+        } else {
+            //添加配置的随机cookie
+            if (cookies.length === 0) {
+                //return getReturnError("没有任何可用cookie，请前在第一行代码cookies变量中添加cookie");
+                fp.headers["cookie"] = user_cookie;
             } else {
-                return getReturnError("cookieID不存在，请刷新页面测试！");
+                cookieID = Math.floor(Math.random() * cookies.length);
+                let userCookieID = reqHeaders.get("cookieID");
+                if (userCookieID) {
+                    if (userCookieID >= 0 && userCookieID <= cookies.length-1) {
+                        cookieID = userCookieID;
+                    } else {
+                        return getReturnError("cookieID不存在，请刷新页面测试！");
+                    }
+                }
+                fp.headers["cookie"] = cookies[cookieID];
             }
         }
-        fp.headers["cookie"] = cookies[cookieID];
     }else {//如果是插件版
         fp.headers["cookie"] = reqHeaders.get('cookie');
     }

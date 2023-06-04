@@ -53,6 +53,16 @@ function findButton(buttonGroup,value){
     return undefined;
 }
 
+document.querySelectorAll("a").forEach((a) => {
+  a.addEventListener("click", (e) => {
+    if (localStorage.newtab === "true") {
+      e.target.target = "_blank";
+    } else {
+      e.target.target = "_self";
+    }
+  });
+});
+
 //页面加载完成之后执行
 window.addEventListener('load',async ()=>{
 

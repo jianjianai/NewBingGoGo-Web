@@ -228,25 +228,32 @@ public class NewBingGoGoServer extends NanoWSD {
         int cookieID = 0;
         //如果是NewBingGoGoWeb版本
         if(header.get("newbinggogoweb")!=null){
-            //添加配置的随机cookie
-            if(Config.cookies.length == 0){
-                return getReturnError("没有任何可用cookie，请前往Cookies.yml添加cookie");
-            }
-            cookieID  = (int) (Math.random()* Config.cookies.length);;
-            String cookieIDString = header.get("cookieid");
-            if(cookieIDString!=null){
-                try{
-                    cookieID = Integer.parseInt(cookieIDString);
-                    if (cookieID<0||cookieID>= Config.cookies.length){
-                        return getReturnError("cookieID '"+cookieID+"' 不存在，请刷新cookieID！<a href=\"?\">点击刷新</a>");
+            String userCookie = header.get("cookie");
+            if (userCookie.contains("_U=")) {
+                urlConnection.addRequestProperty("cookie", userCookie);
+            } else {
+                //添加配置的随机cookie
+                if(Config.cookies.length == 0){
+                    //return getReturnError("没有任何可用cookie，请前往Cookies.yml添加cookie");
+                    urlConnection.addRequestProperty("cookie", userCookie);
+                } else {
+                    cookieID  = (int) (Math.random()* Config.cookies.length);;
+                    String cookieIDString = header.get("cookieid");
+                    if(cookieIDString!=null){
+                        try{
+                            cookieID = Integer.parseInt(cookieIDString);
+                            if (cookieID<0||cookieID>= Config.cookies.length){
+                                return getReturnError("cookieID '"+cookieID+"' 不存在，请刷新cookieID！<a href=\"?\">点击刷新</a>");
+                            }
+                        }catch (NumberFormatException e){
+                            return getReturnError("cookieID错误，请刷新cookieID！<a href=\"?\">点击刷新</a>",e,false);
+                        }
                     }
-                }catch (NumberFormatException e){
-                    return getReturnError("cookieID错误，请刷新cookieID！<a href=\"?\">点击刷新</a>",e,false);
+                    String cookie = Config.cookies[cookieID];
+                    System.out.println("web版使用第"+cookieID+"个"+cookie);
+                    urlConnection.addRequestProperty("cookie",cookie);
                 }
             }
-            String cookie = Config.cookies[cookieID];
-            System.out.println("web版使用第"+cookieID+"个"+cookie);
-            urlConnection.addRequestProperty("cookie",cookie);
         }else {//如果不是
             System.out.println("插件版无需cookie");
             urlConnection.addRequestProperty("cookie",header.get("cookie"));

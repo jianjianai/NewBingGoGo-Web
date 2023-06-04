@@ -55,3 +55,13 @@ window.addEventListener('load',()=>{
 
     LoadAnimation.loaded(document.getElementById('load'));
 })
+
+document.querySelectorAll("a").forEach((a) => {
+  a.addEventListener("click", (e) => {
+    if (localStorage.newtab === "true") {
+      e.target.target = "_blank";
+    } else {
+      e.target.target = "_self";
+    }
+  });
+});
