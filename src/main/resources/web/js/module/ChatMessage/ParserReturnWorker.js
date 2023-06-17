@@ -528,7 +528,7 @@ export default class ParserReturnWorker {
             let nxdiv = this.getByClass('throttling', 'div', father);
             nxdiv.innerHTML = `
 <div class="copy-bingcat click">复制</div>
-<div class="copy-bingcat-markdown click">复制Markdowm</div>
+<div class="copy-bingcat-markdown click">复制Markdown</div>
 <div>${this.throttling.numUserMessagesInConversation} / ${this.throttling.maxNumUserMessagesInConversation}</div>`;
         } else if (body.size === 'small') {
             //原本bing官网的small并没有输出
