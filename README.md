@@ -41,8 +41,8 @@
 ### 一键部署到免费的云服务器
 |服务商 点击图标一键部署|简介|
 |---|---|
-|[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/GE_YVq?referralCode=s40fic)|Railway|
-|[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/jianjianai/NewBingGoGo-Web)|Render|
+|[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/GE_YVq?referralCode=s40fic)|Railway(不可用，已被屏蔽)|
+|[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/jianjianai/NewBingGoGo-Web)|Render(不可用，已被屏蔽)|
 |[![Deploy to Replit]()](https://replit.com/@jianjianai/NewBingGoGo-Web)|replit|
 
 
